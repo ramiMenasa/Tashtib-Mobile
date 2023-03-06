@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // import { createDrawerNavigator } from '@react-navigation/drawer';
 import Home from './src/Home/home';
 import Login from './src/Login/login';
+import Profile from './src/Profile/Profile';
 
 const Stack = createNativeStackNavigator();
 const Tab =createBottomTabNavigator();
@@ -36,9 +37,16 @@ function TabBottom() {
             options={{
               tabBarLabel:'',
               tabBarIcon: () => (
-                <MaterialCommunityIcons name="heart" color="black" size={40} />
+                <MaterialCommunityIcons name="login" color="black" size={40} />
               ),}}       
             />     
+            <Tab.Screen name="profile" component={Profile}  
+            options={{
+              tabBarLabel:'',
+              tabBarIcon: () => (
+                <FontAwesome name="user" color="black" size={40} />
+              ),}}       
+            />
           </Tab.Navigator>
     )
   }
