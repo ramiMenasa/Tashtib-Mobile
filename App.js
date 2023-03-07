@@ -7,9 +7,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from './src/Home/home';
 import Login from './src/Login/login';
 import Profile from './src/Profile/Profile';
+import { SafeAreaView } from 'react-native';
 
 const Stack = createNativeStackNavigator();
-const Tab =createBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 // const Drawer = createDrawerNavigator();
 
 // function MyDrawer() {
@@ -18,58 +19,54 @@ const Tab =createBottomTabNavigator();
 
 //     </Drawer.Navigator>
 //   )
-  
+
 // }
 
 
-function TabBottom() {  
-    return(
-    <Tab.Navigator> 
-            <Tab.Screen name="Home" component={Home}  
-            options={{
-              tabBarLabel:'',
-              tabBarIcon: () => (
-                <MaterialCommunityIcons name="home" color="black" size={40} />
-              ),
-            }}       
-            />
-            <Tab.Screen name="login" component={Login}  
-            options={{
-              tabBarLabel:'',
-              tabBarIcon: () => (
-                <MaterialCommunityIcons name="login" color="black" size={40} />
-              ),}}       
-            />     
-            <Tab.Screen name="profile" component={Profile}  
-            options={{
-              tabBarLabel:'',
-              tabBarIcon: () => (
-                <FontAwesome name="user" color="black" size={40} />
-              ),}}       
-            />
-          </Tab.Navigator>
-    )
-  }
-  
+function TabBottom() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Home" component={Home}
+        options={{
+          headerShown: false,
+          tabBarLabel: '',
+          tabBarIcon: () => (
+            <MaterialCommunityIcons name="home" color="black" size={40} />
+          ),
+        }}
+      />
+      <Tab.Screen name="login" component={Login}
+        options={{
+          tabBarLabel: '',
+          tabBarIcon: () => (
+            <MaterialCommunityIcons name="login" color="black" size={40} />
+          ),
+        }}
+      />
+      <Tab.Screen name="profile" component={Profile}
+        options={{
+          tabBarLabel: '',
+          tabBarIcon: () => (
+            <FontAwesome name="user" color="black" size={40} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  )
+}
+
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="tap" component={TabBottom}
-          options={{ headerShown: false }}/>
+    
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="tap" component={TabBottom}
+            options={{ headerShown: false }} />
           {/* <Stack.Screen name="drawer" component={MyDrawer}
           options={{ headerShown: false }}/> */}
-      </Stack.Navigator >
-    </NavigationContainer >
+        </Stack.Navigator >
+      </NavigationContainer >
   );
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
