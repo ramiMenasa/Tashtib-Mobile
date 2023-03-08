@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
     },
     droidSafeArea: {
         flex: 1,
-        paddingTop: Platform.OS === 'android' ? 50 : 0
+        paddingTop: Platform.OS === 'android' ? 1 : 0
     },
     input: {
         paddingVertical: 8,
