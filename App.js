@@ -9,6 +9,9 @@ import Login from './src/Login/login';
 import Profile from './src/Profile/Profile';
 import { SafeAreaView } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import Register from './src/Login/register';
+import RegCust from './src/Login/regcust';
+import RegClient from './src/Login/regclient';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -40,7 +43,7 @@ function TabBottom() {
       <Tab.Screen name="login" component={Login}
         options={{
           tabBarLabel: '',
-          headerShown:false,
+          headerShown: false,
           tabBarIcon: () => (
             <MaterialCommunityIcons name="login" color="black" size={40} />
           ),
@@ -61,15 +64,16 @@ function TabBottom() {
 
 export default function App() {
   return (
-    
-      <NavigationContainer>
-        <Stack.Navigator>
-        <Stack.Screen name="drawer" component={MyDrawer}
+    <NavigationContainer>
+      <Stack.Navigator>
+        
+          <Stack.Screen name="drawer" component={MyDrawer}
           options={{ headerShown: false }}/>
-          {/* <Stack.Screen name="tap" component={TabBottom}
-            options={{ headerShown: false }} /> */}
-        </Stack.Navigator >
-      </NavigationContainer >
+          <Stack.Screen name="register" component={Register} />
+        <Stack.Screen name="regcust" component={RegCust} />
+        <Stack.Screen name="regclient" component={RegClient} />
+      </Stack.Navigator >
+    </NavigationContainer >
   );
 }
 
