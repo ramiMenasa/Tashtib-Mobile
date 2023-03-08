@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ScrollView, Dimensions, ImageBackground, Text, Image, View, StyleSheet, TextInput } from "react-native";
+import { ScrollView, Dimensions, ImageBackground, Text, Image, View, StyleSheet, TextInput , Platform } from "react-native";
 import { db } from "../../firebase";
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './Carsol-item'
