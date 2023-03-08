@@ -7,6 +7,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from './src/Home/home';
 import Login from './src/Login/login';
 import Profile from './src/Profile/Profile';
+import Register from './src/Login/register';
+import RegCust from './src/Login/regcust';
+import RegClient from './src/Login/regclient';
 
 const Stack = createNativeStackNavigator();
 const Tab =createBottomTabNavigator();
@@ -60,6 +63,11 @@ export default function App() {
           options={{ headerShown: false }}/>
           {/* <Stack.Screen name="drawer" component={MyDrawer}
           options={{ headerShown: false }}/> */}
+        <Stack.Screen name="register" component={Register} />
+        <Stack.Screen name="regcust" component={RegCust} />
+        <Stack.Screen name="regclient" component={RegClient} />
+
+
       </Stack.Navigator >
     </NavigationContainer >
   );
