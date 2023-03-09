@@ -33,7 +33,7 @@ function Login({ navigation }) {
     };
     return (
         <>
-            <ScrollView style={{ backgroundColor: '#ADD4D3' }}>
+            <ScrollView style={{ backgroundColor: '#A0D5D3' }}>
                 <View style={{ justifyContent: 'center', alignItems: "center" }}>
                     <Image source={require('../../assets/images/logo.png')} style={{ width: 200, height: 200, marginTop: 25 }}></Image>
                 </View>
@@ -62,7 +62,7 @@ function Login({ navigation }) {
                     <Text style={{ fontSize: 18, textAlign: 'center', justifyContent: 'center' }}>Or create new account :
                         <Text style={{ color: 'royalblue' }} onPress={() => navigation.navigate('register')}> Sign up </Text>
                     </Text>
-                    <br />
+                    {/* <br /> */}
                 </View>
             </ScrollView>
         </>

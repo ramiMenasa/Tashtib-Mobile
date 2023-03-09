@@ -356,8 +356,8 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
     },
     ViewCard: {
-        marginHorizontal: 17,
-        padding: 10
+        marginHorizontal: 15,
+        padding: 8,
     }
 });
 
