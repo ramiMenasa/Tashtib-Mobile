@@ -69,9 +69,9 @@ export default function App() {
         
           <Stack.Screen name="drawer" component={MyDrawer}
           options={{ headerShown: false }}/>
-          <Stack.Screen name="register" component={Register} />
-        <Stack.Screen name="regcust" component={RegCust} />
-        <Stack.Screen name="regclient" component={RegClient} />
+          <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="Register as customer" component={RegCust} />
+        <Stack.Screen name="Register as client" component={RegClient} />
       </Stack.Navigator >
     </NavigationContainer >
   );

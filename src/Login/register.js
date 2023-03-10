@@ -9,8 +9,8 @@ function Register({ navigation }){
             <View style={{ justifyContent: 'center', alignItems: "center" }}>
                     <Image source={require('../../assets/images/logo.png')} style={{ width: 200, height: 200, marginTop: 25 }}></Image>
                 </View>
-                <Button  title="Sign up as a Client" onPress={() => navigation.navigate('regclient')} />
-                <Button title="Sign up as a Customer" onPress={() => navigation.navigate('regcust')} />
+                <Button  title="Sign up as a Client" onPress={() => navigation.navigate('Register as client')} />
+                <Button title="Sign up as a Customer" onPress={() => navigation.navigate('Register as customer')} />
             </ScrollView>
 
         </>

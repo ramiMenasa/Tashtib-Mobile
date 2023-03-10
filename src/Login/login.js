@@ -60,7 +60,7 @@ function Login({ navigation }) {
                 <Button title="Login" onPress={validate} />
                 <View style={{ justifyContent: 'center' }}>
                     <Text style={{ fontSize: 18, textAlign: 'center', justifyContent: 'center' }}>Or create new account :
-                        <Text style={{ color: 'royalblue' }} onPress={() => navigation.navigate('register')}> Sign up </Text>
+                        <Text style={{ color: 'royalblue' }} onPress={() => navigation.navigate('Register')}> Sign up </Text>
                     </Text>
                     {/* <br /> */}
                 </View>
