@@ -9,12 +9,10 @@ const Input = ({
     error,
     password,
     passicon,
-    onFocus = () => {},
-    onBlur = () => {},
     ...props
 }) => { 
-    const [IsFocused, setIsFocused] = React.useState(false)
     const [hidePassword , setHidePassword] = React.useState(password)
+    
     return (
         <View 
         style={styles.container} >
@@ -25,13 +23,6 @@ const Input = ({
                 placeholder={placeholder}
                 secureTextEntry = {!hidePassword}
                 autoCorrect = {false}
-                onFocus = {() =>{
-                    onFocus(),
-                    setIsFocused(true)
-                }} 
-                onBlur = {() => {
-                    setIsFocused(false)
-                }}
                 style={styles.textinput} 
                 {...props}
                 ></TextInput>
