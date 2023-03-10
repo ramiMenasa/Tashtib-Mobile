@@ -25,13 +25,10 @@ import { SafeAreaView, TouchableOpacity, KeyboardAvoidingView } from "react-nati
 
 function Home({ navigation }) {
     const image = [
-        { img: require('./hero-1.jpg') },
-        { img: require('./hero-2.jpg') }
+        { img: require('../../assets/defualtImages/hero-1.jpg') },
+        { img: require('../../assets/defualtImages/hero-1.jpg') }
     ]
-    const countries = ["providers", "Engineers", "Catigories",]
-
     const [index, setIndex] = useState(0)
-
     const isCarousel = React.useRef(null);
     const [dataEng, setDataEng] = useState([]);
     const [dataCont, setDataCont] = useState([]);
@@ -189,7 +186,7 @@ function Home({ navigation }) {
                                 return (
                                     <View style={{ padding: 20 }} key={item.id}>
                                         {item.image? (<Image source={{ uri: `${item.image}` }} style={styles.cateImage}></Image>)
-                                            : (<Image source={require(`./defprod.jpg`)}  style={styles.cateImage}></Image>)}
+                                            : (<Image source={require(`../../assets/defualtImages/defprod.jpg`)}  style={styles.cateImage}></Image>)}
                                         <Text style={{ alignSelf: 'center', fontWeight: "bold" }}
                                         // onPress={() => { navigation.navigate("Movie", { id: movie.id }) }}
                                         > {item.title}</Text>
@@ -271,7 +268,7 @@ function Home({ navigation }) {
                         {dataEngFilter.filter(user=>user.spetialization.toLowerCase().includes(`${searchValue}`.toLowerCase())).map((item,index) => {
                             return (
                                 <View key={index} style={styles.ViewCard} >
-                                    {item.image === "" ? (<Image source={require(`./def.jpg`)} style={{ width: 150, height: 150 }}></Image>)
+                                    {item.image === "" ? (<Image source={require(`../../assets/defualtImages/def.jpg`)} style={{ width: 150, height: 150 }}></Image>)
                                         : (<Image source={{ uri: `${item.image}` }} style={{ width: 150, height: 150 }}></Image>)}
 
                                     <Text style={{textAlign:"center"}}>{item.name}</Text>
@@ -286,7 +283,7 @@ function Home({ navigation }) {
                             {dataContFilter.filter(user=>user.spetialization.toLowerCase().includes(`${searchValue}`.toLowerCase())).map((item, index) => {
                                 return (
                                     <View key={index} style={styles.ViewCard} >
-                                        {item.image === "" ? (<Image source={require(`./def.jpg`)} style={{ width: 150, height: 150 }}></Image>)
+                                        {item.image === "" ? (<Image source={require(`../../assets/defualtImages/def.jpg`)} style={{ width: 150, height: 150 }}></Image>)
                                             : (<Image source={{ uri: `${item.image}` }} style={{ width: 150, height: 150 }}></Image>)}
                                         <Text style={{textAlign:"center"}} >{item.name}</Text>
                                         {/* <Text >{item.role}</Text> */}
@@ -302,7 +299,7 @@ function Home({ navigation }) {
                         {dataEng.map((item, index) => {
                             return (
                                 <View key={index} style={styles.ViewCard} >
-                                    {item.image === "" ? (<Image source={require(`./def.jpg`)} style={{ width: 150, height: 150 }}></Image>)
+                                    {item.image === "" ? (<Image source={require(`../../assets/defualtImages/def.jpg`)} style={{ width: 150, height: 150 }}></Image>)
                                         : (<Image source={{ uri: `${item.image}` }} style={{ width: 150, height: 150 }}></Image>)}
 
                                     <Text style={{textAlign:"center"}} >{item.name}</Text>
@@ -318,7 +315,7 @@ function Home({ navigation }) {
                         {dataCont.map((item, index) => {
                             return (
                                 <View key={index} style={styles.ViewCard} >
-                                    {item.image === "" ? (<Image source={require(`./def.jpg`)} style={{ width: 150, height: 150 }}></Image>)
+                                    {item.image === "" ? (<Image source={require('../../assets/defualtImages/def.jpg')} style={{ width: 150, height: 150 }}></Image>)
                                         : (<Image source={{ uri: `${item.image}` }} style={{ width: 150, height: 150 }}></Image>)}
                                     <Text style={{textAlign:"center"}}>{item.name}</Text>
                                     <Text style={{textAlign:"center"}}>{item.role}</Text>

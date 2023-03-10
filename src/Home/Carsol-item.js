@@ -11,7 +11,6 @@ const CarouselCardItem = ({ item, index }) => {
         source={  `${item.img}`}
         style={styles.image}
       />
-      
     </View>
   )
 }

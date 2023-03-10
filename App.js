@@ -19,7 +19,7 @@ const Tab = createBottomTabNavigator();
 
 function MyDrawer() {
   return (
-    <Drawer.Navigator initialRouteName='Tashtib' useLegacyImplementation={true}>
+    <Drawer.Navigator initialRouteName='Profile' useLegacyImplementation={true}>
       <Drawer.Screen name="Tashtib" component={TabBottom} options />
       <Drawer.Screen name="Profile" component={Profile} />
 
