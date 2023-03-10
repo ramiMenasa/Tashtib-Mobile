@@ -1,7 +1,7 @@
 import React from "react";
-import { View , Text , StyleSheet } from "react-native";
+import { View , Text , StyleSheet,TextInput } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { TextInput } from "react-native-web";
+// import { TextInput } from "react-native-web";
 const Input = ({
     label,
     iconName,
@@ -28,7 +28,7 @@ const Input = ({
                 ></TextInput>
                 <Icon 
                     onPress={() => setHidePassword(!hidePassword)}
-                    name={passicon} size={15} color={'darkblue'}></Icon>
+                    name={passicon} style={styles.iconEye} size={15} color={'darkblue'}></Icon>
                 
                
             </View>
@@ -59,19 +59,23 @@ const styles = StyleSheet.create({
         backgroundColor: 'ghostwhite',
         height: 50,
         borderWidth:2,
-        display: "inline-block",
+        flex:1,
+        flexDirection:'row',
         borderColor: 'cadetblue',
         borderRadius:25,  
     },
     textinput :{
         height:40,
-        outlineStyle: 'none',
         color: 'darkblue' ,
         width: '80%',
     },
     icon:{
         margin:10,
         marginLeft:20
+    },
+    iconEye:{
+        marginTop:10,
     }
+
 })
 export default Input

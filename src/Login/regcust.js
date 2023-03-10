@@ -192,10 +192,10 @@ function RegCust(){
     //   };
      return(
         <>
-            <ScrollView style={{ backgroundColor: '#ADD4D3' }}> 
+            <ScrollView style={{ backgroundColor: '#A0D5D3' }}> 
             <View>
                 <View style={{ justifyContent: 'center', alignItems: "center" }}>
-                    <Image source={require('../../assets/images/logo.png')} style={{ width: 200, height: 200, marginTop: 25 }}></Image>
+                <Image source={require('../../assets/images/logo.png')} style={{ width: 200, height: 200, marginTop: 25 }}></Image>
                 </View>
                 <Input label="Name" 
                 iconName="user" 
