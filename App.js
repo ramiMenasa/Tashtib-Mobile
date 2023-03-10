@@ -1,17 +1,17 @@
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from './src/Home/home';
 import Login from './src/Login/login';
 import Profile from './src/Profile/Profile';
-import { SafeAreaView } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Register from './src/Login/register';
 import RegCust from './src/Login/regcust';
 import RegClient from './src/Login/regclient';
+import Categories from './src/Categories/Categories';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -19,44 +19,59 @@ const Tab = createBottomTabNavigator();
 
 function MyDrawer() {
   return (
-    <Drawer.Navigator initialRouteName='Home' useLegacyImplementation={true}>
-      <Drawer.Screen name="Home" component={TabBottom} options />
+    <Drawer.Navigator initialRouteName='Tashtib' useLegacyImplementation={true}>
+      <Drawer.Screen name="Tashtib" component={TabBottom} options />
       <Drawer.Screen name="Profile" component={Profile} />
 
     </Drawer.Navigator>
   );
 }
 
-
 function TabBottom() {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="ai" component={Home}
+    <Tab.Navigator
+    screenOptions={({ route }) => ({
+      tabBarIcon: ({ focused, color, size }) => {
+        let iconName;
+
+        if (route.name === 'Home') {
+          iconName = focused
+            ? 'home'
+            : 'home-outline';
+        } else if (route.name === 'login') {
+          iconName = focused ? 'person' : 'person-outline';
+        } else if (route.name === 'Categories') {
+          iconName = focused ? 'grid' : 'grid-outline';
+        }
+
+        // You can return any component that you like here!
+        return <Ionicons name={iconName} size={size} color={color} />;
+      },
+      tabBarActiveTintColor: 'black',
+      tabBarInactiveTintColor: 'gray',
+    })}
+  >
+
+    
+      <Tab.Screen name="Home" component={Home}
         options={{
           headerShown: false,
           tabBarLabel: '',
-          tabBarIcon: () => (
-            <MaterialCommunityIcons name="home" color="black" size={40} />
-          ),
         }}
       />
       <Tab.Screen name="login" component={Login}
         options={{
           tabBarLabel: '',
           headerShown: false,
-          tabBarIcon: () => (
-            <MaterialCommunityIcons name="login" color="black" size={40} />
-          ),
         }}
       />
-      {/* <Tab.Screen name="profile" component={Profile}
+      <Tab.Screen name="Categories" component={Categories}
         options={{
+          headerShown: false,
           tabBarLabel: '',
-          tabBarIcon: () => (
-            <FontAwesome name="user" color="black" size={40} />
-          ),
+          // tabBarBadge:5,
         }}
-      /> */}
+      />
     </Tab.Navigator>
   )
 }
@@ -69,9 +84,9 @@ export default function App() {
         
           <Stack.Screen name="drawer" component={MyDrawer}
           options={{ headerShown: false }}/>
-          <Stack.Screen name="register" component={Register} />
-        <Stack.Screen name="regcust" component={RegCust} />
-        <Stack.Screen name="regclient" component={RegClient} />
+          <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="Register as customer" component={RegCust} />
+        <Stack.Screen name="Register as client" component={RegClient} />
       </Stack.Navigator >
     </NavigationContainer >
   );
