@@ -188,7 +188,6 @@ function RegClient(){
                 error={confirmErr}
                 passicon={'eye'}
                  />
-                 <br/>
                 <View style={{justifyContent:'center' , alignItems:'center'}}>
                     <SelectDropdown buttonStyle={styles.input} data={Role} defaultButtonText="Select your role" rowStyle={{alignItems:'center'}}
                     onSelect={(role) => setRole(role)}
@@ -210,7 +209,7 @@ const styles = StyleSheet.create({
         height: 50,
         width: '98%',
         borderWidth:2,
-        display: "inline-block",
+      //   display: "inline-block",
         borderColor: 'cadetblue',
         borderRadius:25,  
     },

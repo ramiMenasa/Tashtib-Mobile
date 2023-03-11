@@ -1,12 +1,12 @@
-import { auth } from "../../Firebase";
+import { auth } from "../../../firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
 } from "firebase/auth";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
 const registerStart = () => ({
   type: "REGISTER_START",
@@ -65,17 +65,17 @@ export const registerInitiate = (email, password, userName, phone) => {
           phoneNumber: phone,
         });
         dispatch(registerSuccess(user));
-        toast("Signed up successfuly");
+        // toast("Signed up successfuly");
         console.log("added successfuly from auth");
       })
       .catch((error) => {
         dispatch(registerFail(error.message));
         // auth/internal-error
         console.log(error);
-        if (error.code === "auth/invalid-email") toast("invalid-email");
-        else if (error.code === "auth/email-already-in-use")
-          toast("email-already-in-use");
-        else toast("please check you entered all the fields and try agian!");
+        // if (error.code === "auth/invalid-email") toast("invalid-email");
+        // else if (error.code === "auth/email-already-in-use")
+          // toast("email-already-in-use");
+        // else toast("please check you entered all the fields and try agian!");
       });
   };
 };
@@ -87,22 +87,22 @@ export const loginInitiate = (email, password) => {
       .then(({ user }) => {
         dispatch(loginSuccess(user));
         console.log(user);
-        toast("logged in successfully");
+        // toast("logged in successfully");
       })
       .catch((error) => {
         dispatch(loginFail(error.message));
         console.log(error);
-        if (error.code === "auth/wrong-password") toast("wrong-password");
-        else if (error.code === "auth/user-not-found") toast("user-not-found");
-        else if (error.code === "auth/invalid-email") toast("invalid-email");
-        else if (error.code === "auth/too-many-requests")
-          toast(
-            "Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later."
-          );
-        else {
-          toast("something goes wrong please try again later!");
-          console.log("object");
-        }
+        // if (error.code === "auth/wrong-password") toast("wrong-password");
+        // else if (error.code === "auth/user-not-found") toast("user-not-found");
+        // else if (error.code === "auth/invalid-email") toast("invalid-email");
+        // else if (error.code === "auth/too-many-requests")
+        //   toast(
+        //     "Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later."
+        //   );
+        // else {
+        //   toast("something goes wrong please try again later!");
+        //   console.log("object");
+        // }
       });
   };
 };
@@ -113,7 +113,7 @@ export const logoutInitiate = () => {
     signOut(auth)
       .then((res) => {
         dispatch(logoutSuccess());
-        toast("logged out successfully");
+        // toast("logged out successfully");
         console.log("logged out successfully");
       })
       .catch((error) => dispatch(logoutFail(error.message)));

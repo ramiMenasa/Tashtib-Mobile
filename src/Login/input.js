@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const Input = ({
     label,
     iconName,
+    name,
     placeholder,
     error,
     password,
@@ -20,6 +21,7 @@ const Input = ({
             <View style={styles.input}>
                 <Icon style={styles.icon} name={iconName} size={20} color={'darkblue'}> </Icon>
                 <TextInput 
+                name={name}
                 placeholder={placeholder}
                 secureTextEntry = {!hidePassword}
                 autoCorrect = {false}

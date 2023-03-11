@@ -12,6 +12,9 @@ import Register from './src/Login/register';
 import RegCust from './src/Login/regcust';
 import RegClient from './src/Login/regclient';
 import Categories from './src/Categories/Categories';
+import { Provider } from 'react-redux';
+import store from './src/Store/Store';
+
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -79,6 +82,7 @@ function TabBottom() {
 
 export default function App() {
   return (
+    <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator>
         
@@ -89,6 +93,7 @@ export default function App() {
         <Stack.Screen name="Register as client" component={RegClient} />
       </Stack.Navigator >
     </NavigationContainer >
+    </Provider>
   );
 }
 
