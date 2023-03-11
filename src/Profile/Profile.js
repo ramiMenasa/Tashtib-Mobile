@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { RefreshControl, Text, View, Image, StyleSheet, ScrollView, Button, TextInput } from "react-native";
+import { RefreshControl, Text, View, Image, StyleSheet, ScrollView, Button, TextInput ,  Pressable  } from "react-native";
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from '../Home/Carsol-item'
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -10,6 +10,7 @@ import { json, Link, useHistory } from "react-router-dom";
 import { logoutInitiate } from "../Store/Actions/AuthAction";
 import { useDispatch, useSelector } from "react-redux";
 import { uploadBytesResumable, ref, getDownloadURL } from "firebase/storage";
+import { DataTable } from 'react-native-paper';
 import {
     collection,
     query,
@@ -26,7 +27,7 @@ import Input from "../Login/input";
 import { TouchableOpacity } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
 
-function Profile({ navigation }) {
+function Profile({ navigation, props }) {
 
     const image = [
         { img: require('../../assets/defualtImages/hero-1.jpg') },
@@ -774,9 +775,39 @@ function Profile({ navigation }) {
                         <Ionicons style={{ paddingTop: 3 }} name={'cart'} size={25} color={'black'} />
                         <Text style={styles.TextLink} > Cart </Text>
                     </CollapseHeader>
-                    <CollapseBody>
 
-                        <Text style={{ alignSelf: 'center' }}>__________________________________________________</Text>
+                    <CollapseBody>
+                        <View style={styles.container}>
+                            <DataTable>
+                                <DataTable.Header >
+                                    <DataTable.Title >No</DataTable.Title>
+                                    <DataTable.Title>Name</DataTable.Title>
+                                    <DataTable.Title >Price</DataTable.Title>
+                                    <DataTable.Title>Quantity</DataTable.Title>
+                                    <DataTable.Title >Action</DataTable.Title>
+
+                                </DataTable.Header>
+
+                                <DataTable.Row>
+                                    <DataTable.Cell>1</DataTable.Cell>
+                                    <DataTable.Cell>coach1</DataTable.Cell>
+                                    <DataTable.Cell >900</DataTable.Cell>
+                                    <DataTable.Cell>1</DataTable.Cell>
+                                    <DataTable.Cell >
+                                       
+                                        <Pressable style={styles.btn1} >
+                                            <Text style={styles.text}>View</Text>
+                                        </Pressable>
+                                        <Pressable style={styles.btn2} onClick={() => removeFromCart(index)}>
+                                            <Text style={styles.text}>Delete</Text>
+                                        </Pressable>
+                                    </DataTable.Cell>
+                                </DataTable.Row>
+                            </DataTable>
+                        </View>
+
+
+                        {/* <Text style={{ alignSelf: 'center' }}>__________________________________________________</Text> */}
 
                     </CollapseBody>
                 </Collapse>
@@ -786,7 +817,35 @@ function Profile({ navigation }) {
                         <Text style={styles.TextLink} > WishList </Text>
                     </CollapseHeader>
                     <CollapseBody>
-                        <Text style={{ alignSelf: 'center' }}>__________________________________________________</Text>
+
+                    <View style={styles.container}>
+                            <DataTable>
+                                <DataTable.Header >
+                                    <DataTable.Title>No</DataTable.Title>
+                                    <DataTable.Title>Name</DataTable.Title>
+                                    <DataTable.Title>Role</DataTable.Title>
+                                    <DataTable.Title >Action</DataTable.Title>
+
+                                </DataTable.Header>
+
+                                <DataTable.Row>
+                                    <DataTable.Cell>1</DataTable.Cell>
+                                    <DataTable.Cell>coach1</DataTable.Cell>
+                                    <DataTable.Cell>coach</DataTable.Cell>
+                                    <DataTable.Cell >
+                                       
+                                        <Pressable style={styles.btn1} >
+                                            <Text style={styles.text}>View</Text>
+                                        </Pressable>
+                                        <Pressable style={styles.btn2} onClick={() => removeFromWhishList(index)}>
+                                            <Text style={styles.text}>Delete</Text>
+                                        </Pressable>
+                                    </DataTable.Cell>
+                                </DataTable.Row>
+                            </DataTable>
+                        </View>
+
+                        {/* <Text style={{ alignSelf: 'center' }}>__________________________________________________</Text> */}
 
                     </CollapseBody>
                 </Collapse>
@@ -981,14 +1040,14 @@ function Profile({ navigation }) {
                                     {props.touched.experience && props.errors.experience ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.experience} </Text>) : null}
 
                                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                        <SelectDropdown buttonStyle={styles.input}  defaultButtonText="Select your spetialization" 
+                                        <SelectDropdown buttonStyle={styles.input} defaultButtonText="Select your spetialization"
                                             onSelect={props.handleChange('spetialization')}
                                             value={props.values.spetialization}
                                         />
                                     </View>
                                     {props.touched.spetialization && props.errors.spetialization ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.spetialization} </Text>) : null}
 
-                                    
+
                                     <TouchableOpacity onPress={props.handleSubmit} >
                                         <View style={styles.button}>
                                             <Text style={styles.addText}>Edit</Text>
@@ -1108,6 +1167,37 @@ const styles = StyleSheet.create({
 
     },
 
-
-
+    table_head: {
+        fontWeight: 'bold',
+    },
+    container: {
+        paddingHorizontal: 30,
+    },
+    btn1: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 8,
+        paddingHorizontal: 22,
+        borderRadius: 9,
+        elevation: 3,
+        backgroundColor: '#009688',
+        margin:5,
+    },
+    btn2: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 8,
+        paddingHorizontal: 22,
+        borderRadius: 9,
+        elevation: 3,
+        backgroundColor: 'black',
+        margin:5,
+    },
+    text: {
+        fontSize: 15,
+        lineHeight: 21,
+        // fontWeight: 'bold',
+        letterSpacing: 0.25,
+        color: 'white',
+    },
 })
