@@ -27,6 +27,22 @@ import { TouchableOpacity } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
 
 function Profile({ navigation }) {
+    let spetialization =[
+        'Civil Engineer',
+        'Interior Designer',
+        'Electrical Engineer',
+        'Mechanical Engineer',
+        'Mechaelectrical Engineer',
+        'Telecom Engineer',
+        'Energy Engineer',
+        'Archetect',
+        'Painting Contractor',
+        'Electrical Contractor',
+        'Floor Contractor',
+        'Plumbing Contractor',
+        'Carpentry contractor',
+        'Blacksmith contractor',
+    ]
 
     const image = [
         { img: require('../../assets/defualtImages/hero-1.jpg') },
@@ -721,7 +737,7 @@ function Profile({ navigation }) {
                 </View>
                 <Collapse  >
                     <CollapseHeader style={styles.HeaderCollapse}>
-                        <Ionicons style={{ paddingTop: 3 }} name={'ios-information-circle'} size={25} color={'black'} />
+                        <Ionicons style={{ paddingTop: 3 }} name={'ios-information-circle'} size={23} color={'black'} />
                         <Text style={styles.TextLink} > Info </Text>
                     </CollapseHeader>
                     <CollapseBody style={{}}>
@@ -738,7 +754,7 @@ function Profile({ navigation }) {
                             </View>
                             <View style={{}}>
                                 <Text style={styles.TextInfo}>Phone :
-                                    <Text style={styles.TextData} > 01212592969 </Text>
+                                    <Text style={styles.TextData} > 01212392969 </Text>
                                 </Text>
                             </View>
                             <View style={{}}>
@@ -928,7 +944,7 @@ function Profile({ navigation }) {
                 </Collapse>
                 <Collapse  >
                     <CollapseHeader style={styles.HeaderCollapse}>
-                        <FontAwesome5 style={{ paddingTop: 3 }} name={'edit'} size={25} color={'black'} />
+                        <FontAwesome5 style={{ paddingTop: 3 }} name={'edit'} size={23} color={'black'} />
 
                         <Text style={styles.TextLink} > Edit Details </Text>
                     </CollapseHeader>
@@ -984,6 +1000,7 @@ function Profile({ navigation }) {
                                         <SelectDropdown buttonStyle={styles.input}  defaultButtonText="Select your spetialization" 
                                             onSelect={props.handleChange('spetialization')}
                                             value={props.values.spetialization}
+                                            data={spetialization}
                                         />
                                     </View>
                                     {props.touched.spetialization && props.errors.spetialization ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.spetialization} </Text>) : null}
@@ -1010,8 +1027,83 @@ function Profile({ navigation }) {
                     </CollapseBody>
                 </Collapse>
 
+                <Collapse  >
+                    <CollapseHeader style={styles.HeaderCollapse}>
+                        <FontAwesome5 style={{ paddingTop: 3 }} name={'key'} size={23} color={'black'} />
+
+                        <Text style={styles.TextLink} > Change Password </Text>
+                    </CollapseHeader>
+                    <CollapseBody>
+                        <Formik
+                            initialValues={{ currentPassword: "", userName: "", email: "", spetialization: "", experience: "" }}
+                            validationSchema={Yup.object({
+                                currentPassword: Yup.string()
+                                    .required('Required')
+                                    .matches( userData.password,"password isn't correct")
+                                ,
+                                newPassword: Yup.string().required('Required')
+                                .matches(regPass,"invalid Password"),
+                                confirmPassword: Yup.string().required('Required')
+                                .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
+                           
+                            })}
+                            onSubmit={values => {
+                                alert(JSON.stringify(values));
+                                onRefresh();
+
+
+                            }}
+                        >
+                            {props => (
+
+                                <View style={styles.containerForm}>
+                                    <TextInput style={styles.input} 
+                                    value={props.values.currentPassword} 
+                                    secureTextEntry={true}
+                                    onChangeText={props.handleChange("currentPassword")} placeholder="enter current password" />
+
+                                    {props.touched.currentPassword && props.errors.currentPassword ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.currentPassword} </Text>) : null}
+
+                                    <TextInput style={styles.input}
+                                        value={props.values.newPassword}
+                                        secureTextEntry={true}
+                                        onChangeText={props.handleChange("newPassword")}
+                                        placeholder="enter new password" />
+
+                                    {props.touched.newPassword && props.errors.newPassword ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.newPassword} </Text>) : null}
+
+                                    <TextInput style={styles.input}
+                                        value={props.values.confirmPassword}
+                                        secureTextEntry={true}
+                                        onChangeText={props.handleChange("confirmPassword")}
+                                        placeholder=" confirm new password" />
+
+                                    {props.touched.confirmPassword && props.errors.confirmPassword ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.confirmPassword} </Text>) : null}
+
+                                    
+                                    <TouchableOpacity onPress={props.handleSubmit} >
+                                        <View style={styles.button}>
+                                            <Text style={styles.addText}>Edit</Text>
+                                        </View>
+
+                                    </TouchableOpacity>
+
+
+                                </View>
+
+
+                            )}
+
+
+                        </Formik>
+
+                        <Text style={{ alignSelf: 'center' }}>__________________________________________________</Text>
+
+                    </CollapseBody>
+                </Collapse>
+
                 <CollapseHeader style={styles.HeaderCollapse}>
-                    <Ionicons style={{ paddingTop: 3 }} name={'log-out-outline'} size={25} color={'black'} />
+                    <Ionicons style={{ paddingTop: 3 }} name={'log-out-outline'} size={23} color={'black'} />
 
                     <Text style={styles.TextLink} > Logout </Text>
                 </CollapseHeader>
@@ -1038,8 +1130,8 @@ const styles = StyleSheet.create({
 
     },
     ImageHeader: {
-        width: 125,
-        height: 125,
+        width: 123,
+        height: 123,
         borderRadius: 75,
         marginRight: 15,
 
@@ -1049,7 +1141,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     TextLink: {
-        fontSize: 22, fontWeight: '500',
+        fontSize: 22, fontWeight: '400',
     },
     TextInfo: {
         fontSize: 18, fontWeight: '500', paddingVertical: 5,
