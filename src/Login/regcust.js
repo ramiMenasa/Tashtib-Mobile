@@ -1,23 +1,27 @@
 import React from "react";
-import { ScrollView, View , Image } from "react-native";
+import { ScrollView, View , Image , Text , StyleSheet,TouchableOpacity, } from "react-native";
+import { Form, FormItem } from 'react-native-form-component';
 import Button from "./button";
+import SelectDropdown from 'react-native-select-dropdown'
 import Input from "./input";
 import { useState } from "react";
-// import { useSelector , useDispatch } from "react-redux";
-// import { db } from "../../firebase";
-// import {
-//   collection,
-//   onSnapshot,
-//   query,
-//   limit,
-//   getDocs,
-//   where,
-//   updateDoc,
-//   doc
-// } from "firebase/firestore";
-// import {registerInitiate} from '../Store/Actions/AuthAction'
-// import { ToastContainer , toast } from "@jamsch/react-native-toastify";
-// import "@jamsch/react-native-toastify"
+import { useSelector , useDispatch } from "react-redux";
+import { registerInitiate } from "../Store/Actions/AuthAction";
+import { db } from "../../firebase";
+import {
+     collection,
+     addDoc,
+     onSnapshot,
+     query,
+     limit,
+     getDocs,
+     where,
+     updateDoc,
+     serverTimestamp,
+     doc
+   } from "firebase/firestore"
+
+
 
 const reg = RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+).*$/);
 const regPass = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/)
@@ -41,8 +45,9 @@ function RegCust(){
     const [streetErr, setStreetErr] = useState("")
     const [passErr, setPassErr] = useState("")
     const [confirmErr, setConfirmErr] = useState("")
-
-    const handleSubmit = () => {
+    const dispatch = useDispatch();
+    const handleSubmit = async(e) => {
+      e.preventDefault();
         if(name.length == 0){
            setNameErr("Name is Required")
         }
@@ -121,75 +126,61 @@ function RegCust(){
         else{
            setConfirmErr("")
        }
-    }
-    // const history = useHistory();
-    // const { currentUser } = useSelector((state) => state.user);
-    //   useEffect(() => {
-    //     if (currentUser) {
-    //       //   console.log(currentUser);
-    //       history.push("profile");
-    //     }
-    //   }, [currentUser, history]);   
-    //   const submitData = async (e) => {
-    //     e.preventDefault();
-    //     dispatch(
-    //       registerInitiate(
-    //         userData.email,
-    //         userData.password,
-    //         userData.username,
-    //         userData.phone
-    //       )
-    //     );
-    
-    //     const q = query(
-    //       collection(db, "users"),
-    //       where("email", "==", userData.email)
-    //     );
-    
-    //     var newUser;
-    //     const data = await getDocs(q);
-    //     console.log(data);
-    //     data.forEach((doc) => {
-    //       newUser = doc.data();
-    //       console.log(doc.id, " => ", doc.data());
-    //     });
-    
-    //     console.log(newUser);
-    //     console.log(userData.email)
-    
-    //     // if(userData.email !== ""){
-    //       if (!newUser) {
-    //         // handle error
-    //         // toast("email already in use !");
-    //         // alert("email already in use");
-    //       // } else {
-    //         console.log("email does not exists");
-    //         addDoc(collection(db, "users"), {
-    //           // ...userData,
-    //           name: userData.name,
-    //           username: userData.username,
-    //           password: userData.password,
-    //           email: userData.email.toLowerCase(),
-    //           emailFormated: userData.email,
-    //           image: "",
-    //           role: "customer",
-    //           wishlist: [],
-    //           address: [{ city: userData.city, street: userData.street }],
-    //           messages: [],
-    //           phone: userData.phone,
-    //           cart: [],
-    //           timestamp: serverTimestamp(),
-    //         })
-    //           .then(function (res) {
-    //             alert("added successfuly ");
-    //           })
-    //           .catch(function (error) {
-    //             alert("ERROR " + error);
-    //           });
-    //         // push record to Firebase
-    //       }
-    //     // }
-    //   };
+       dispatch(
+         registerInitiate(
+           email,
+           password,
+           username,
+           phone
+         )
+       );
+       const q = query(
+         collection(db, "users"),
+         where("email", "==", email)
+       );
+   
+       var newUser;
+       const data = await getDocs(q);
+       console.log(data);
+       data.forEach((doc) => {
+         newUser = doc.data();
+         console.log(doc.id, " => ", doc.data());
+       });
+   
+       console.log(newUser);
+       
+   
+         if (!newUser && !name&&!username&& !email && !phone && !city && !street &&
+            !password && !confirmpassword && nameErr && usernameErr && emailErr && phoneErr && cityErr && streetErr && passErr && confirmErr
+         &&passRegErr && emailRegErr ) {
+           console.log("email does not exists");
+           addDoc(collection(db, "users"), {
+            
+             name: name,
+             username: username,
+             password: password,
+             email: email.toLowerCase(),
+             emailFormated: email,
+             image: "",
+             role: "customer",
+             wishlist: [],
+             address: [{ city: city, street: street }],
+             messages: [],
+             phone: phone,
+             cart: [],
+             timestamp: serverTimestamp(),
+           })
+             .then(function (res) {
+               alert("added successfuly ");
+             })
+             .catch(function (error) {
+               alert("ERROR " + error);
+             });
+           // push record to Firebase
+         }
+       // }
+     };
+   
      return(
         <>
             <ScrollView style={{ backgroundColor: '#A0D5D3' }}> 
@@ -197,6 +188,8 @@ function RegCust(){
                 <View style={{ justifyContent: 'center', alignItems: "center" }}>
                 <Image source={require('../../assets/images/logo.png')} style={{ width: 200, height: 200, marginTop: 25 }}></Image>
                 </View>
+                {/* <Form onButtonPress={(e)=>handleSubmit(e)} > */}
+                  
                 <Input label="Name" 
                 iconName="user" 
                 placeholder="Enter your name" 
@@ -209,6 +202,7 @@ function RegCust(){
                 iconName="user-o" 
                 placeholder="Enter your username" 
                 onChangeText={(username) => setUsername(username)}
+                
                 error={usernameErr}
                 secureTextEntry={false}
                  />
@@ -261,8 +255,15 @@ function RegCust(){
                 error={confirmErr}
                 passicon={'eye'}
                  />
-
-                <Button title="Sign up" onPress={handleSubmit} />
+               {nameErr || usernameErr || emailErr || phoneErr || cityErr || streetErr || passErr || confirmErr
+               ||passRegErr || emailRegErr?<Button title={"SignUp"} onPress={handleSubmit} btnErr={
+                  true
+                }></Button>:<Button title={"SignUp"} onPress={handleSubmit} btnErr={
+                  false
+                }></Button>}
+             
+               
+                {/* </Form> */}
             </View>
             </ScrollView>
         </>

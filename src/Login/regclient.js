@@ -4,6 +4,21 @@ import Button from "./button";
 import SelectDropdown from 'react-native-select-dropdown'
 import Input from "./input";
 import { useState } from "react";
+import { useSelector , useDispatch } from "react-redux";
+import { registerInitiate } from "../Store/Actions/AuthAction";
+import { db } from "../../firebase";
+import {
+     collection,
+     addDoc,
+     onSnapshot,
+     query,
+     limit,
+     getDocs,
+     where,
+     updateDoc,
+     serverTimestamp,
+     doc
+   } from "firebase/firestore"
 const reg = RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+).*$/);
 const regPass = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/);
 
@@ -29,8 +44,9 @@ function RegClient(){
    const [passErr, setPassErr] = useState("")
    const [confirmErr, setConfirmErr] = useState("")
    const [roleErr, setRoleErr] = useState("")
+   const dispatch = useDispatch();
 
-   const handleSubmit = () => {
+   const handleSubmit = async (e) => {
      if(name.length == 0){
         setNameErr("Name is Required")
      }
@@ -115,7 +131,79 @@ function RegClient(){
     else{
         setRoleErr("")
     }
- }
+    dispatch(
+      registerInitiate(
+        email,
+        password,
+        username,
+        phone
+      )
+    );
+    const q = query(
+      collection(db, "providers"),
+      where("email", "==", email)
+    );
+
+    var newProvider;
+    const data = await getDocs(q);
+    data.forEach((doc) => {
+      newProvider = doc.data();
+      console.log(doc.id, " => ", doc.data());
+    });
+
+    const q2 = query(
+      collection(db, "providers"),
+      where("email", "==", email)
+    );
+
+    var newEngineer;
+    const data2 = await getDocs(q2);
+    data2.forEach((doc) => {
+      newEngineer = doc.data();
+      console.log(doc.id, " => ", doc.data());
+    });
+    if (!newProvider || !newEngineer) {
+      console.log("email does not exists");
+      let database = "";
+      const newRole=role
+      if (newRole === "Engineer") {
+        database = "engineers";
+      } else if (newRole === "Provider"){
+        database = "providers";
+      }
+      addDoc(collection(db, database), {
+      
+        name: name,
+        username:username,
+        password:password,
+        email:email.toLowerCase(),
+        emailFormated: email,
+        image: "",
+        role: role,
+        experience: "",
+        spetialization: "",
+        portofolio: [],
+        wishlist: [],
+        address: [{ city: city, street: street }],
+        phone: phone,
+        cart: [],
+        rate: "",
+        feedback: [],
+        messages: [],
+        timestamp: serverTimestamp(),
+      })
+        .then(function (res) {
+          console.log("added successfuly");
+        })
+        .catch(function (error) {
+          alert("ERROR " + error);
+          console.log("ERROR " + error);
+        });
+    }
+   //  console.log(newRole);
+   // alert(role)
+  };
+ 
      return(
         <>
         <ScrollView style={{ backgroundColor: '#A0D5D3' }}> 

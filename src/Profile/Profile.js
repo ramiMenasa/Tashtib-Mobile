@@ -701,7 +701,7 @@ function Profile({ navigation }) {
                 <View style={styles.Header}>
                     <Image source={require('../../assets/defualtImages/def.jpg')} style={styles.ImageHeader}></Image>
                     <View>
-                        <Text style={styles.TextHeader}>HI , Rami</Text>
+                        <Text style={styles.TextHeader}>HI , {getUser.name}</Text>
                         <View style={{ flexDirection: 'row', marginTop: 4 }}>
                             {drawStar(3)}
                         </View>
@@ -746,39 +746,53 @@ function Profile({ navigation }) {
                         <View style={{ marginLeft: 20 }}>
                             <View style={{}}>
                                 <Text style={styles.TextInfo}>Name :
-                                    <Text style={styles.TextData} > Ramy </Text>
+                                    <Text style={styles.TextData} > {getUser.name}</Text>
                                 </Text>
                             </View>
                             <View style={{}}>
                                 <Text style={styles.TextInfo}>Email :
-                                    <Text style={styles.TextData} > ramimenasa@gmail.com </Text>
+                                    <Text style={styles.TextData} > {getUser.email} </Text>
                                 </Text>
                             </View>
                             <View style={{}}>
                                 <Text style={styles.TextInfo}>Phone :
-                                    <Text style={styles.TextData} > 01212392969 </Text>
+                                    <Text style={styles.TextData} > {getUser.phone} </Text>
                                 </Text>
                             </View>
                             <View style={{}}>
-                                <Text style={styles.TextInfo}>Address :
-                                    <Text style={styles.TextData} > Minya - Taha Hassen </Text>
+                            <Text style={styles.TextInfo}>Address :
+                                    <Text style={styles.TextData} > {getUser.street} </Text>
                                 </Text>
+                                {getAddress?.map((address, index) => {
+                            return (
+                                <>
+                                <View key={index}>
+                                    <Text>
+                                    {address.city}
+                                    </Text>
+                                    <Text>{address.street}</Text>
+                                </View>
+                                </>
+                            );
+                            })}
+                                
                             </View>
+                           
                             <View style={{}}>
-                                <Text style={styles.TextInfo}>Role :
-                                    <Text style={styles.TextData} > Engineer </Text>
-                                </Text>
-                            </View>
-                            <View style={{}}>
-                                <Text style={styles.TextInfo}>Spectialization :
-                                    <Text style={styles.TextData} > btngan </Text>
-                                </Text>
-
-                            </View>
-                            <View style={{}}>
-                                <Text style={styles.TextInfo}>Experience :
-                                    <Text style={styles.TextData} > gamila gdn </Text>
-                                </Text>
+                            {getUser.role === "customer" ? null :
+                             (<View style={{}}>
+                             <Text style={styles.TextInfo}>Role :
+                                 <Text style={styles.TextData} > {getUser.role} </Text>
+                             </Text>
+                         </View>)
+                            (<View>
+                              <Text style={styles.TextInfo}>Specialization :</Text>{" "}
+                              {getUser.spetialization}{" "}
+                            </View>)}
+                          {getUser.role === "customer" ? null :
+                            (<View>
+                              <Text style={styles.TextInfo}>Experience :</Text> {getUser.experience}{" "}
+                            </View>)}
 
                             </View>
 

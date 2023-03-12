@@ -21,6 +21,7 @@ const Input = ({
             <View style={styles.input}>
                 <Icon style={styles.icon} name={iconName} size={20} color={'darkblue'}> </Icon>
                 <TextInput 
+                
                 name={name}
                 placeholder={placeholder}
                 secureTextEntry = {!hidePassword}

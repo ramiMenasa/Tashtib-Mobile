@@ -1,9 +1,9 @@
 import React from "react";
 import { TouchableOpacity , Text} from "react-native";
 
-const Button = ({title, onPress = () => {}}) => {
+const Button = ({title, onPress = () => {},btnErr}) => {
     return (
-        <TouchableOpacity onPress={onPress}
+        <TouchableOpacity onPress={onPress}  disabled={btnErr} 
         style={{
             activeOpacity: 0.7,
             height:50,

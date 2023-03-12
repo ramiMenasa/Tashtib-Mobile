@@ -1,17 +1,31 @@
 import {Text, View, Image, ScrollView, Keyboard } from "react-native";
 import Button from "./button";
 import Input from "./input";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import React from "react";
+import { useDispatch,useSelector } from "react-redux";
+import { loginInitiate } from "../Store/Actions/AuthAction";
+import { NavigationContainer } from "@react-navigation/native";
+
 function Login({ navigation }) {
 
+const { currentUser } = useSelector((state) => state.user)
+ const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailErr, setEmailErr] = useState("")
   const [passErr, setPassErr] = useState("")
 
+  useEffect(() => {
+    if(currentUser){
+    }
+  }, [currentUser])
   const handleSubmit = () => {
+    // e.preventDefault()
+
+    dispatch(loginInitiate(email, password))
+    
     if(email.length== 0){
         setEmailErr("Email is Required")
     }else{
@@ -23,6 +37,7 @@ function Login({ navigation }) {
     }else{
         setPassErr("")
     }
+    navigation.navigate("Profile")
 }
     return (
         <>
@@ -46,7 +61,7 @@ function Login({ navigation }) {
                 onChangeText={(password) => setPassword(password)}
                 passicon={'eye'}
                  />
-                <Button title="Login" onPress={(e) => handleSubmit()}/>
+                <Button title="Login" onPress={() => handleSubmit()}/>
                 <View style={{ justifyContent: 'center' }}>
                     <Text style={{ fontSize: 18, textAlign: 'center', justifyContent: 'center' }}>Or create new account :
                         <Text style={{ color: 'royalblue' }} onPress={() => navigation.navigate('Register')}> Sign up </Text>
