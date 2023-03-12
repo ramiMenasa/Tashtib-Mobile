@@ -691,7 +691,7 @@ function Profile({ navigation }) {
                 console.log("ERROR" + error);
             });
     }
-
+    console.log(getUser)
     return (
         <>
             <ScrollView style={styles.Container}
@@ -780,18 +780,19 @@ function Profile({ navigation }) {
                            
                             <View style={{}}>
                             {getUser.role === "customer" ? null :
-                             (<View style={{}}>
+                             (
+                             <View style={{}}>
                              <Text style={styles.TextInfo}>Role :
                                  <Text style={styles.TextData} > {getUser.role} </Text>
                              </Text>
-                         </View>)
-                            (<View>
-                              <Text style={styles.TextInfo}>Specialization :</Text>{" "}
-                              {getUser.spetialization}{" "}
-                            </View>)}
-                          {getUser.role === "customer" ? null :
-                            (<View>
-                              <Text style={styles.TextInfo}>Experience :</Text> {getUser.experience}{" "}
+                            
+                              <Text style={styles.TextInfo}>Specialization :
+                                <Text  style={styles.TextData} >{getUser.spetialization}</Text>
+                              </Text>
+
+                              <Text style={styles.TextInfo}>Experience :
+                              <Text  style={styles.TextData} >{getUser.experience}</Text>
+                              </Text> 
                             </View>)}
 
                             </View>
