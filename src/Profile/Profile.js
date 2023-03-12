@@ -942,7 +942,7 @@ function Profile({ navigation }) {
                         {getadd?.map((address, index) => {
                             return (
                                 <>
-                                    <View  style={{ paddingLeft: 35, marginBottom: 6 }} key={index}>
+                                    <View key={address.street} style={{ paddingLeft: 35, marginBottom: 6 }} >
                                         <Text style={{ fontWeight: '600', fontSize: 18 }}>
                                             {address.city}
                                         </Text>
@@ -961,7 +961,6 @@ function Profile({ navigation }) {
                             })}
                             onSubmit={values => {
                                 getadd.push({ city: values.city, street: values.street });
-                                alert(JSON.stringify(getadd));
                                 values.city = "";
                                 values.street = "";
                                 onRefresh();

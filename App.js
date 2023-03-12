@@ -14,6 +14,7 @@ import RegClient from './src/Login/regclient';
 import Categories from './src/Categories/Categories';
 import { Provider } from 'react-redux';
 import store from './src/Store/Store';
+import Product from './src/Product/Product';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -23,7 +24,7 @@ function MyDrawer() {
   return (
     
     <Drawer.Navigator initialRouteName='Tashtib'  useLegacyImplementation={true} >
-      <Drawer.Screen name="Tashtib" component={TabBottom} options={{}} />
+      <Drawer.Screen name="Tashtib" component={TabBottom} options={{headerTransparent:true}} />
       <Drawer.Screen name="Profile" component={Profile} />
 
     </Drawer.Navigator>
@@ -33,7 +34,7 @@ function MyDrawer() {
 function TabBottom() {
   return (
     <Tab.Navigator
-    initialRouteName='Categories'
+    initialRouteName='Home'
     screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
         let iconName;
@@ -93,6 +94,8 @@ export default function App() {
           <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Register as customer" component={RegCust} />
         <Stack.Screen name="Register as client" component={RegClient} />
+        <Stack.Screen name="Product" component={Product} options={{headerTransparent:true,headerTitle:""}} />
+
       </Stack.Navigator >
     </NavigationContainer >
     </Provider>

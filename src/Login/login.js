@@ -26,7 +26,7 @@ function Login({ navigation }) {
 }
     return (
         <>
-            <ScrollView style={{ backgroundColor: '#A0D5D3' }}>
+            <ScrollView style={{ backgroundColor: '#A0D5D3',paddingTop: Platform.OS === 'android' ? 100 : 0 }}>
                 <View style={{ justifyContent: 'center', alignItems: "center" }}>
                     <Image source={require('../../assets/images/logo.png')} style={{ width: 200, height: 200, marginTop: 25 }}></Image>
                 </View>
