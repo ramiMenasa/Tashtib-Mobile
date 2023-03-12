@@ -12,8 +12,9 @@ import {
   doc,
   orderBy
 } from "firebase/firestore";
+import { SafeAreaView } from "react-native";
 
-export default function Categories() {
+export default function Categories({ navigation }) {
 
   const [dataCategory, setDataCategory] = useState([]);
   const [keyword, setKeyword] = useState("chairs");
@@ -52,7 +53,6 @@ export default function Categories() {
       const { title, products } = docSnapshot.data();
       acc[title] = products;
       setCategories(acc);
-      console.log(acc[title]);
       return acc;
     }, {});
 
@@ -73,50 +73,52 @@ export default function Categories() {
   }, [keyword]);
 
   return (
-    <ScrollView>
-      <View>
-        <ScrollView horizontal={true}>
+    <SafeAreaView style={styles.droidSafeArea}>
+      <ScrollView>
+        <View>
+          <ScrollView horizontal={true}>
 
-          {dataCategory.map((item) => {
-            return (
-              <View style={{ padding: 20 }} key={item.id}>
-                <Text style={{ alignSelf: 'center', fontWeight: "bold" }}
-                  onPress={() => { setKeyword(item.title) }}
-                > {item.title}</Text>
-
-
-              </View>
-
-            )
-          })}
-        </ScrollView>
-      </View>
-      <View>
-        <Text style={{ fontSize: 20, fontWeight: 'bold', paddingStart: 20, marginVertical: 15, textTransform: 'uppercase' }}>{keyword}</Text>
-        {products ? (<View style={styles.section} >
-          {products.map((item, index) => {
-            return (
-              <View key={index} style={styles.ViewCard} >
-                {item.image === "" ? (<Image source={require(`../../assets/defualtImages/def.jpg`)} style={{ width: 150, height: 150 }}></Image>)
-                  : (<Image source={{ uri: `${item.image}` }} style={{ width: 150, height: 160 }}></Image>)}
-
-                <Text style={{ fontWeight: 'bold', padding: 3, fontSize: 17 }} >{item.name}</Text>
-                <Text style={{ paddingStart: 3, fontSize: 14 }} >{item.price} LE</Text>
-
-              </View>
-
-            );
-          })}
-        </View>) : (
-          <View  style={styles.ViewCardEmpty} >
-            <Image source={require(`../../assets/defualtImages/giphy.gif`)} style={{width:350 }}></Image>
-          </View>
-        )}
-
-      </View>
+            {dataCategory.map((item) => {
+              return (
+                <View style={{ padding: 20 }} key={item.id}>
+                  <Text style={{ alignSelf: 'center', fontWeight: "bold" }}
+                    onPress={() => { setKeyword(item.title) }}
+                  > {item.title}</Text>
 
 
-    </ScrollView>
+                </View>
+
+              )
+            })}
+          </ScrollView>
+        </View>
+        <View>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', paddingStart: 20, marginVertical: 15, textTransform:'uppercase' }}>{keyword}</Text>
+          {products ? (<View style={styles.section} >
+            {products.map((item, index) => {
+              return (
+                <View key={index} style={styles.ViewCard} >
+                  <Image source={{ uri: `${item.image}` }} style={{ width: 150, height: 160 }}></Image>
+
+                  <Text style={{ fontWeight: 'bold', padding: 3, fontSize: 17 }}
+                    onPress={() => { navigation.navigate("Product", { item: item }) }}>{item.name}</Text>
+                  <Text style={{ paddingStart: 3, fontSize: 14 }} >{item.price} LE</Text>
+
+                </View>
+
+              );
+            })}
+          </View>) : (
+            <View style={styles.ViewCardEmpty} >
+              <Image source={require(`../../assets/defualtImages/giphy.gif`)} style={{ width: 350 }}></Image>
+            </View>
+          )}
+
+        </View>
+
+
+      </ScrollView>
+    </SafeAreaView>
   )
 }
 const styles = StyleSheet.create({
@@ -133,16 +135,20 @@ const styles = StyleSheet.create({
   },
   ViewCard: {
     marginHorizontal: 14,
-    padding: 12,
+    padding: 8,
     marginBottom: 8,
     backgroundColor: 'white',
     borderRadius: 10,
   },
   ViewCardEmpty: {
     marginHorizontal: 14,
-    padding: 12,
+    padding: 8,
     marginBottom: 8,
     backgroundColor: 'white',
     borderRadius: 10,
-  }
+  },
+  droidSafeArea: {
+    flex: 1,
+    paddingTop: Platform.OS === 'android' ? 100 : 0
+}
 })
