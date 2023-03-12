@@ -230,7 +230,7 @@ function RegClient(){
                  />
 
                 <Input label="Email address" 
-                iconName="map-marker" 
+                iconName="key" 
                 placeholder="Enter your email address" 
                 onChangeText={(email) => setEmail(email)}
                 error={emailErr}

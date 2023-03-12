@@ -208,7 +208,7 @@ function RegCust(){
                  />
 
                 <Input label="Email address" 
-                iconName="url" 
+                iconName="key" 
                 placeholder="Enter your email address" 
                 onChangeText={(email) => setEmail(email)}
                 error={emailErr}
