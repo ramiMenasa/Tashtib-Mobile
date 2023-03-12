@@ -15,15 +15,15 @@ import Categories from './src/Categories/Categories';
 import { Provider } from 'react-redux';
 import store from './src/Store/Store';
 
-
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function MyDrawer() {
   return (
-    <Drawer.Navigator initialRouteName='Profile' useLegacyImplementation={true}>
-      <Drawer.Screen name="Tashtib" component={TabBottom} options />
+    
+    <Drawer.Navigator initialRouteName='Tashtib'  useLegacyImplementation={true} >
+      <Drawer.Screen name="Tashtib" component={TabBottom} options={{}} />
       <Drawer.Screen name="Profile" component={Profile} />
 
     </Drawer.Navigator>
@@ -33,6 +33,7 @@ function MyDrawer() {
 function TabBottom() {
   return (
     <Tab.Navigator
+    initialRouteName='Categories'
     screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
         let iconName;
@@ -72,6 +73,7 @@ function TabBottom() {
         options={{
           headerShown: false,
           tabBarLabel: '',
+
           // tabBarBadge:5,
         }}
       />
@@ -84,7 +86,7 @@ export default function App() {
   return (
     <Provider store={store}>
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator >
         
           <Stack.Screen name="drawer" component={MyDrawer}
           options={{ headerShown: false }}/>

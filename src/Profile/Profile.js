@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { RefreshControl, Text, View, Image, StyleSheet, ScrollView, Button, TextInput ,  Pressable  } from "react-native";
+import { RefreshControl, Text, View, Image, StyleSheet, ScrollView, Button, TextInput, Pressable } from "react-native";
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from '../Home/Carsol-item'
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -29,7 +29,7 @@ import SelectDropdown from "react-native-select-dropdown";
 
 
 function Profile({ navigation }) {
-    let spetialization =[
+    let spetialization = [
         'Civil Engineer',
         'Interior Designer',
         'Electrical Engineer',
@@ -810,13 +810,13 @@ function Profile({ navigation }) {
                                     <DataTable.Cell>coach1</DataTable.Cell>
                                     <DataTable.Cell >900</DataTable.Cell>
                                     <DataTable.Cell>1</DataTable.Cell>
-                                    <DataTable.Cell >
-                                       
-                                        <Pressable style={styles.btn1} >
-                                            <Text style={styles.text}>View</Text>
+                                    <DataTable.Cell style={{ justifyContent: 'space-between' }}>
+
+                                        <Pressable style={{ marginRight: 3 }}  >
+                                            <Foundation style={{ marginRight: 10 }} name={'eye'} size={25} color={'#009688'} />
                                         </Pressable>
-                                        <Pressable style={styles.btn2} onClick={() => removeFromCart(index)}>
-                                            <Text style={styles.text}>Delete</Text>
+                                        <Pressable style onPress={() => removeFromCart(index)}>
+                                            <Foundation style={{ margin: 3 }} name={'x'} size={25} color={'black'} />
                                         </Pressable>
                                     </DataTable.Cell>
                                 </DataTable.Row>
@@ -835,9 +835,9 @@ function Profile({ navigation }) {
                     </CollapseHeader>
                     <CollapseBody>
 
-                    <View style={styles.container}>
+                        <View style={styles.container}>
                             <DataTable>
-                                <DataTable.Header >
+                                <DataTable.Header  >
                                     <DataTable.Title>No</DataTable.Title>
                                     <DataTable.Title>Name</DataTable.Title>
                                     <DataTable.Title>Role</DataTable.Title>
@@ -849,13 +849,13 @@ function Profile({ navigation }) {
                                     <DataTable.Cell>1</DataTable.Cell>
                                     <DataTable.Cell>coach1</DataTable.Cell>
                                     <DataTable.Cell>coach</DataTable.Cell>
-                                    <DataTable.Cell >
-                                       
-                                        <Pressable style={styles.btn1} >
-                                            <Text style={styles.text}>View</Text>
+                                    <DataTable.Cell style={{ justifyContent: 'space-between' }}>
+
+                                        <Pressable style={{ marginRight: 3 }}  >
+                                            <Foundation style={{ marginRight: 10 }} name={'eye'} size={25} color={'#009688'} />
                                         </Pressable>
-                                        <Pressable style={styles.btn2} onClick={() => removeFromWhishList(index)}>
-                                            <Text style={styles.text}>Delete</Text>
+                                        <Pressable style onPress={() => removeFromWhishList(index)}>
+                                            <Foundation style={{ margin: 3 }} name={'x'} size={25} color={'black'} />
                                         </Pressable>
                                     </DataTable.Cell>
                                 </DataTable.Row>
@@ -942,7 +942,7 @@ function Profile({ navigation }) {
                         {getadd?.map((address, index) => {
                             return (
                                 <>
-                                    <View style={{ paddingLeft: 35, marginBottom: 6 }} key={index}>
+                                    <View  style={{ paddingLeft: 35, marginBottom: 6 }} key={index}>
                                         <Text style={{ fontWeight: '600', fontSize: 18 }}>
                                             {address.city}
                                         </Text>
@@ -1099,13 +1099,13 @@ function Profile({ navigation }) {
                             validationSchema={Yup.object({
                                 currentPassword: Yup.string()
                                     .required('Required')
-                                    .matches( userData.password,"password isn't correct")
+                                    .matches(userData.password, "password isn't correct")
                                 ,
                                 newPassword: Yup.string().required('Required')
-                                .matches(regPass,"invalid Password"),
+                                    .matches(regPass, "invalid Password"),
                                 confirmPassword: Yup.string().required('Required')
-                                .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
-                           
+                                    .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
+
                             })}
                             onSubmit={values => {
                                 alert(JSON.stringify(values));
@@ -1117,10 +1117,10 @@ function Profile({ navigation }) {
                             {props => (
 
                                 <View style={styles.containerForm}>
-                                    <TextInput style={styles.input} 
-                                    value={props.values.currentPassword} 
-                                    secureTextEntry={true}
-                                    onChangeText={props.handleChange("currentPassword")} placeholder="enter current password" />
+                                    <TextInput style={styles.input}
+                                        value={props.values.currentPassword}
+                                        secureTextEntry={true}
+                                        onChangeText={props.handleChange("currentPassword")} placeholder="enter current password" />
 
                                     {props.touched.currentPassword && props.errors.currentPassword ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.currentPassword} </Text>) : null}
 
@@ -1140,7 +1140,7 @@ function Profile({ navigation }) {
 
                                     {props.touched.confirmPassword && props.errors.confirmPassword ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.confirmPassword} </Text>) : null}
 
-                                    
+
                                     <TouchableOpacity onPress={props.handleSubmit} >
                                         <View style={styles.button}>
                                             <Text style={styles.addText}>Edit</Text>
@@ -1268,23 +1268,23 @@ const styles = StyleSheet.create({
     },
     btn1: {
         alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 8,
-        paddingHorizontal: 22,
+        justifyContent: 'flex-start',
+        // paddingVertical: 8,
+        // paddingHorizontal: 22,
         borderRadius: 9,
-        elevation: 3,
+        // elevation: 3,
         backgroundColor: '#009688',
-        margin:5,
+        // margin:5,
     },
     btn2: {
         alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 8,
-        paddingHorizontal: 22,
+        justifyContent: 'flex-start',
+        // paddingVertical: 8,
+        // paddingHorizontal: 22,
         borderRadius: 9,
-        elevation: 3,
+        // elevation: 3,
         backgroundColor: 'black',
-        margin:5,
+        // margin:5,
     },
     text: {
         fontSize: 15,
