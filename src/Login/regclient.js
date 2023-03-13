@@ -117,7 +117,7 @@ function RegClient(){
      else if (!regPass.test(password))
      {
         setPassRegErr(true)
-        setPassErr("Invalid password")
+        setPassErr("Password should contain uppercase & lowercase letters & special character & numbers")
      }
      else{
          setPassErr("")
