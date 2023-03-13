@@ -15,6 +15,7 @@ import Categories from './src/Categories/Categories';
 import { Provider } from 'react-redux';
 import store from './src/Store/Store';
 import Product from './src/Product/Product';
+import Cart from './src/Cart/cart';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -26,6 +27,8 @@ function MyDrawer() {
     <Drawer.Navigator initialRouteName='Tashtib'  useLegacyImplementation={true} >
       <Drawer.Screen name="Tashtib" component={TabBottom} options={{headerTransparent:true}} />
       <Drawer.Screen name="Profile" component={Profile} />
+      <Drawer.Screen name="Cart" component={Cart} />
+
 
     </Drawer.Navigator>
   );
