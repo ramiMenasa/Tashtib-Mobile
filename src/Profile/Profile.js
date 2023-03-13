@@ -809,6 +809,7 @@ function Profile({ navigation }) {
                     </CollapseHeader>
 
                     <CollapseBody>
+                    {getcart.length === 0 ? (<h2 className="fs-5">No products to show!</h2>) : (
                         <View style={styles.container}>
                             <DataTable>
                                 <DataTable.Header >
@@ -819,12 +820,12 @@ function Profile({ navigation }) {
                                     <DataTable.Title >Action</DataTable.Title>
 
                                 </DataTable.Header>
-
+                                {getcart?.map((item, index) => (
                                 <DataTable.Row>
-                                    <DataTable.Cell>1</DataTable.Cell>
-                                    <DataTable.Cell>coach1</DataTable.Cell>
-                                    <DataTable.Cell >900</DataTable.Cell>
-                                    <DataTable.Cell>1</DataTable.Cell>
+                                    <DataTable.Cell>{index + 1}</DataTable.Cell>
+                                    <DataTable.Cell>{item.name}</DataTable.Cell>
+                                    <DataTable.Cell >{item.price}</DataTable.Cell>
+                                    <DataTable.Cell>{item.quantity}</DataTable.Cell>
                                     <DataTable.Cell style={{ justifyContent: 'space-between' }}>
 
                                         <Pressable style={{ marginRight: 3 }}  >
@@ -834,9 +835,9 @@ function Profile({ navigation }) {
                                             <Foundation style={{ margin: 3 }} name={'x'} size={25} color={'black'} />
                                         </Pressable>
                                     </DataTable.Cell>
-                                </DataTable.Row>
-                            </DataTable>
-                        </View>
+                                </DataTable.Row> ))},
+                            </DataTable> 
+                        </View> )}
 
 
                         {/* <Text style={{ alignSelf: 'center' }}>__________________________________________________</Text> */}
@@ -849,7 +850,7 @@ function Profile({ navigation }) {
                         <Text style={styles.TextLink} > WishList </Text>
                     </CollapseHeader>
                     <CollapseBody>
-
+                    {getWishList.length === 0 ? (<h2 className="fs-5">No wishlist to show!</h2>) : (
                         <View style={styles.container}>
                             <DataTable>
                                 <DataTable.Header  >
@@ -859,11 +860,11 @@ function Profile({ navigation }) {
                                     <DataTable.Title >Action</DataTable.Title>
 
                                 </DataTable.Header>
-
+                                {getWishList?.map((item, index) => (
                                 <DataTable.Row>
-                                    <DataTable.Cell>1</DataTable.Cell>
-                                    <DataTable.Cell>coach1</DataTable.Cell>
-                                    <DataTable.Cell>coach</DataTable.Cell>
+                                    <DataTable.Cell>{index + 1}</DataTable.Cell>
+                                    <DataTable.Cell>{item.name}</DataTable.Cell>
+                                    <DataTable.Cell>{item.role}</DataTable.Cell>
                                     <DataTable.Cell style={{ justifyContent: 'space-between' }}>
 
                                         <Pressable style={{ marginRight: 3 }}  >
@@ -873,9 +874,9 @@ function Profile({ navigation }) {
                                             <Foundation style={{ margin: 3 }} name={'x'} size={25} color={'black'} />
                                         </Pressable>
                                     </DataTable.Cell>
-                                </DataTable.Row>
+                                </DataTable.Row> ))},
                             </DataTable>
-                        </View>
+                        </View> )}
 
                         {/* <Text style={{ alignSelf: 'center' }}>__________________________________________________</Text> */}
 
@@ -888,23 +889,21 @@ function Profile({ navigation }) {
                         <Text style={styles.TextLink} > Messages </Text>
                     </CollapseHeader>
                     <CollapseBody>
-                        {/* {getMessage.length === 0 ? (<h2 className="fs-5 text-center">No Messages to show!</h2>) :
+                    {getMessage.length === 0 ? (<h2 className="fs-5 text-center">No Messages to show!</h2>) :
                         
-                        (getMessage?.map((message, index) => {
-                          return ( */}
-
-                        <View style={styles.chatBubble} className="chat-bubble_right d-flex justify-content-between mb-2 align-items-center" >
+                          (getMessage?.map((message, index) => (
+                            <View key={index} style={styles.chatBubble} className="chat-bubble_right d-flex justify-content-between mb-2 align-items-center">
                             <View >
-                                <Text style={styles.userName} >Ramy</Text>
-                                <Text style={styles.userMessage}>i want you to talk, call me back if you intersted</Text>
+                                <Text style={styles.userName} >{message.name}</Text>
+                                <Text style={styles.userMessage}>{message.text}</Text>
                             </View>
                             <View>
                                 <Foundation style={{ paddingRight: 7 }} onPress={() => removeFromMessage(index)} name={'x'} size={25} color={'black'} />
                             </View>
-                        </View>
-                        {/* );
-                          }))} */}
-
+                            <br/>
+                          </View>
+   
+                          )))}
 
                         <Text style={{ alignSelf: 'center' }}>__________________________________________________</Text>
 
@@ -916,22 +915,19 @@ function Profile({ navigation }) {
                         <Text style={styles.TextLink} > Feedbacks </Text>
                     </CollapseHeader>
                     <CollapseBody>
-                        {/* {getFeedback.length === 0 ? (<Text style={styles.noYet}>No Feedback to show!</Text>) :
-                            (getFeedback?.map((feedback, index) => {
-                              return ( */}
-
-                        <View style={{ backgroundColor: 'lightsteelblue', margin: 6, borderRadius: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+                    {getFeedback.length === 0 ? (<h2 className="fs-5">No Feedback to show!</h2>) :
+                            (getFeedback?.map((feedback, index) => (
+                                <View style={{ backgroundColor: 'lightsteelblue', margin: 6, borderRadius: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
                             key={index}
                         >
                             <Text style={{ padding: 15, fontSize: 17, fontWeight: 'bold' }}>
-                                ai 7aga
+                            {feedback.comment}
                             </Text>
                             <View style={{ padding: 10, flexDirection: 'row', justifyContent: 'flex-end' }} className="m-4 d-flex justify-content-end w-25">
-                                {drawStar(4)}
+                                {drawStar(feedback.rating)}
                             </View>
                         </View>
-                        {/* );
-                             }))}  */}
+                            )))}
 
                         <Text style={{ alignSelf: 'center' }}>__________________________________________________</Text>
                     </CollapseBody>
@@ -979,8 +975,6 @@ function Profile({ navigation }) {
                                 values.city = "";
                                 values.street = "";
                                 onRefresh();
-
-
                             }}
                         // onsubmit 
                         >
