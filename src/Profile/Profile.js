@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { RefreshControl, Text, View, Image, StyleSheet, ScrollView, Button, TextInput, Pressable } from "react-native";
 import Carousel, { Pagination } from 'react-native-snap-carousel'
-import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from '../Home/Carsol-item'
+import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './Carsol_itemProfile'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Foundation from "react-native-vector-icons/Foundation"
@@ -46,10 +46,7 @@ function Profile({ navigation }) {
         'Blacksmith contractor',
     ]
 
-    const image = [
-        { img: require('../../assets/defualtImages/hero-1.jpg') },
-        { img: require('../../assets/defualtImages/hero-2.jpg') }
-    ]
+
     const [index, setIndex] = useState(0)
     const isCarousel = React.useRef(null);
     const [refreshing, setRefreshing] = useState(false);
@@ -157,309 +154,8 @@ function Profile({ navigation }) {
 
 
     };
-    const [userData, setUserData] = useState({
-        city: "",
-        userName: "",
-        title: "",
-        caption: "",
-        comment: "",
-        rating: "",
-        img: "",
-        image: "",
-        newPassword: "",
-        confirmpassword: "",
-    });
 
-    const [error, setErros] = useState({
-        name: null,
-        username: null,
-        image: null,
-        email: null,
-        role: null,
-        spetialization: null,
-        street: null,
-        city: null,
-        phone: null,
-        experience: null,
-        img: null,
-        title: null,
-        caption: null,
-        comment: null,
-        rating: null,
-        password: null,
-        newPassword: null,
-        confirmpassword: null,
-    });
-    console.log(getWishList)
 
-    const addUserData = (e) => {
-        if (e.target.name === "img") {
-            if (e.target.files[0]) {
-                setUserData({
-                    ...userData,
-                    img: e.target.files[0],
-                });
-            }
-            setErros({
-                ...error,
-                img:
-                    e.target.value.length === 0
-                        ? "This Field is Required"
-                        : e.target.value.length < 3
-                            ? "Min Length is 3 Char"
-                            : null,
-            });
-        } else if (e.target.name === "title") {
-            setUserData({
-                ...userData,
-                title: e.target.value,
-            });
-
-            setErros({
-                ...error,
-                title:
-                    e.target.value.length === 0
-                        ? "This Field is Required"
-                        : e.target.value.length < 3
-                            ? "Min Length is 3 Char"
-                            : null,
-            });
-        } else if (e.target.name === "caption") {
-            setUserData({
-                ...userData,
-                caption: e.target.value,
-            });
-
-            setErros({
-                ...error,
-                caption:
-                    e.target.value.length === 0
-                        ? "This Field is Required"
-                        : e.target.value.length < 3
-                            ? "Min Length is 3 Char"
-                            : null,
-            });
-        } else if (e.target.name === "comment") {
-            setUserData({
-                ...userData,
-                comment: e.target.value,
-            });
-
-            setErros({
-                ...error,
-                comment:
-                    e.target.value.length === 0
-                        ? "This Field is Required"
-                        : e.target.value.length < 3
-                            ? "Min Length is 3 Char"
-                            : null,
-            });
-        } else if (e.target.name === "rating") {
-            setUserData({
-                ...userData,
-                rating: e.target.value,
-            });
-
-            setErros({
-                ...error,
-                rating: e.target.value.length === 0 ? "This Field is Required" : null,
-            });
-        } else if (e.target.name === "city") {
-            setUserData({
-                ...userData,
-                city: e.target.value,
-            });
-
-            setErros({
-                ...error,
-                city:
-                    e.target.value.length === 0
-                        ? "This Field is Required"
-                        : e.target.value.length < 3
-                            ? "Min Length is 3 Char"
-                            : null,
-            });
-        } else if (e.target.name === "street") {
-            setUserData({
-                ...userData,
-                street: e.target.value,
-            });
-
-            setErros({
-                ...error,
-                street:
-                    e.target.value.length === 0
-                        ? "This Field is Required"
-                        : e.target.value.length < 3
-                            ? "Min Length is 3 Char"
-                            : null,
-            });
-        } else if (e.target.name === "newPassword") {
-            setUserData({
-                ...userData,
-                newPassword: e.target.value,
-            });
-
-            setErros({
-                ...error,
-                newPassword:
-                    e.target.value.length === 0
-                        ? "This Field is Required"
-                        : e.target.value.length < 8
-                            ? "Min Length is 8"
-                            : regPass.test(e.target.value)
-                                ? ""
-                                : "Invalid Password",
-            });
-        } else {
-            setUserData({
-                ...userData,
-                confirmpassword: e.target.value,
-            });
-
-            setErros({
-                ...error,
-                confirmpassword:
-                    e.target.value.length === 0
-                        ? "This Field is Required"
-                        : e.target.value.length < 8
-                            ? "Min length is 8"
-                            : e.target.value === userData.newPassword
-                                ? ""
-                                : "Password and confirm password should be the same",
-            });
-        }
-    };
-    const changeUserData = (e) => {
-        if (e.target.name === "name") {
-            setGetUser({
-                ...getUser,
-                name: e.target.value,
-            });
-
-            setErros({
-                ...error,
-                name:
-                    e.target.value.length === 0
-                        ? "This Field is Required"
-                        : e.target.value.length < 3
-                            ? "Min Length is 3 Char"
-                            : null,
-            });
-        } else if (e.target.name === "email") {
-            setGetUser({
-                ...getUser,
-                email: e.target.value,
-            });
-
-            setErros({
-                ...error,
-                email: reg.test(e.target.value) ? "" : "Invalid email address",
-            });
-        } else if (e.target.name === "image") {
-            if (e.target.files[0]) {
-                setGetUser({
-                    ...getUser,
-                    image: e.target.files[0],
-                });
-            }
-            setErros({
-                ...error,
-                image: e.target.value.length === 0 ? "This Field is Required" : null,
-            });
-        } else if (e.target.name === "username") {
-            setGetUser({
-                ...getUser,
-                username: e.target.value,
-            });
-
-            setErros({
-                ...error,
-                username:
-                    e.target.value.length === 0
-                        ? "This Field is Required"
-                        : e.target.value.length < 3
-                            ? "Min Length is 3 Char"
-                            : null,
-            });
-        } else if (e.target.name === "role") {
-            setGetUser({
-                ...getUser,
-                role: e.target.value,
-            });
-
-            setErros({
-                ...error,
-                role:
-                    e.target.value.length === 0
-                        ? "This Field is Required"
-                        : e.target.value.length < 3
-                            ? "Min Length is 3 Char"
-                            : null,
-            });
-        } else if (e.target.name === "experience") {
-            setGetUser({
-                ...getUser,
-                experience: e.target.value,
-            });
-
-            setErros({
-                ...error,
-                experience:
-                    e.target.value.length === 0
-                        ? "This Field is Required"
-                        : e.target.value.length < 10
-                            ? "Min Length is 10 Char"
-                            : null,
-            });
-        } else if (e.target.name === "spetialization") {
-            setGetUser({
-                ...getUser,
-                spetialization: e.target.value,
-            });
-
-            setErros({
-                ...error,
-                spetialization:
-                    e.target.value.length === 0 ? "This Field is Required" : null,
-            });
-        } else if (e.target.name === "rate") {
-            setGetUser({
-                ...getUser,
-                rate: e.target.value,
-            });
-
-            setErros({
-                ...error,
-                rate: e.target.value.length === 0 ? "This Field is Required" : null,
-            });
-        } else if (e.target.name === "phone") {
-            setGetUser({
-                ...getUser,
-                phone: e.target.value,
-            });
-
-            setErros({
-                ...error,
-                phone:
-                    e.target.value.length === 0
-                        ? "This Field is Required"
-                        : e.target.value.length < 11
-                            ? "Min Length is 11"
-                            : null,
-            });
-        } else if (e.target.name === "password") {
-            setErros({
-                ...error,
-                password:
-                    e.target.value.length === 0
-                        ? "This Field is Required"
-                        : e.target.value === getUser.password
-                            ? ""
-                            : "password is not correct",
-            });
-        }
-    };
 
     const calcRating = () => {
         getUser.rate = 0;
@@ -496,83 +192,31 @@ function Profile({ navigation }) {
         e.preventDefault();
     };
 
-    const handleButtonPortfolio = () => {
-        const name = new Date().getTime() + userData.img.name;
-        const storageRef = ref(storage, name);
-        const uploadTask = uploadBytesResumable(storageRef, userData.img);
 
-        uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-                const progress =
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                console.log("Upload is " + progress + "% done");
-                switch (snapshot.state) {
-                    case "paused":
-                        console.log("Upload is paused");
-                        break;
-                    case "running":
-                        console.log("Upload is running");
-                        break;
-                    default:
-                        break;
-                }
-            },
-            (error) => {
-                console.log(error);
-            },
-            () => {
-                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    getUser.portofolio.push({
-                        title: userData.title,
-                        caption: userData.caption,
-                        image: downloadURL,
-                    });
-                    console.log(getUser.portofolio);
-                    const docRef = doc(db, getDB, getUser.id);
+    // const handleButtonComment = () => {
+    //     getUser.feedback.push({
+    //         comment: userData.comment,
+    //         rating: userData.rating,
+    //     });
 
-                    updateDoc(docRef, {
-                        portofolio: getUser.portofolio,
-                    })
-                        .then(() => {
-                            console.log("done portoflio");
-                        })
-                        .catch((error) => {
-                            console.log("ERROR" + error);
-                        });
+    //     const docRef = doc(db, getDB, getUser.id);
 
-                    userData.title = "";
-                    userData.caption = "";
-                    userData.img = "";
-                });
-            }
-        );
-    };
-    const handleButtonComment = () => {
-        getUser.feedback.push({
-            comment: userData.comment,
-            rating: userData.rating,
-        });
+    //     updateDoc(docRef, {
+    //         feedback: getUser.feedback,
+    //         rate: getUser.rate,
+    //     })
+    //         .then(() => {
+    //             console.log("done feedback");
+    //         })
+    //         .catch((error) => {
+    //             console.log("ERROR" + error);
+    //         });
 
-        const docRef = doc(db, getDB, getUser.id);
-
-        updateDoc(docRef, {
-            feedback: getUser.feedback,
-            rate: getUser.rate,
-        })
-            .then(() => {
-                console.log("done feedback");
-            })
-            .catch((error) => {
-                console.log("ERROR" + error);
-            });
-
-        userData.comment = "";
-        userData.rating = "";
-    };
-    const [getadd, setadd] = useState([])
-    const handleButtonAddress = () => {
-        getUser.address.push({ city: userData.city, street: userData.street });
+    //     userData.comment = "";
+    //     userData.rating = "";
+    // };
+    const handleButtonAddress = (value) => {
+        getUser.address.push({ city: value.city, street: value.street });
 
         const docRef = doc(db, getDB, getUser.id);
 
@@ -586,58 +230,29 @@ function Profile({ navigation }) {
                 console.log("ERROR" + error);
             });
     };
-    const handleButtonEdit = () => {
-        const name = new Date().getTime() + getUser.image.name;
-        const storageRef = ref(storage, name);
-        const uploadTask = uploadBytesResumable(storageRef, getUser.image);
-
-        uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-                const progress =
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                console.log("Upload is " + progress + "% done");
-                switch (snapshot.state) {
-                    case "paused":
-                        console.log("Upload is paused");
-                        break;
-                    case "running":
-                        console.log("Upload is running");
-                        break;
-                    default:
-                        break;
-                }
-            },
-            (error) => {
-                console.log(error);
-            },
-            () => {
-                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    const docRef = doc(db, getDB, getUser.id);
-
-                    updateDoc(docRef, {
-                        name: getUser.name,
-                        username: getUser.username,
-                        experience: getUser.experience,
-                        email: getUser.email,
-                        spetialization: getUser.spetialization,
-                        image: downloadURL,
-                    })
-                        .then(() => {
-                            console.log("done edit ");
-                        })
-                        .catch((error) => {
-                            console.log("ERROR" + error);
-                        });
-                });
-            }
-        );
-    };
-    const handleButtonChangePassword = () => {
+    const handleButtonEdit = (value) => {
         const docRef = doc(db, getDB, getUser.id);
 
         updateDoc(docRef, {
-            password: userData.newPassword,
+            name: value.name,
+            username: value.username,
+            experience: value.experience,
+            email: value.email,
+            spetialization: value.spetialization,
+        })
+            .then(() => {
+                console.log("done edit ");
+            })
+            .catch((error) => {
+                console.log("ERROR" + error);
+            });
+
+    };
+    const handleButtonChangePassword = (value) => {
+        const docRef = doc(db, getDB, getUser.id);
+
+        updateDoc(docRef, {
+            password: value.newPassword,
         })
             .then(() => {
                 console.log("done change Password ");
@@ -685,13 +300,13 @@ function Profile({ navigation }) {
             messages: getUser.messages,
         })
             .then(() => {
-                console.log("remove wishlist");
+                console.log("remove Message");
             })
             .catch((error) => {
                 console.log("ERROR" + error);
             });
     }
-    console.log(getUser)
+    // alert(JSON.stringify( getUser))
     return (
         <>
             <ScrollView style={styles.Container}
@@ -699,11 +314,13 @@ function Profile({ navigation }) {
                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
 
                 <View style={styles.Header}>
-                    <Image source={require('../../assets/defualtImages/def.jpg')} style={styles.ImageHeader}></Image>
+                    {getUser.image === "" ? (<Image source={require('../../assets/defualtImages/def.jpg')} style={styles.ImageHeader}></Image>)
+                        : (<Image source={{ uri: (`${getUser.image}`) }} style={styles.ImageHeader}></Image>)
+                    }
                     <View>
                         <Text style={styles.TextHeader}>HI , {getUser.name}</Text>
                         <View style={{ flexDirection: 'row', marginTop: 4 }}>
-                            {drawStar(3)}
+                            {drawStar(calcRating())}
                         </View>
                     </View>
                 </View>
@@ -712,7 +329,7 @@ function Profile({ navigation }) {
                         layout="tinder"
                         layoutCardOffset={9}
                         ref={isCarousel}
-                        data={image}
+                        data={getPortofolio}
                         renderItem={CarouselCardItem}
                         sliderWidth={SLIDER_WIDTH}
                         itemWidth={ITEM_WIDTH}
@@ -721,7 +338,7 @@ function Profile({ navigation }) {
                         useScrollView={true}
                     />
                     <Pagination
-                        dotsLength={image.length}
+                        dotsLength={getPortofolio.length}
                         activeDotIndex={index}
                         carouselRef={isCarousel}
                         dotStyle={{
@@ -737,6 +354,7 @@ function Profile({ navigation }) {
                     />
 
                 </View>
+
                 <Collapse  >
                     <CollapseHeader style={styles.HeaderCollapse}>
                         <Ionicons style={{ paddingTop: 3 }} name={'ios-information-circle'} size={23} color={'black'} />
@@ -760,40 +378,40 @@ function Profile({ navigation }) {
                                 </Text>
                             </View>
                             <View style={{}}>
-                            <Text style={styles.TextInfo}>Address :
+                                <Text style={styles.TextInfo}>Address :
                                     <Text style={styles.TextData} > {getUser.street} </Text>
                                 </Text>
                                 {getAddress?.map((address, index) => {
-                            return (
-                                <>
-                                <View key={index}>
-                                    <Text>
-                                    {address.city}
-                                    </Text>
-                                    <Text>{address.street}</Text>
-                                </View>
-                                </>
-                            );
-                            })}
-                                
-                            </View>
-                           
-                            <View style={{}}>
-                            {getUser.role === "customer" ? null :
-                             (
-                             <View style={{}}>
-                             <Text style={styles.TextInfo}>Role :
-                                 <Text style={styles.TextData} > {getUser.role} </Text>
-                             </Text>
-                            
-                              <Text style={styles.TextInfo}>Specialization :
-                                <Text  style={styles.TextData} >{getUser.spetialization}</Text>
-                              </Text>
+                                    return (
+                                        <>
+                                            <View key={address.street}>
+                                                <Text>
+                                                    {address.city}
+                                                </Text>
+                                                <Text>{address.street}</Text>
+                                            </View>
+                                        </>
+                                    );
+                                })}
 
-                              <Text style={styles.TextInfo}>Experience :
-                              <Text  style={styles.TextData} >{getUser.experience}</Text>
-                              </Text> 
-                            </View>)}
+                            </View>
+
+                            <View style={{}}>
+                                {getUser.role === "customer" ? null :
+                                    (
+                                        <View style={{}}>
+                                            <Text style={styles.TextInfo}>Role :
+                                                <Text style={styles.TextData} > {getUser.role} </Text>
+                                            </Text>
+
+                                            <Text style={styles.TextInfo}>Specialization :
+                                                <Text style={styles.TextData} >{getUser.spetialization}</Text>
+                                            </Text>
+
+                                            <Text style={styles.TextInfo}>Experience :
+                                                <Text style={styles.TextData} >{getUser.experience}</Text>
+                                            </Text>
+                                        </View>)}
 
                             </View>
 
@@ -809,38 +427,38 @@ function Profile({ navigation }) {
                     </CollapseHeader>
 
                     <CollapseBody>
-                    {getcart.length === 0 ? (<h2 className="fs-5">No products to show!</h2>) : (
-                        <View style={styles.container}>
-                            <DataTable>
-                                <DataTable.Header >
-                                    <DataTable.Title >No</DataTable.Title>
-                                    <DataTable.Title>Name</DataTable.Title>
-                                    <DataTable.Title >Price</DataTable.Title>
-                                    <DataTable.Title>Quantity</DataTable.Title>
-                                    <DataTable.Title >Action</DataTable.Title>
+                        {getcart.length === 0 ? (<Text style={styles.noYet}>No products to show!</Text>) : (
+                            <View style={styles.container}>
+                                <DataTable>
+                                    <DataTable.Header >
+                                        <DataTable.Title><Text>No</Text></DataTable.Title>
+                                        <DataTable.Title><Text>Name</Text></DataTable.Title>
+                                        <DataTable.Title><Text>Price</Text></DataTable.Title>
+                                        <DataTable.Title><Text>Quantity</Text></DataTable.Title>
+                                        <DataTable.Title><Text>Action</Text></DataTable.Title>
 
-                                </DataTable.Header>
-                                {getcart?.map((item, index) => (
-                                <DataTable.Row>
-                                    <DataTable.Cell>{index + 1}</DataTable.Cell>
-                                    <DataTable.Cell>{item.name}</DataTable.Cell>
-                                    <DataTable.Cell >{item.price}</DataTable.Cell>
-                                    <DataTable.Cell>{item.quantity}</DataTable.Cell>
-                                    <DataTable.Cell style={{ justifyContent: 'space-between' }}>
+                                    </DataTable.Header>
+                                    {getcart?.map((item, index) => (
+                                        <DataTable.Row key={index}>
+                                            <DataTable.Cell><Text>{index + 1}</Text></DataTable.Cell>
+                                            <DataTable.Cell><Text>{item.name}</Text></DataTable.Cell>
+                                            <DataTable.Cell><Text>{item.price}</Text></DataTable.Cell>
+                                            <DataTable.Cell><Text>{item.quantity}</Text></DataTable.Cell>
+                                            <DataTable.Cell style={{ justifyContent: 'space-between' }}>
 
-                                        <Pressable style={{ marginRight: 3 }}  >
-                                            <Foundation style={{ marginRight: 10 }} name={'eye'} size={25} color={'#009688'} />
-                                        </Pressable>
-                                        <Pressable style onPress={() => removeFromCart(index)}>
-                                            <Foundation style={{ margin: 3 }} name={'x'} size={25} color={'black'} />
-                                        </Pressable>
-                                    </DataTable.Cell>
-                                </DataTable.Row> ))},
-                            </DataTable> 
-                        </View> )}
+                                                <Pressable style={{ marginRight: 3 }}  >
+                                                    <Foundation style={{ marginRight: 10 }} name={'eye'} size={25} color={'#009688'} />
+                                                </Pressable>
+                                                <Pressable style onPress={() => removeFromCart(index)}>
+                                                    <Foundation style={{ margin: 3 }} name={'x'} size={25} color={'black'} />
+                                                </Pressable>
+                                            </DataTable.Cell>
+                                        </DataTable.Row>))}
+                                </DataTable>
+                            </View>)}
 
 
-                        {/* <Text style={{ alignSelf: 'center' }}>__________________________________________________</Text> */}
+                        <Text style={{ alignSelf: 'center' }}>__________________________________________________</Text>
 
                     </CollapseBody>
                 </Collapse>
@@ -850,35 +468,35 @@ function Profile({ navigation }) {
                         <Text style={styles.TextLink} > WishList </Text>
                     </CollapseHeader>
                     <CollapseBody>
-                    {getWishList.length === 0 ? (<h2 className="fs-5">No wishlist to show!</h2>) : (
-                        <View style={styles.container}>
-                            <DataTable>
-                                <DataTable.Header  >
-                                    <DataTable.Title>No</DataTable.Title>
-                                    <DataTable.Title>Name</DataTable.Title>
-                                    <DataTable.Title>Role</DataTable.Title>
-                                    <DataTable.Title >Action</DataTable.Title>
+                        {getWishList.length === 0 ? (<Text style={styles.noYet} >No wishlist to show!</Text>) : (
+                            <View style={styles.container}>
+                                <DataTable>
+                                    <DataTable.Header  >
+                                        <DataTable.Title><Text>No</Text></DataTable.Title>
+                                        <DataTable.Title><Text>Name</Text></DataTable.Title>
+                                        <DataTable.Title><Text>Role</Text></DataTable.Title>
+                                        <DataTable.Title><Text>Action</Text></DataTable.Title>
 
-                                </DataTable.Header>
-                                {getWishList?.map((item, index) => (
-                                <DataTable.Row>
-                                    <DataTable.Cell>{index + 1}</DataTable.Cell>
-                                    <DataTable.Cell>{item.name}</DataTable.Cell>
-                                    <DataTable.Cell>{item.role}</DataTable.Cell>
-                                    <DataTable.Cell style={{ justifyContent: 'space-between' }}>
+                                    </DataTable.Header>
+                                    {getWishList?.map((item, index) => (
+                                        <DataTable.Row key={index}>
+                                            <DataTable.Cell><Text>{index + 1}</Text> </DataTable.Cell>
+                                            <DataTable.Cell><Text>{item.name}</Text> </DataTable.Cell>
+                                            <DataTable.Cell><Text>{item.role}</Text> </DataTable.Cell>
+                                            <DataTable.Cell style={{ justifyContent: 'space-between' }}>
 
-                                        <Pressable style={{ marginRight: 3 }}  >
-                                            <Foundation style={{ marginRight: 10 }} name={'eye'} size={25} color={'#009688'} />
-                                        </Pressable>
-                                        <Pressable style onPress={() => removeFromWhishList(index)}>
-                                            <Foundation style={{ margin: 3 }} name={'x'} size={25} color={'black'} />
-                                        </Pressable>
-                                    </DataTable.Cell>
-                                </DataTable.Row> ))},
-                            </DataTable>
-                        </View> )}
+                                                <Pressable style={{ marginRight: 3 }}  >
+                                                    <Foundation style={{ marginRight: 10 }} name={'eye'} size={25} color={'#009688'} />
+                                                </Pressable>
+                                                <Pressable style onPress={() => removeFromWhishList(index)}>
+                                                    <Foundation style={{ margin: 3 }} name={'x'} size={25} color={'black'} />
+                                                </Pressable>
+                                            </DataTable.Cell>
+                                        </DataTable.Row>))}
+                                </DataTable>
+                            </View>)}
 
-                        {/* <Text style={{ alignSelf: 'center' }}>__________________________________________________</Text> */}
+                        <Text style={{ alignSelf: 'center' }}>__________________________________________________</Text>
 
                     </CollapseBody>
                 </Collapse>
@@ -889,21 +507,20 @@ function Profile({ navigation }) {
                         <Text style={styles.TextLink} > Messages </Text>
                     </CollapseHeader>
                     <CollapseBody>
-                    {getMessage.length === 0 ? (<h2 className="fs-5 text-center">No Messages to show!</h2>) :
-                        
-                          (getMessage?.map((message, index) => (
-                            <View key={index} style={styles.chatBubble} className="chat-bubble_right d-flex justify-content-between mb-2 align-items-center">
-                            <View >
-                                <Text style={styles.userName} >{message.name}</Text>
-                                <Text style={styles.userMessage}>{message.text}</Text>
-                            </View>
-                            <View>
-                                <Foundation style={{ paddingRight: 7 }} onPress={() => removeFromMessage(index)} name={'x'} size={25} color={'black'} />
-                            </View>
-                            <br/>
-                          </View>
-   
-                          )))}
+                        {getMessage.length === 0 ? (<Text style={styles.noYet}>No Messages to show!</Text>) :
+
+                            (getMessage?.map((message, index) => (
+                                <View key={index} style={styles.chatBubble} className="chat-bubble_right d-flex justify-content-between mb-2 align-items-center">
+                                    <View >
+                                        <Text style={styles.userName} >{message.name}</Text>
+                                        <Text style={styles.userMessage}>{message.text}</Text>
+                                    </View>
+                                    <View>
+                                        <Foundation style={{ paddingRight: 7 }} onPress={() => { onRefresh(), removeFromMessage(index) }} name={'x'} size={25} color={'black'} />
+                                    </View>
+                                </View>
+
+                            )))}
 
                         <Text style={{ alignSelf: 'center' }}>__________________________________________________</Text>
 
@@ -915,34 +532,23 @@ function Profile({ navigation }) {
                         <Text style={styles.TextLink} > Feedbacks </Text>
                     </CollapseHeader>
                     <CollapseBody>
-                    {getFeedback.length === 0 ? (<h2 className="fs-5">No Feedback to show!</h2>) :
+                        {getFeedback.length === 0 ? (<Text style={styles.noYet}>No Feedback to show!</Text>) :
                             (getFeedback?.map((feedback, index) => (
                                 <View style={{ backgroundColor: 'lightsteelblue', margin: 6, borderRadius: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
-                            key={index}
-                        >
-                            <Text style={{ padding: 15, fontSize: 17, fontWeight: 'bold' }}>
-                            {feedback.comment}
-                            </Text>
-                            <View style={{ padding: 10, flexDirection: 'row', justifyContent: 'flex-end' }} className="m-4 d-flex justify-content-end w-25">
-                                {drawStar(feedback.rating)}
-                            </View>
-                        </View>
+                                    key={index}
+                                >
+                                    <Text style={{ padding: 15, fontSize: 17, fontWeight: 'bold' }}>
+                                        {feedback.comment}
+                                    </Text>
+                                    <View style={{ padding: 10, flexDirection: 'row', justifyContent: 'flex-end' }} className="m-4 d-flex justify-content-end w-25">
+                                        {drawStar(feedback.rating)}
+                                    </View>
+                                </View>
                             )))}
 
                         <Text style={{ alignSelf: 'center' }}>__________________________________________________</Text>
                     </CollapseBody>
                 </Collapse>
-                {/* <Collapse  >
-                    <CollapseHeader style={styles.HeaderCollapse}>
-                        <FontAwesome5 style={{ paddingTop: 3 }} name={'magic'} size={25} color={'black'} />
-
-                        <Text style={styles.TextLink} > Add Portfolio </Text>
-                    </CollapseHeader>
-                    <CollapseBody>
-                        <Text style={{ alignSelf: 'center' }}>__________________________________________________</Text>
-
-                    </CollapseBody>
-                </Collapse> */}
                 <Collapse  >
                     <CollapseHeader style={styles.HeaderCollapse}>
                         <Ionicons style={{ paddingTop: 3 }} name={'location-sharp'} size={25} color={'black'} />
@@ -950,7 +556,7 @@ function Profile({ navigation }) {
                         <Text style={styles.TextLink} > Add Address </Text>
                     </CollapseHeader>
                     <CollapseBody>
-                        {getadd?.map((address, index) => {
+                        {getAddress?.map((address, index) => {
                             return (
                                 <>
                                     <View key={address.street} style={{ paddingLeft: 35, marginBottom: 6 }} >
@@ -971,7 +577,7 @@ function Profile({ navigation }) {
                                 street: Yup.string().required('Required'),
                             })}
                             onSubmit={values => {
-                                getadd.push({ city: values.city, street: values.street });
+                                handleButtonAddress(values);
                                 values.city = "";
                                 values.street = "";
                                 onRefresh();
@@ -1018,22 +624,21 @@ function Profile({ navigation }) {
                     </CollapseHeader>
                     <CollapseBody>
                         <Formik
-                            initialValues={{ name: "", userName: "", email: "", spetialization: "", experience: "" }}
+                            initialValues={{ name: `${getUser.name}`, username: `${getUser.username}`, email: `${getUser.email}`, spetialization: `${getUser.spetialization}`, experience: `${getUser.experience}` }}
                             validationSchema={Yup.object({
                                 name: Yup.string()
                                     .required('Required')
                                 ,
-                                userName: Yup.string().required('Required'),
+                                username: Yup.string().required('Required'),
                                 email: Yup.string().required('Required').email('emailValid'),
                                 spetialization: Yup.string().required('Required'),
                                 experience: Yup.string().required('Required'),
 
                             })}
                             onSubmit={values => {
-                                alert(JSON.stringify(values));
+
+                                handleButtonEdit(values)
                                 onRefresh();
-
-
                             }}
                         >
                             {props => (
@@ -1044,11 +649,11 @@ function Profile({ navigation }) {
                                     {props.touched.name && props.errors.name ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.name} </Text>) : null}
 
                                     <TextInput style={styles.input}
-                                        value={props.values.userName}
-                                        onChangeText={props.handleChange("userName")}
+                                        value={props.values.username}
+                                        onChangeText={props.handleChange("username")}
                                         placeholder="enter userName" />
 
-                                    {props.touched.userName && props.errors.userName ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.userName} </Text>) : null}
+                                    {props.touched.username && props.errors.username ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.username} </Text>) : null}
 
                                     <TextInput style={styles.input}
                                         value={props.values.email}
@@ -1065,7 +670,7 @@ function Profile({ navigation }) {
                                     {props.touched.experience && props.errors.experience ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.experience} </Text>) : null}
 
                                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                        <SelectDropdown buttonStyle={styles.input} defaultButtonText="Select your spetialization"
+                                        <SelectDropdown buttonStyle={styles.input} defaultButtonText={`${getUser.spetialization}`}
                                             onSelect={props.handleChange('spetialization')}
                                             value={props.values.spetialization}
                                             data={spetialization}
@@ -1103,11 +708,11 @@ function Profile({ navigation }) {
                     </CollapseHeader>
                     <CollapseBody>
                         <Formik
-                            initialValues={{ currentPassword: "", userName: "", email: "", spetialization: "", experience: "" }}
+                            initialValues={{ currentPassword: "", newPassword: "", confirmPassword: "" }}
                             validationSchema={Yup.object({
                                 currentPassword: Yup.string()
                                     .required('Required')
-                                    .matches(userData.password, "password isn't correct")
+                                    .matches(getUser.password, "password isn't correct")
                                 ,
                                 newPassword: Yup.string().required('Required')
                                     .matches(regPass, "invalid Password"),
@@ -1117,6 +722,7 @@ function Profile({ navigation }) {
                             })}
                             onSubmit={values => {
                                 alert(JSON.stringify(values));
+                                handleButtonChangePassword(values);
                                 onRefresh();
 
 
@@ -1151,7 +757,7 @@ function Profile({ navigation }) {
 
                                     <TouchableOpacity onPress={props.handleSubmit} >
                                         <View style={styles.button}>
-                                            <Text style={styles.addText}>Edit</Text>
+                                            <Text style={styles.addText}>Change Password</Text>
                                         </View>
 
                                     </TouchableOpacity>
@@ -1240,9 +846,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2, alignItems: 'center'
     },
     noYet: {
-        alignItems: 'center',
+        alignSelf: 'center',
         fontWeight: 'bold',
-        fontSize: '20'
+        fontSize: 20
     },
     input: {
         width: 350,

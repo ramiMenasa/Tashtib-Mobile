@@ -26,7 +26,7 @@ import { SafeAreaView, TouchableOpacity, KeyboardAvoidingView } from "react-nati
 function Home({ navigation }) {
     const image = [
         { img: require('../../assets/defualtImages/hero-1.jpg') },
-        { img: require('../../assets/defualtImages/hero-1.jpg') }
+        { img: require('../../assets/defualtImages/hero-2.jpg') }
     ]
     const [index, setIndex] = useState(0)
     const isCarousel = React.useRef(null);
