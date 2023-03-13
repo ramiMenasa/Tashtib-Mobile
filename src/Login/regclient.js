@@ -21,6 +21,7 @@ import {
    } from "firebase/firestore"
 const reg = RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+).*$/);
 const regPass = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/);
+const regPhone = RegExp(/^01[0125][0-9]{8}$/);
 
 function RegClient(){
    let Role = ['Engineer' ,'Provider']
@@ -38,6 +39,7 @@ function RegClient(){
    const [emailErr, setEmailErr] = useState("")
    const [emailRegErr, setEmailRegErr] = useState(false)
    const [passRegErr, setPassRegErr] = useState(false)
+   const [phoneRegErr, setPhoneRegErr] = useState(false)
    const [phoneErr, setPhoneErr] = useState("")
    const [cityErr, setCityErr] = useState("")
    const [streetErr, setStreetErr] = useState("")
@@ -80,6 +82,10 @@ function RegClient(){
      }
      else if (phone.length < 3){
         setPhoneErr("Phone must be 11 number")
+     }
+     else if(!regPhone.test(phone)) {
+      setPhoneRegErr(true)
+      setPhoneErr("Invalid Phone number")
      }
      else {
         setPhoneErr("")
