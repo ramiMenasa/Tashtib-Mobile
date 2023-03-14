@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Image, Text, StyleSheet } from "react-native";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { View, Image, Text, StyleSheet,ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
@@ -12,6 +11,7 @@ import {
     updateDoc,
 } from "firebase/firestore";
 import { db, storage } from "../../firebase";
+import { TouchableOpacity } from "react-native";
 function Cart() {
 
 
@@ -111,27 +111,55 @@ function Cart() {
           });
       };
 
+      function addQuantity(item){
+        const index = getUser?.cart.findIndex(({ name }) => name === item.name);
+        getUser.cart[index].quantity += 1;
+        const docRef = doc(db, getDB, getUser?.id);
 
-    //   const handleQty = (action, id) => {
+        updateDoc(docRef, {
+            cart:getUser?.cart
+        })
+          .then(() => {
+            toast("item removed from cart");
+          })
+          .catch((error) => {
+            console.log("ERROR" + error);
+          });
+          calcTotal()
+      }
+      function minusQuantity(item){
+        const index = getUser?.cart.findIndex(({ name }) => name === item.name);
+        if (getUser.cart[index].quantity>1) {
+            getUser.cart[index].quantity -= 1;
+            const docRef = doc(db, getDB, getUser?.id);
+    
+            updateDoc(docRef, {
+                cart:getUser?.cart
+            })
+              .then(() => {
+                toast("item removed from cart");
+              })
+              .catch((error) => {
+                console.log("ERROR" + error);
+              });
+        } else{
+            removeFromCart(item)
+        }
 
-    //     if (action === "add") {
-    //       cartItem.quantity += 1;
-    //       dispatch(CartQuantity(cartItem, user, cartItem.quantity, database, id));
-    //     } else if (action === "remove") {
-    //       if (cartItem.quantity === 0) {
-    //         cartItem.quantity = 0;
-    //       } else {
-    //         cartItem.quantity -= 1;
-    //       }
-    //       dispatch(CartQuantity(cartItem, user, cartItem.quantity, database, id));
-    //     } else {
-    //       console.log("no change");
-    //     }
-    //   };
+        calcTotal();
+      }  
+      function calcTotal (){
+        let total=0;
+        getcart.forEach(element => {
+            total += (element.quantity*element.price)
+        });
+        return(total)
+      }
 
 
     return (
         <>
+        <ScrollView style={styles.scrollContainer}>
             <View style={{ paddingTop: 20 }}>
                 <Text style={{ fontSize: 26, marginBottom: 30, marginLeft: 50, fontWeight: 'bold' }}>Shopping Cart</Text>
                 <View>
@@ -191,7 +219,7 @@ function Cart() {
                                                             justifyContent: 'center',
                                                             borderColor: 'grey'
                                                         }}>
-                                                        <Icon name="minus" style={{ color: 'grey' }}></Icon>
+                                                        <Icon name="minus" style={{ color: 'grey' }} onPress={()=>{minusQuantity(item)}} ></Icon>
                                                     </View>
                                                     <Text style={{ marginRight: 10 }}>{item.quantity}</Text>
                                                     <View
@@ -204,10 +232,10 @@ function Cart() {
                                                             justifyContent: 'center',
                                                             borderColor: 'grey'
                                                         }}>
-                                                        <Icon name="plus" style={{ color: 'grey' }}></Icon>
+                                                        <Icon name="plus" style={{ color: 'grey' }} onPress={()=>{addQuantity(item)}}></Icon>
                                                     </View>
                                                 </View>
-                                                {/* <View style={{ flexDirection: 'row' }}>
+                                                <View style={{ flexDirection: 'row' }}>
                                                     <Text
                                                         style={{
                                                             color: 'black',
@@ -215,8 +243,8 @@ function Cart() {
                                                         }}>
                                                         Total:
                                                     </Text>
-                                                    <Text style={{ color: 'grey', fontSize: 18, marginLeft: 7 }}>120$</Text>
-                                                </View> */}
+                                                    <Text style={{ color: 'grey', fontSize: 18, marginLeft: 7 }}>{item.price*item.quantity}$</Text>
+                                                </View>
                                             </View>
 
                                         </View>
@@ -243,6 +271,16 @@ function Cart() {
 
                 </View>
             </View>
+            </ScrollView>
+            <View style={styles.conatinerPriceButton}>
+                    <Text style={styles.price} >Total : {calcTotal()}  LE</Text>
+                    <TouchableOpacity  >
+                        <View style={styles.button}>
+                        <Text style={styles.addText} >Pay with Card</Text>
+                    </View>
+                                        
+                    </TouchableOpacity>
+                </View>
         </>
     )
 }
@@ -268,8 +306,8 @@ const styles = StyleSheet.create({
         paddingRight: 14,
         marginTop: 6,
         marginBottom: 6,
-        marginLeft: 30,
-        marginRight: 16,
+        marginLeft:20,
+        marginRight: 20,
     },
     subCardView: {
         height: 100,
@@ -282,5 +320,41 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    conatinerPriceButton: {
+        alignSelf:'center',
+        width:400,
+        borderTopWidth:1,
+        borderTopColor:'grey',
+        position:'absolute',
+         bottom: 0,
+
+    },
+    button: {
+        alignSelf:'center',
+        flex:1,
+        width: 370,
+        height: 45,
+        backgroundColor: 'black',
+        borderRadius: 5,
+        margin:10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: 'black',
+    },
+    addText:{
+        color:"white",
+        fontWeight:'bold',
+    },
+    price: {
+        padding: 12,
+        fontSize: 24,
+        fontWeight: 'bold',
+    },
+    scrollContainer:{
+        flex: 1,
+        marginTop: Platform.OS === 'android' ? 100 : 0,    
+        marginBottom:120,
+    }
+
 });
 export default Cart
