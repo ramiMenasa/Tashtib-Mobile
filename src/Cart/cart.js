@@ -1,110 +1,116 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Image, Text, StyleSheet } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
-import { CartQuantity, deleteFromCart } from "../Store/Actions/CartAction";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {
+    collection,
+    query,
+    where,
+    onSnapshot,
+    doc,
+    updateDoc,
+} from "firebase/firestore";
+import { db, storage } from "../../firebase";
 function Cart() {
 
-    //   const { name, quantity, price, image, id } = cartItem;
-    //   const cartItems = useSelector((state) => state.cartItemsList.cartItems);
 
-    //   console.log(cartItems);
+    const [getDB, setGetDB] = useState("");
+    const [getCustomer, setGetCustomer] = useState({});
+    const [getProvider, setGetProvider] = useState({});
+    const [getEngineer, setGetEngineer] = useState({});
+    const [getUser, setGetUser] = useState({});
+    const [getcart, setCart] = useState([]);
 
-    //   const dispatch = useDispatch();
 
-    //   const [getDB, setGetDB] = useState("");
-    //   const [getCustomer, setGetCustomer] = useState({});
-    //   const [getProvider, setGetProvider] = useState({});
-    //   const [getEngineer, setGetEngineer] = useState({});
-    //   const [getUser, setGetUser] = useState({});
+    const { currentUser } = useSelector((state) => state.user);
 
-    //   const { currentUser } = useSelector((state) => state.user);
+    const getData = () => {
+        const q = query(
+            collection(db, "providers"),
+            where("email", "==", currentUser.email)
+        );
 
-    //   const getData = () => {
-    //     const q = query(
-    //       collection(db, "providers"),
-    //       where("email", "==", currentUser.email)
-    //     );
+        onSnapshot(q, (snapshot) => {
+            snapshot.docs.forEach((doc) => {
+                setGetProvider({ ...doc.data(), id: doc.id });
+                if (getProvider) {
+                    setGetUser({ ...doc.data(), id: doc.id });
+                    setCart(doc.data().cart);
+                    setGetDB("providers");
+                }
+                console.log(doc.id, " => ", doc.data());
+            });
+        });
 
-    //     onSnapshot(q, (snapshot) => {
-    //       snapshot.docs.forEach((doc) => {
-    //         setGetProvider({ ...doc.data(), id: doc.id });
-    //         if (getProvider) {
-    //           setGetUser({ ...doc.data(), id: doc.id });
-    //           setGetDB("providers");
-    //         }
-    //         console.log(doc.id, " => ", doc.data());
-    //       });
-    //     });
+        const q2 = query(
+            collection(db, "engineers"),
+            where("email", "==", currentUser.email)
+        );
 
-    //     const q2 = query(
-    //       collection(db, "engineers"),
-    //       where("email", "==", currentUser.email)
-    //     );
+        onSnapshot(q2, (snapshot) => {
+            snapshot.docs.forEach((doc) => {
+                setGetEngineer({ ...doc.data(), id: doc.id });
+                if (getEngineer) {
+                    setGetUser({ ...doc.data(), id: doc.id });
+                    setCart(doc.data().cart);
+                    setGetDB("engineers");
+                }
 
-    //     onSnapshot(q2, (snapshot) => {
-    //       snapshot.docs.forEach((doc) => {
-    //         setGetEngineer({ ...doc.data(), id: doc.id });
-    //         if (getEngineer) {
-    //           setGetUser({ ...doc.data(), id: doc.id });
-    //           setGetDB("engineers");
-    //         }
+                console.log(doc.id, " => ", doc.data());
+            });
+        });
 
-    //         console.log(doc.id, " => ", doc.data());
-    //       });
-    //     });
+        const q3 = query(
+            collection(db, "users"),
+            where("email", "==", currentUser.email)
+        );
 
-    //     const q3 = query(
-    //       collection(db, "users"),
-    //       where("email", "==", currentUser.email)
-    //     );
+        onSnapshot(q3, (snapshot) => {
+            snapshot.docs.forEach((doc) => {
+                setGetCustomer({ ...doc.data(), id: doc.id });
+                if (getCustomer) {
+                    setGetUser({ ...doc.data(), id: doc.id });
+                    setCart(doc.data().cart);
+                    setGetDB("users");
+                }
+                console.log(doc.id, " => ", doc.data());
+                console.log(getCustomer);
+            });
+        });
+        console.log(getDB);
 
-    //     onSnapshot(q3, (snapshot) => {
-    //       snapshot.docs.forEach((doc) => {
-    //         setGetCustomer({ ...doc.data(), id: doc.id });
-    //         if (getCustomer) {
-    //           setGetUser({ ...doc.data(), id: doc.id });
-    //           setGetDB("users");
-    //         }
-    //         console.log(doc.id, " => ", doc.data());
-    //         console.log(getCustomer);
-    //       });
-    //     });
-    //     console.log(getDB);
+        return getDB;
+    };
 
-    //     return getDB;
-    //   };
+    console.log(getDB);
 
-    //   console.log(getDB);
+    useEffect(() => {
+        if (currentUser) {
+            getData();
+            console.log(getDB);
+        } else {
+            console.log("no user");
+        }
+    }, [currentUser, getDB]);
 
-    //   useEffect(() => {
-    //     if (currentUser) {
-    //       getData();
-    //       dispatch(listCartItems(getDB, currentUser.email));
-    //       console.log(getDB);
+    const removeFromCart = (item) => {
+        const index = getUser?.cart.findIndex(({ id }) => id === item.id);
+        getUser?.cart.splice(index, 1);
+    
+        const docRef = doc(db, getDB, getUser?.id);
+    
+        updateDoc(docRef, {
+          cart: getUser?.cart,
+        })
+          .then(() => {
+            toast("item removed from cart");
+          })
+          .catch((error) => {
+            console.log("ERROR" + error);
+          });
+      };
 
-    //     } else {
-    //       console.log("no user");
-    //     }
-    //   }, [currentUser, dispatch, getDB]);
-
-    //   const onToken = (token) => 
-    //   {
-    //       console.log(token)
-    //   }
-
-    //   var settings = {
-    //     infinite: true,
-    //     slidesToScroll: 1,
-    //     autoplay: true,
-    //     autoplaySpeed: 1000,
-    //     slidesToShow: 1,
-    //     speed: 6000,
-    //     arrows: false,
-    //   };
-
-    //   useEffect(() => {}, [quantity, cartItem]);
 
     //   const handleQty = (action, id) => {
 
@@ -123,115 +129,119 @@ function Cart() {
     //     }
     //   };
 
-    //   const deleteItemFromCart = () => {
-    //     console.log(user, id, database);
-    //     dispatch(deleteFromCart(user, id, database));
-    //   };
 
     return (
         <>
             <View style={{ paddingTop: 20 }}>
                 <Text style={{ fontSize: 26, marginBottom: 30, marginLeft: 50, fontWeight: 'bold' }}>Shopping Cart</Text>
-                <TouchableWithoutFeedback
-                    onPress={() => {
-                        this.redirectToChatConverstion(item);
-                    }}>
-                    <View style={styles.mainCardView}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <View style={styles.subCardView}>
-                                <Image
-                                    source={require('../../assets/img/img4.jpg')}
-                                    resizeMode="contain"
-                                    style={{
-                                        height: 100,
-                                        width: 100,
-                                    }}
-                                />
-                            </View>
-                            <View style={{ marginLeft: 30 }}>
-                                <Text
-                                    style={{
-                                        fontSize: 20,
-                                        color: 'black',
-                                        fontWeight: 'bold',
-                                        //   fontFamily: Fonts.nunitoBold,
-                                        textTransform: 'capitalize',
-                                    }}>
-                                    {'chair'}
-                                </Text>
-                                <View
-                                    style={{
-                                        marginTop: 4,
-                                        borderWidth: 0,
-                                        width: '85%',
-                                    }}>
-                                    <View style={{ flexDirection: 'row' }}>
-                                        <Text
-                                            style={{
-                                                color: 'black',
-                                                fontSize: 18,
-                                            }}>
-                                            Price:
-                                        </Text>
-                                        <Text style={{ color: 'grey', fontSize: 18, marginLeft: 7 }}>120$</Text>
-                                    </View>
-                                    <View style={{ flexDirection: 'row', marginTop: 15 , marginBottom:15}}>
-                                        <View
-                                            style={{
-                                                height: 17,
-                                                borderWidth: 1,
-                                                width: 17,
-                                                marginRight: 10,
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                borderColor: 'grey'
-                                            }}>
-                                            <Icon name="plus" style={{ color: 'grey' }}></Icon>
-                                        </View>
-                                        <Text style={{ marginRight: 10 }}>0</Text>
-                                        <View
-                                            style={{
-                                                height: 17,
-                                                borderWidth: 1,
-                                                width: 17,
-                                                marginRight: 30,
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                borderColor: 'grey'
-                                            }}>
-                                            <Icon name="minus" style={{ color: 'grey' }}></Icon>
-                                        </View>
-                                    </View>
-                                    {/* <View style={{ flexDirection: 'row' }}>
-                                        <Text
-                                            style={{
-                                                color: 'black',
-                                                fontSize: 18,
-                                            }}>
-                                            Total:
-                                        </Text>
-                                        <Text style={{ color: 'grey', fontSize: 18, marginLeft: 7 }}>120$</Text>
-                                    </View> */}
-                                </View>
+                <View>
+                    {getcart.length === 0 ? (
+                        <Text>no items</Text>
+                    ) : (
 
-                            </View>
-                        </View>
-                        <View
-                            style={{
-                                height: 30,
-                                borderWidth: 1,
-                                width: 30,
-                                //   marginLeft: -26,
-                                marginRight: 30,
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                borderRadius: 10,
-                                borderColor: 'brown'
-                            }}>
-                            <Icon name="trash" style={{ color: 'brown'}}></Icon>
-                        </View>
-                    </View>
-                </TouchableWithoutFeedback>
+                        getcart?.map((item, index) => {
+                            return (
+                                <View key={item.name} style={styles.mainCardView}>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        <View style={styles.subCardView}>
+                                            <Image
+                                                source={{uri:`${item.image}`}}
+                                                resizeMode="contain"
+                                                style={{
+                                                    width: 100,
+                                                    height:100,
+                                                }}
+                                            />
+                                        </View>
+                                        <View style={{ marginLeft: 30 }}>
+                                            <Text
+                                                style={{
+                                                    fontSize: 20,
+                                                    color: 'black',
+                                                    fontWeight: 'bold',
+                                                    //   fontFamily: Fonts.nunitoBold,
+                                                    textTransform: 'capitalize',
+                                                }}>
+                                                {item.name}
+                                            </Text>
+                                            <View
+                                                style={{
+                                                    marginTop: 4,
+                                                    borderWidth: 0,
+                                                    width: '85%',
+                                                }}>
+                                                <View style={{ flexDirection: 'row' }}>
+                                                    <Text
+                                                        style={{
+                                                            color: 'black',
+                                                            fontSize: 18,
+                                                        }}>
+                                                        Price:
+                                                    </Text>
+                                                    <Text style={{ color: 'grey', fontSize: 18, marginLeft: 7 }}>{item.price}$</Text>
+                                                </View>
+                                                <View style={{ flexDirection: 'row', marginTop: 15, marginBottom: 15 }}>
+                                                    <View
+                                                        style={{
+                                                            height: 17,
+                                                            borderWidth: 1,
+                                                            width: 17,
+                                                            marginRight: 10,
+                                                            alignItems: 'center',
+                                                            justifyContent: 'center',
+                                                            borderColor: 'grey'
+                                                        }}>
+                                                        <Icon name="minus" style={{ color: 'grey' }}></Icon>
+                                                    </View>
+                                                    <Text style={{ marginRight: 10 }}>{item.quantity}</Text>
+                                                    <View
+                                                        style={{
+                                                            height: 17,
+                                                            borderWidth: 1,
+                                                            width: 17,
+                                                            marginRight: 30,
+                                                            alignItems: 'center',
+                                                            justifyContent: 'center',
+                                                            borderColor: 'grey'
+                                                        }}>
+                                                        <Icon name="plus" style={{ color: 'grey' }}></Icon>
+                                                    </View>
+                                                </View>
+                                                {/* <View style={{ flexDirection: 'row' }}>
+                                                    <Text
+                                                        style={{
+                                                            color: 'black',
+                                                            fontSize: 18,
+                                                        }}>
+                                                        Total:
+                                                    </Text>
+                                                    <Text style={{ color: 'grey', fontSize: 18, marginLeft: 7 }}>120$</Text>
+                                                </View> */}
+                                            </View>
+
+                                        </View>
+                                    </View>
+                                    <View
+                                        style={{
+                                            height: 30,
+                                            borderWidth: 1,
+                                            width: 30,
+                                            //   marginLeft: -26,
+                                            marginRight: 30,
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            borderRadius: 10,
+                                            borderColor: 'brown'
+                                        }}>
+                                        <Icon name="trash" style={{ color: 'brown' }} onPress={()=>removeFromCart(item)}></Icon>
+                                    </View>
+                                </View>
+                            )
+                        })
+
+                    )}
+
+                </View>
             </View>
         </>
     )
