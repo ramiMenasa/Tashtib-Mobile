@@ -28,7 +28,7 @@ import { TouchableOpacity } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
 
 
-function Profile({ navigation }) {
+function Profile(props) {
     let spetialization = [
         'Civil Engineer',
         'Interior Designer',
@@ -60,6 +60,8 @@ function Profile({ navigation }) {
 
 
     const { currentUser } = useSelector((state) => state.user);
+    // return currentUser ? props.navigation.push("Profile") : props.navigation.push("login");
+
 
     const dispatch = useDispatch();
     const reg = RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+).*$/);
@@ -81,8 +83,9 @@ function Profile({ navigation }) {
 
     useEffect(() => {
         if (currentUser) getData();
-        // else history.push("login");
-    }, [currentUser]);
+        else 
+        props.navigation.push("login");
+    }, [currentUser, props]);
 
     const getData = () => {
         const q = query(
@@ -185,6 +188,7 @@ function Profile({ navigation }) {
     const handleAuth = () => {
         if (currentUser) {
             dispatch(logoutInitiate());
+            // props.navigation.navigate("Home")
         }
     };
 
@@ -757,38 +761,22 @@ function Profile({ navigation }) {
                                         placeholder=" confirm new password" />
 
                                     {props.touched.confirmPassword && props.errors.confirmPassword ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.confirmPassword} </Text>) : null}
-
-
                                     <TouchableOpacity onPress={props.handleSubmit} >
                                         <View style={styles.button}>
                                             <Text style={styles.addText}>Change Password</Text>
                                         </View>
 
                                     </TouchableOpacity>
-
-
                                 </View>
-
-
                             )}
-
-
                         </Formik>
-
                         <Text style={{ alignSelf: 'center' }}>__________________________________________________</Text>
-
                     </CollapseBody>
                 </Collapse>
-
                 <CollapseHeader style={styles.HeaderCollapse}>
                     <Ionicons style={{ paddingTop: 3 }} name={'log-out-outline'} size={23} color={'black'} />
-
-                    <Text style={styles.TextLink} > Logout </Text>
+                    <Text style={styles.TextLink} onPress={handleAuth} > Logout </Text>
                 </CollapseHeader>
-
-
-
-
             </ScrollView>
 
         </>

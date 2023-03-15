@@ -17,20 +17,20 @@ import store from './src/Store/Store';
 import Product from './src/Product/Product';
 import ViewProfile from './src/ViewProfile/ViewProfile';
 import Cart from './src/Cart/cart';
-
+import { useSelector } from 'react-redux';
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function MyDrawer() {
+  const { currentUser } = useSelector((state) => state.user);
   return (
     
     <Drawer.Navigator initialRouteName='Tashtib'  useLegacyImplementation={true} >
       <Drawer.Screen name="Tashtib" component={TabBottom} options={{headerTransparent:true}} />
-      <Drawer.Screen name="Profile" component={Profile} />
-
-      <Drawer.Screen name="login" component={Login} />
-
+      {currentUser? <Drawer.Screen name="Profile" component={Profile} />:
+            <Drawer.Screen name="login" component={Login} />
+          }
 
 
     </Drawer.Navigator>

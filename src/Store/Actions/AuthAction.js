@@ -82,6 +82,7 @@ export const registerInitiate = (email, password, userName, phone) => {
 
 export const loginInitiate = (email, password) => {
   return function (dispatch) {
+    // console.log("hello")
     dispatch(loginStart());
     signInWithEmailAndPassword(auth, email, password)
       .then(({ user }) => {
