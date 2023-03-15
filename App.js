@@ -16,6 +16,8 @@ import { Provider } from 'react-redux';
 import store from './src/Store/Store';
 import Product from './src/Product/Product';
 import ViewProfile from './src/ViewProfile/ViewProfile';
+import Cart from './src/Cart/cart';
+
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -27,6 +29,10 @@ function MyDrawer() {
       <Drawer.Screen name="Tashtib" component={TabBottom} options={{headerTransparent:true}} />
       <Drawer.Screen name="Profile" component={Profile} />
       <Drawer.Screen name="ViewProfile" component={ViewProfile} />
+
+      <Drawer.Screen name="login" component={Login} />
+
+
 
     </Drawer.Navigator>
   );
@@ -44,13 +50,12 @@ function TabBottom() {
           iconName = focused
             ? 'home'
             : 'home-outline';
-        } else if (route.name === 'login') {
-          iconName = focused ? 'person' : 'person-outline';
+        } else if (route.name === 'Cart') {
+          iconName = focused ? 'cart' : 'cart-outline';
         } else if (route.name === 'Categories') {
           iconName = focused ? 'grid' : 'grid-outline';
         }
 
-        // You can return any component that you like here!
         return <Ionicons name={iconName} size={size} color={color} />;
       },
       tabBarActiveTintColor: 'black',
@@ -65,18 +70,19 @@ function TabBottom() {
           tabBarLabel: '',
         }}
       />
-      <Tab.Screen name="login" component={Login}
-        options={{
-          tabBarLabel: '',
-          headerShown: false,
-        }}
-      />
+      
       <Tab.Screen name="Categories" component={Categories}
         options={{
           headerShown: false,
           tabBarLabel: '',
+        }}
+      />
+      <Tab.Screen name="Cart" component={Cart}
+        options={{
+          tabBarLabel: '',
+          headerShown: false,
+          tabBarBadge:5,
 
-          // tabBarBadge:5,
         }}
       />
     </Tab.Navigator>
