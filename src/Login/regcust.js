@@ -49,89 +49,160 @@ function RegCust(){
     const [confirmErr, setConfirmErr] = useState("")
     const dispatch = useDispatch();
     const handleSubmit = async(e) => {
-      e.preventDefault();
-        if(name.length == 0){
-           setNameErr("Name is Required")
-        }
-        else if (name.length < 3){
-           setNameErr("Name must be more than 3 char")
-        }
-        else {
-           setNameErr("")
-        }
-        if(username.length == 0){
-           setUsernameErr("Username is Required")
-        }
-        else if (username.length < 3){
-           setUsernameErr("Username must be more than 3 char")
-        }
-        else {
-           setUsernameErr("")
-        }
-        if(email.length == 0){
-            setEmailErr("Email is Required")
-        }
-        else if(!reg.test(email)) {
-           setEmailRegErr(true)
-           setEmailErr("Invalid  email address")
-        }
-        else{
-            setEmailErr("")
-        }
-        if(phone.length == 0){
-           setPhoneErr("Phone is Required")
-        }
-        else if (phone.length < 3){
-           setPhoneErr("Phone must be 11 number")
-        }
-        else if(!regPhone.test(phone)) {
-         setPhoneRegErr(true)
-         setPhoneErr("Invalid Phone number")
-        }
-        else {
-           setPhoneErr("")
-        }
-        if(city.length == 0){
-           setCityErr("City is Required")
-        }
-        else if (city.length < 3){
-           setCityErr("City must be 3 char or more")
-        }
-        else {
-           setCityErr("")
-        }
-        if(street.length == 0){
-           setStreetErr("Street is Required")
-        }
-        else if (street.length < 3){
-           setStreetErr("Street must be 3 char or more")
-        }
-        else {
-           setStreetErr("")
-        }
-        if(password.length == 0){
-            setPassErr("Password is Required")
-        }
-        else if(password.length < 8){
-           setPassErr("Password must be more than 8 ")
-        }
-        else if (!regPass.test(password))
-        {
-           setPassRegErr(true)
-           setPassErr("Password should contain uppercase & lowercase letters & special character & numbers")
-        }
-        else{
-            setPassErr("")
-        }
-        if(confirmpassword.length == 0){
-           setConfirmErr("Confirm Password is Required")
-       }
-        else if(confirmpassword != password){
-          setConfirmErr("Confirm Password and Password must be the same ")
-       }
-        else{
-           setConfirmErr("")
-       }
+      // e.preventDefault();
+      //   if(name.length == 0){
+      //      setNameErr("Name is Required")
+      //   }
+      //   else if (name.length < 3){
+      //      setNameErr("Name must be more than 3 char")
+      //   }
+      //   else {
+      //      setNameErr("")
+      //   }
+      //   if(username.length == 0){
+      //      setUsernameErr("Username is Required")
+      //   }
+      //   else if (username.length < 3){
+      //      setUsernameErr("Username must be more than 3 char")
+      //   }
+      //   else {
+      //      setUsernameErr("")
+      //   }
+      //   if(email.length == 0){
+      //       setEmailErr("Email is Required")
+      //   }
+      //   else if(!reg.test(email)) {
+      //      setEmailRegErr(true)
+      //      setEmailErr("Invalid  email address")
+      //   }
+      //   else{
+      //       setEmailErr("")
+      //   }
+      //   if(phone.length == 0){
+      //      setPhoneErr("Phone is Required")
+      //   }
+      //   else if (phone.length < 3){
+      //      setPhoneErr("Phone must be 11 number")
+      //   }
+      //   else if(!regPhone.test(phone)) {
+      //    setPhoneRegErr(true)
+      //    setPhoneErr("Invalid Phone number")
+      //   }
+      //   else {
+      //      setPhoneErr("")
+      //   }
+      //   if(city.length == 0){
+      //      setCityErr("City is Required")
+      //   }
+      //   else if (city.length < 3){
+      //      setCityErr("City must be 3 char or more")
+      //   }
+      //   else {
+      //      setCityErr("")
+      //   }
+      //   if(street.length == 0){
+      //      setStreetErr("Street is Required")
+      //   }
+      //   else if (street.length < 3){
+      //      setStreetErr("Street must be 3 char or more")
+      //   }
+      //   else {
+      //      setStreetErr("")
+      //   }
+      //   if(password.length == 0){
+      //       setPassErr("Password is Required")
+      //   }
+      //   else if(password.length < 8){
+      //      setPassErr("Password must be more than 8 ")
+      //   }
+      //   else if (!regPass.test(password))
+      //   {
+      //      setPassRegErr(true)
+      //      setPassErr("Password should contain uppercase & lowercase letters & special character & numbers")
+      //   }
+      //   else{
+      //       setPassErr("")
+      //   }
+      //   if(confirmpassword.length == 0){
+      //      setConfirmErr("Confirm Password is Required")
+      //  }
+      //   else if(confirmpassword != password){
+      //     setConfirmErr("Confirm Password and Password must be the same ")
+      //  }
+      //   else{
+      //      setConfirmErr("")
+      //  }
+      if(name.length == 0){
+         setNameErr("Name is Required")
+      }
+      else if (name.length < 3){
+         setNameErr("Name must be more than 3 char")
+      }
+      else if(username.length == 0){
+         setUsernameErr("Username is Required")
+      }
+      else if (username.length < 3){
+         setUsernameErr("Username must be more than 3 char")
+      }
+      else if(email.length == 0){
+          setEmailErr("Email is Required")
+      }
+      else if(!reg.test(email)) {
+         setEmailRegErr(true)
+         setEmailErr("Invalid  email address")
+      }
+      else if(phone.length == 0){
+         setPhoneErr("Phone is Required")
+      }
+      else if (phone.length < 3){
+         setPhoneErr("Phone must be 11 number")
+      }
+      else if(!regPhone.test(phone)) {
+       setPhoneRegErr(true)
+       setPhoneErr("Invalid Phone number")
+      }
+      else if(city.length == 0){
+         setCityErr("City is Required")
+      }
+      else if (city.length < 3){
+         setCityErr("City must be 3 char or more")
+      }
+      else if(street.length == 0){
+         setStreetErr("Street is Required")
+      }
+      else if (street.length < 3){
+         setStreetErr("Street must be 3 char or more")
+      }
+      else if(password.length == 0){
+          setPassErr("Password is Required")
+      }
+      else if(password.length < 8){
+         setPassErr("Password must be more than 8 ")
+      }
+      else if (!regPass.test(password))
+      {
+         setPassRegErr(true)
+         setPassErr("Password should contain uppercase & lowercase letters & special character & numbers")
+      }
+      else if(confirmpassword.length == 0){
+         setConfirmErr("Confirm Password is Required")
+     }
+      else if(confirmpassword != password){
+        setConfirmErr("Confirm Password and Password must be the same ")
+     }
+    
+     else{
+         setNameErr("")
+         setUsernameErr("")
+         setEmailErr("")
+         setPhoneErr("")
+         setCityErr("")
+         setStreetErr("")
+         setPassErr("")
+         setConfirmErr("")
+   
+   
+         props.navigation.navigate("Profile");
        dispatch(
          registerInitiate(
            email,
@@ -186,7 +257,7 @@ function RegCust(){
          }
        // }
      };
-   
+    }
      return(
         <>
             <ScrollView style={{ backgroundColor: '#A0D5D3' }}> 

@@ -3,9 +3,10 @@ import { ScrollView, View , Image , Text , StyleSheet } from "react-native";
 import Button from "./button";
 import SelectDropdown from 'react-native-select-dropdown'
 import Input from "./input";
-import { useState } from "react";
+import { useState ,useEffect } from "react";
 import { useSelector , useDispatch } from "react-redux";
 import { registerInitiate } from "../Store/Actions/AuthAction";
+// import Profile from './src/Profile/Profile';
 import { db } from "../../firebase";
 import {
      collection,
@@ -23,7 +24,7 @@ const reg = RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+).*$/);
 const regPass = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/);
 const regPhone = RegExp(/^01[0125][0-9]{8}$/);
 
-function RegClient(){
+function RegClient(props){
    let Role = ['Engineer' ,'Provider']
    const [name, setName] = useState("");
    const [username, setUsername] = useState("");
@@ -49,94 +50,82 @@ function RegClient(){
    const dispatch = useDispatch();
 
    const handleSubmit = async (e) => {
-     if(name.length == 0){
-        setNameErr("Name is Required")
-     }
-     else if (name.length < 3){
-        setNameErr("Name must be more than 3 char")
-     }
-     else {
-        setNameErr("")
-     }
-     if(username.length == 0){
-        setUsernameErr("Username is Required")
-     }
-     else if (username.length < 3){
-        setUsernameErr("Username must be more than 3 char")
-     }
-     else {
-        setUsernameErr("")
-     }
-     if(email.length == 0){
-         setEmailErr("Email is Required")
-     }
-     else if(!reg.test(email)) {
-        setEmailRegErr(true)
-        setEmailErr("Invalid  email address")
-     }
-     else{
-         setEmailErr("")
-     }
-     if(phone.length == 0){
-        setPhoneErr("Phone is Required")
-     }
-     else if (phone.length < 3){
-        setPhoneErr("Phone must be 11 number")
-     }
-     else if(!regPhone.test(phone)) {
-      setPhoneRegErr(true)
-      setPhoneErr("Invalid Phone number")
-     }
-     else {
-        setPhoneErr("")
-     }
-     if(city.length == 0){
-        setCityErr("City is Required")
-     }
-     else if (city.length < 3){
-        setCityErr("City must be 3 char or more")
-     }
-     else {
-        setCityErr("")
-     }
-     if(street.length == 0){
-        setStreetErr("Street is Required")
-     }
-     else if (street.length < 3){
-        setStreetErr("Street must be 3 char or more")
-     }
-     else {
-        setStreetErr("")
-     }
-     if(password.length == 0){
-         setPassErr("Password is Required")
-     }
-     else if(password.length < 8){
-        setPassErr("Password must be more than 8 ")
-     }
-     else if (!regPass.test(password))
-     {
-        setPassRegErr(true)
-        setPassErr("Password should contain uppercase & lowercase letters & special character & numbers")
-     }
-     else{
-         setPassErr("")
-     }
-     if(confirmpassword.length == 0){
-        setConfirmErr("Confirm Password is Required")
-    }
-     else if(confirmpassword != password){
-       setConfirmErr("Confirm Password and Password must be the same ")
-    }
-     else{
-        setConfirmErr("")
-    }
-    if(role == ""){
-        setRoleErr("Role is Required")
-    }
-    else{
-        setRoleErr("")
-    }
+   if(name.length == 0){
+      setNameErr("Name is Required")
+   }
+   else if (name.length < 3){
+      setNameErr("Name must be more than 3 char")
+   }
+   else if(username.length == 0){
+      setUsernameErr("Username is Required")
+   }
+   else if (username.length < 3){
+      setUsernameErr("Username must be more than 3 char")
+   }
+   else if(email.length == 0){
+       setEmailErr("Email is Required")
+   }
+   else if(!reg.test(email)) {
+      setEmailRegErr(true)
+      setEmailErr("Invalid  email address")
+   }
+   else if(phone.length == 0){
+      setPhoneErr("Phone is Required")
+   }
+   else if (phone.length < 3){
+      setPhoneErr("Phone must be 11 number")
+   }
+   else if(!regPhone.test(phone)) {
+    setPhoneRegErr(true)
+    setPhoneErr("Invalid Phone number")
+   }
+   else if(city.length == 0){
+      setCityErr("City is Required")
+   }
+   else if (city.length < 3){
+      setCityErr("City must be 3 char or more")
+   }
+   else if(street.length == 0){
+      setStreetErr("Street is Required")
+   }
+   else if (street.length < 3){
+      setStreetErr("Street must be 3 char or more")
+   }
+   else if(password.length == 0){
+       setPassErr("Password is Required")
+   }
+   else if(password.length < 8){
+      setPassErr("Password must be more than 8 ")
+   }
+   else if (!regPass.test(password))
+   {
+      setPassRegErr(true)
+      setPassErr("Password should contain uppercase & lowercase letters & special character & numbers")
+   }
+   else if(confirmpassword.length == 0){
+      setConfirmErr("Confirm Password is Required")
+  }
+   else if(confirmpassword != password){
+     setConfirmErr("Confirm Password and Password must be the same ")
+  }
+  else if(role == ""){
+      setRoleErr("Role is Required")
+  }
+  else{
+      setRoleErr("")
+      setNameErr("")
+      setUsernameErr("")
+      setEmailErr("")
+      setPhoneErr("")
+      setCityErr("")
+      setStreetErr("")
+      setPassErr("")
+      setConfirmErr("")
+
+
+      props.navigation.navigate("Profile");
+
+  
     dispatch(
       registerInitiate(
         email,
@@ -206,18 +195,15 @@ function RegClient(){
           console.log("ERROR " + error);
         });
     }
-   //  console.log(newRole);
-   // alert(role)
   };
- 
+}
+ console.log(props.navigation)
      return(
         <>
         <ScrollView style={{ backgroundColor: '#A0D5D3' }}> 
             <View>
                 <View style={{ justifyContent: 'center', alignItems: "center" }}>
-                    {/* <Image source={require('./splash.png')} style={{ width: 200, height: 200, marginTop: 25 }}></Image> */}
                     <Image source={require('../../assets/images/logo.png')} style={{ width: 200, height: 200, marginTop: 25 }}></Image>
-
                 </View>
                 <Input label="Name" 
                 iconName="user" 
@@ -289,7 +275,7 @@ function RegClient(){
                 </View>
                 
                 <Text style={{color:'red'}}>{roleErr}</Text>
-               <Button title="Sign up" onPress={handleSubmit} />
+               <Button title="Sign up" onPress={handleSubmit} disabled={!email? true:false} />
               
             </View>
             </ScrollView>
