@@ -8,7 +8,7 @@ import { useDispatch,useSelector } from "react-redux";
 import { loginInitiate } from "../Store/Actions/AuthAction";
 import { NavigationContainer } from "@react-navigation/native";
 
-function Login({ navigation }) {
+function Login(props) {
 
 const { currentUser } = useSelector((state) => state.user)
  const dispatch = useDispatch();
@@ -18,7 +18,9 @@ const { currentUser } = useSelector((state) => state.user)
   const [passErr, setPassErr] = useState("")
 
   useEffect(() => {
+    console.log(currentUser)
     if(currentUser){
+        props.navigation.navigate("Profile");
     }
   }, [currentUser])
   const handleSubmit = () => {
@@ -37,7 +39,6 @@ const { currentUser } = useSelector((state) => state.user)
     }else{
         setPassErr("")
     }
-    navigation.navigate("Profile")
 }
     return (
         <>
