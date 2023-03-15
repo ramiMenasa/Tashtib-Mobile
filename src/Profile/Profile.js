@@ -450,7 +450,7 @@ function Profile(props) {
                                             <DataTable.Cell><Text>{item.quantity}</Text></DataTable.Cell>
                                             <DataTable.Cell style={{ justifyContent: 'space-between' }}>
 
-                                                <Pressable style={{ marginRight: 3 }}  >
+                                                <Pressable style={{ marginRight: 3 }}  onPress={() => { navigation.navigate("Product", { item: item }) }}>
                                                     <Foundation style={{ marginRight: 10 }} name={'eye'} size={25} color={'#009688'} />
                                                 </Pressable>
                                                 <Pressable style onPress={() => removeFromCart(index)}>
