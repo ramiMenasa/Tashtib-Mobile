@@ -12,6 +12,7 @@ import {
 } from "firebase/firestore";
 import { db, storage } from "../../firebase";
 import { TouchableOpacity } from "react-native";
+import { CounterCart } from "../Store/Actions/CartAction";
 function Cart() {
 
 
@@ -22,6 +23,8 @@ function Cart() {
     const [getUser, setGetUser] = useState({});
     const [getcart, setCart] = useState([]);
 
+    const dispatch = useDispatch();
+    dispatch(CounterCart(getcart.length))
 
     const { currentUser } = useSelector((state) => state.user);
 
@@ -164,7 +167,11 @@ function Cart() {
                     <Text style={{ fontSize: 26, marginBottom: 30, marginLeft: 50, fontWeight: 'bold' }}>Shopping Cart</Text>
                     <View>
                         {getcart.length === 0 ? (
-                            <Text>no items</Text>
+                            <View>
+                                <Image source={require(`../../assets/defualtImages/empty-cart.png`)}
+                                    style={{ width: 400, height: 250 }}></Image>
+                                <Text style={{alignSelf:'center',fontSize:26,fontWeight:'bold'}}>No items in your cart</Text>
+                            </View>
                         ) : (
 
                             getcart?.map((item, index) => {
@@ -352,8 +359,8 @@ const styles = StyleSheet.create({
     },
     scrollContainer: {
         flex: 1,
-        marginTop: Platform.OS === 'android' ? 100 : 0,    
-        marginBottom:120,
+        marginTop: Platform.OS === 'android' ? 100 : 0,
+        marginBottom: 120,
     }
 
 });

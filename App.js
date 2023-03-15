@@ -1,7 +1,6 @@
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from './src/Home/home';
@@ -18,6 +17,8 @@ import Product from './src/Product/Product';
 import ViewProfile from './src/ViewProfile/ViewProfile';
 import Cart from './src/Cart/cart';
 import { useSelector } from 'react-redux';
+
+
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -38,6 +39,8 @@ function MyDrawer() {
 }
 
 function TabBottom() {
+  const count=useSelector((state)=>state.cart.counter);
+
   return (
     <Tab.Navigator
     initialRouteName='Home'
@@ -80,7 +83,7 @@ function TabBottom() {
         options={{
           tabBarLabel: '',
           headerShown: false,
-          tabBarBadge:5,
+          tabBarBadge:`${count}`,
 
         }}
       />

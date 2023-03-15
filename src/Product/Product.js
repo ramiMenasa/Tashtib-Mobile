@@ -83,7 +83,9 @@ export default function Product({ navigation, route }) {
       };
 
       useEffect(() => {
-        getData();
+        if(currentUser){
+          getData();
+        }
       }, []);
     
       
