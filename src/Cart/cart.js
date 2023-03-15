@@ -91,8 +91,8 @@ function Cart() {
     useEffect(() => {
         if (currentUser) {
             getData();
-            console.log(getDB);
         } else {
+            setCart([]);
             console.log("no user");
         }
     }, [currentUser, getDB]);
