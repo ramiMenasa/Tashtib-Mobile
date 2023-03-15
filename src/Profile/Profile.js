@@ -450,7 +450,7 @@ function Profile(props) {
                                             <DataTable.Cell><Text>{item.quantity}</Text></DataTable.Cell>
                                             <DataTable.Cell style={{ justifyContent: 'space-between' }}>
 
-                                                <Pressable style={{ marginRight: 3 }}  onPress={() => { navigation.navigate("Product", { item: item }) }}>
+                                                <Pressable style={{ marginRight: 3 }}  onPress={() => { props.navigation.push("Product", { item: item }) }}>
                                                     <Foundation style={{ marginRight: 10 }} name={'eye'} size={25} color={'#009688'} />
                                                 </Pressable>
                                                 <Pressable style onPress={() => removeFromCart(index)}>
@@ -489,10 +489,10 @@ function Profile(props) {
                                             <DataTable.Cell><Text>{item.role}</Text> </DataTable.Cell>
                                             <DataTable.Cell style={{ justifyContent: 'space-between' }}>
                                                 {item.role === "Engineer" || item.role === "Provider" ? (
-                                                <Pressable style={{ marginRight: 3 }} onPress={() => { navigation.navigate("ViewProfile", { item: item }) }}>
+                                                <Pressable style={{ marginRight: 3 }} onPress={() => { props.navigation.push("ViewProfile", { item: item }) }}>
                                                     <Foundation style={{ marginRight: 10 }} name={'eye'} size={25} color={'#009688'} />
                                                 </Pressable>
-                                                ) : (<Pressable style={{ marginRight: 3 }} onPress={() => { navigation.navigate("Product", { item: item }) }}>
+                                                ) : (<Pressable style={{ marginRight: 3 }} onPress={() => { props.navigation.push("Product", { item: item }) }}>
                                                     <Foundation style={{ marginRight: 10 }} name={'eye'} size={25} color={'#009688'} />
                                                 </Pressable>
                                                 )}
@@ -581,8 +581,11 @@ function Profile(props) {
                             validationSchema={Yup.object({
                                 city: Yup.string()
                                     .required('Required')
+                                    .min(3,(' city must be 3 char or more '))
                                 ,
-                                street: Yup.string().required('Required'),
+                                street: Yup.string().required('Required')
+                                .min(3,(' street must be 3 char or more '))
+                                ,
                             })}
                             onSubmit={values => {
                                 handleButtonAddress(values);
@@ -635,10 +638,12 @@ function Profile(props) {
                             initialValues={{ name: `${getUser.name}`, username: `${getUser.username}`, email: `${getUser.email}`, spetialization: `${getUser.spetialization}`, experience: `${getUser.experience}` }}
                             validationSchema={Yup.object({
                                 name: Yup.string()
-                                    .required('Required')
+                                    .required('Name is Required')
+                                    .min(3,(' name must be more 3 char '))
                                 ,
-                                username: Yup.string().required('Required'),
-                                email: Yup.string().required('Required').email('emailValid'),
+                                username: Yup.string().required('Username is Required')
+                                .min(3,(' name must be more 3 char ')),
+                                email: Yup.string().required('Email is Required').email('Invalid Email'),
                                 spetialization: Yup.string().required('Required'),
                                 experience: Yup.string().required('Required'),
 
@@ -723,7 +728,7 @@ function Profile(props) {
                                     .matches(getUser.password, "password isn't correct")
                                 ,
                                 newPassword: Yup.string().required('Required')
-                                    .matches(regPass, "invalid Password"),
+                                    .matches(regPass, "Password should contain uppercase & lowercase letters & special character & numbers"),
                                 confirmPassword: Yup.string().required('Required')
                                     .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
 

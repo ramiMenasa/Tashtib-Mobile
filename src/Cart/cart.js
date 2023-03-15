@@ -352,7 +352,7 @@ const styles = StyleSheet.create({
     },
     scrollContainer: {
         flex: 1,
-        // marginTop: Platform.OS === 'android' ? 100 : 0,    
+        marginTop: Platform.OS === 'android' ? 100 : 0,    
         marginBottom:120,
     }
 
