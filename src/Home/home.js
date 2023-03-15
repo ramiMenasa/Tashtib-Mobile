@@ -231,7 +231,7 @@ function Home({ navigation }) {
                     </View>
                     <Text style={{ fontSize: 20, fontWeight: 'bold', paddingStart: 20, marginBottom: 15 }}>Filter by category </Text>
 
-                    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}
+                    <KeyboardAvoidingView  
                         style={styles.writeTasksWrapper}>
 
                         <View style={{ alignItems: 'center' }}>
@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
     },
     droidSafeArea: {
         flex: 1,
-        paddingTop: Platform.OS === 'android' ? 100 : 0
+        // paddingTop: Platform.OS === 'android' ? 100 : 0
     },
     input: {
         paddingVertical: 8,
