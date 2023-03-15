@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ScrollView, Dimensions, ImageBackground, Text, Image, View, StyleSheet, TextInput , Platform ,} from "react-native";
+import { ScrollView, Dimensions, ImageBackground, Text, Image, View, StyleSheet, TextInput, Platform, } from "react-native";
 import { db } from "../../firebase";
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './Carsol-item'
 import SelectDropdown from 'react-native-select-dropdown'
-import {Picker} from '@react-native-picker/picker';
-
-
-
+import { Picker } from '@react-native-picker/picker';
+import { Linking } from "react-native";
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {
     collection,
     onSnapshot,
@@ -20,6 +19,7 @@ import {
     orderBy
 } from "firebase/firestore";
 import { SafeAreaView, TouchableOpacity, KeyboardAvoidingView } from "react-native";
+import { Touchable } from "react-native-web";
 
 
 
@@ -40,8 +40,8 @@ function Home({ navigation }) {
     const [sortValue, setSortValue] = useState("");
     const [keyword, setKeyword] = useState("providers");
     const [operation, setOperation] = useState("");
-    const dataEngColl = query(collection(db, "engineers"),orderBy("rate","asc"), limit(4) );
-    const dataContColl = query(collection(db, `providers`), limit(4), orderBy("rate","asc"));
+    const dataEngColl = query(collection(db, "engineers"), orderBy("rate", "asc"), limit(4));
+    const dataContColl = query(collection(db, `providers`), limit(4), orderBy("rate", "asc"));
 
     const loadDataFilter = async () => {
         if (keyword === "engineers") {
@@ -185,12 +185,12 @@ function Home({ navigation }) {
                             {dataCategory.map((item) => {
                                 return (
                                     <View style={{ padding: 20 }} key={item.id}>
-                                        {item.image? (<Image source={{ uri: `${item.image}` }} style={styles.cateImage}></Image>)
-                                            : (<Image source={require(`../../assets/defualtImages/defprod.jpg`)}  style={styles.cateImage}></Image>)}
-                                        <Text style={{ alignSelf: 'center', fontWeight: "bold" }}
-                                        // onPress={() => { navigation.navigate("Movie", { id: movie.id }) }}
-                                        > {item.title}</Text>
+                                        {item.image ? (<Image source={{ uri: `${item.image}` }} style={styles.cateImage}></Image>)
+                                            : (<Image source={require(`../../assets/defualtImages/defprod.jpg`)}
+                                                style={styles.cateImage}></Image>)}
 
+                                        <Text style={{ alignSelf: 'center', fontWeight: "bold" }}
+                                        > {item.title}</Text>
 
                                     </View>
 
@@ -236,20 +236,20 @@ function Home({ navigation }) {
 
                         <View style={{ alignItems: 'center' }}>
                             <View style={{ flexDirection: 'row' }} >
-                                
-                                
-                            <Picker
-                                selectedValue={sortValue}
-                                style={{ height: 50, width: 200 }}
-                                onValueChange={(e) =>handleFilter(e)}
-                            >
-                                <Picker.Item label="Select By Category"/>
-                                <Picker.Item label="Engineers" value="engineers" />
-                                <Picker.Item label="Providers" value="providers" />
-                            </Picker>
+
+
+                                <Picker
+                                    selectedValue={sortValue}
+                                    style={{ height: 50, width: 200 }}
+                                    onValueChange={(e) => handleFilter(e)}
+                                >
+                                    <Picker.Item label="Select By Category" />
+                                    <Picker.Item label="Engineers" value="engineers" />
+                                    <Picker.Item label="Providers" value="providers" />
+                                </Picker>
                                 <TextInput style={styles.input} placeholder={"search"} value={searchValue}
-                                onChangeText={(e) => setSearchValue(e)}></TextInput>
-                                
+                                    onChangeText={(e) => setSearchValue(e)}></TextInput>
+
                             </View>
 
                             <TouchableOpacity onPress={() => handleRest()} >
@@ -261,69 +261,70 @@ function Home({ navigation }) {
 
                         </View>
                     </KeyboardAvoidingView>
-                    {operation==="filter"?(<>
+                    {operation === "filter" ? (<>
                         <Text style={{ fontSize: 20, fontWeight: 'bold', paddingStart: 20, marginVertical: 15 }}>{keyword}</Text>
-                        {keyword==="engineers"?(<>
-                    <View style={styles.section} >
-                        {dataEngFilter.filter(user=>user.spetialization.toLowerCase().includes(`${searchValue}`.toLowerCase())).map((item,index) => {
-                            return (
-                                <View key={index} style={styles.ViewCard} >
-                                    {item.image === "" ? (<Image source={require(`../../assets/defualtImages/def.jpg`)} style={{ width: 150, height: 150 }}></Image>)
-                                        : (<Image source={{ uri: `${item.image}` }} style={{ width: 150, height: 150 }}></Image>)}
+                        {keyword === "engineers" ? (<>
+                            <View style={styles.section} >
+                                {dataEngFilter.filter(user => user.spetialization.toLowerCase().includes(`${searchValue}`.toLowerCase())).map((item, index) => {
+                                    return (
+                                        <View key={index} style={styles.ViewCard} >
+                                            {item.image === "" ? (<Image source={require(`../../assets/defualtImages/def.jpg`)} style={{ width: 150, height: 150 }}></Image>)
+                                                : (<Image source={{ uri: `${item.image}` }} style={{ width: 150, height: 150 }}></Image>)}
 
-                                    <Text style={{textAlign:"center"}}>{item.name}</Text>
-                                    {/* <Text >{item.role}</Text> */}
-                                </View>
+                                            <Text style={{ textAlign: "center" }}>{item.name}</Text>
+                                            {/* <Text >{item.role}</Text> */}
+                                        </View>
 
-                            );
-                        })}
-                    </View>
-                        </>):(<>
+                                    );
+                                })}
+                            </View>
+                        </>) : (<>
+                            <View style={styles.section} >
+                                {dataContFilter.filter(user => user.spetialization.toLowerCase().includes(`${searchValue}`.toLowerCase())).map((item, index) => {
+                                    return (
+                                        <View key={index} style={styles.ViewCard} >
+                                            {item.image === "" ? (<Image source={require(`../../assets/defualtImages/def.jpg`)} style={{ width: 150, height: 150 }}></Image>)
+                                                : (<Image source={{ uri: `${item.image}` }} style={{ width: 150, height: 150 }}></Image>)}
+                                            <Text style={{ textAlign: "center" }} >{item.name}</Text>
+                                            {/* <Text >{item.role}</Text> */}
+                                        </View>
+
+                                    );
+                                })}
+                            </View>
+                        </>)}
+                    </>) : (<>
+                        <Text style={{ fontSize: 20, fontWeight: 'bold', paddingStart: 20, marginVertical: 15 }}>Popular Engineers </Text>
                         <View style={styles.section} >
-                            {dataContFilter.filter(user=>user.spetialization.toLowerCase().includes(`${searchValue}`.toLowerCase())).map((item, index) => {
+                            {dataEng.map((item, index) => {
                                 return (
                                     <View key={index} style={styles.ViewCard} >
                                         {item.image === "" ? (<Image source={require(`../../assets/defualtImages/def.jpg`)} style={{ width: 150, height: 150 }}></Image>)
                                             : (<Image source={{ uri: `${item.image}` }} style={{ width: 150, height: 150 }}></Image>)}
-                                        <Text style={{textAlign:"center"}} >{item.name}</Text>
-                                        {/* <Text >{item.role}</Text> */}
+
+                                        <Text style={{ textAlign: "center" }} onPress={() => { navigation.navigate(`ViewProfile`,{item:item}) }}
+                                        >{item.name}</Text>
+                                        <Text style={{ textAlign: "center" }} >{item.role}</Text>
                                     </View>
 
                                 );
                             })}
                         </View>
-                        </>)}
-                    </>):(<>
-                        <Text style={{ fontSize: 20, fontWeight: 'bold', paddingStart: 20, marginVertical: 15 }}>Popular Engineers </Text>
-                    <View style={styles.section} >
-                        {dataEng.map((item, index) => {
-                            return (
-                                <View key={index} style={styles.ViewCard} >
-                                    {item.image === "" ? (<Image source={require(`../../assets/defualtImages/def.jpg`)} style={{ width: 150, height: 150 }}></Image>)
-                                        : (<Image source={{ uri: `${item.image}` }} style={{ width: 150, height: 150 }}></Image>)}
+                        <Text style={{ fontSize: 20, fontWeight: 'bold', paddingStart: 20, marginVertical: 15 }}>Popular Providers </Text>
 
-                                    <Text style={{textAlign:"center"}} >{item.name}</Text>
-                                    <Text style={{textAlign:"center"}} >{item.role}</Text>
-                                </View>
+                        <View style={styles.section} >
+                            {dataCont.map((item, index) => {
+                                return (
+                                    <View key={index} style={styles.ViewCard} >
+                                        {item.image === "" ? (<Image source={require('../../assets/defualtImages/def.jpg')} style={{ width: 150, height: 150 }}></Image>)
+                                            : (<Image source={{ uri: `${item.image}` }} style={{ width: 150, height: 150 }}></Image>)}
+                                        <Text style={{ textAlign: "center" }}  onPress={() => { navigation.navigate(`ViewProfile`,{item:item}) }}>{item.name}</Text>
+                                        <Text style={{ textAlign: "center" }}>{item.role}</Text>
+                                    </View>
 
-                            );
-                        })}
-                    </View>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold', paddingStart: 20, marginVertical: 15 }}>Popular Providers </Text>
-
-                    <View style={styles.section} >
-                        {dataCont.map((item, index) => {
-                            return (
-                                <View key={index} style={styles.ViewCard} >
-                                    {item.image === "" ? (<Image source={require('../../assets/defualtImages/def.jpg')} style={{ width: 150, height: 150 }}></Image>)
-                                        : (<Image source={{ uri: `${item.image}` }} style={{ width: 150, height: 150 }}></Image>)}
-                                    <Text style={{textAlign:"center"}}>{item.name}</Text>
-                                    <Text style={{textAlign:"center"}}>{item.role}</Text>
-                                </View>
-
-                            );
-                        })}
-                    </View>
+                                );
+                            })}
+                        </View>
                     </>)}
 
 
