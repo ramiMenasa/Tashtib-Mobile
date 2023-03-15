@@ -28,7 +28,6 @@ function MyDrawer() {
     <Drawer.Navigator initialRouteName='Tashtib'  useLegacyImplementation={true} >
       <Drawer.Screen name="Tashtib" component={TabBottom} options={{headerTransparent:true}} />
       <Drawer.Screen name="Profile" component={Profile} />
-      <Drawer.Screen name="ViewProfile" component={ViewProfile} />
 
       <Drawer.Screen name="login" component={Login} />
 
@@ -101,6 +100,7 @@ export default function App() {
           <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Register as customer" component={RegCust} />
         <Stack.Screen name="Register as client" component={RegClient} />
+        <Stack.Screen name="ViewProfile" component={ViewProfile} />
         <Stack.Screen name="Product" component={Product} options={{headerTransparent:true,headerTitle:""}} />
 
       </Stack.Navigator >

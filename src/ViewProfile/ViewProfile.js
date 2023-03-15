@@ -4,13 +4,10 @@ import Carousel, { Pagination } from 'react-native-snap-carousel'
 import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './Carsol_itemVProfile'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import Foundation from "react-native-vector-icons/Foundation"
 import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react-native";
-import { json, Link, useHistory } from "react-router-dom";
 import { logoutInitiate } from "../Store/Actions/AuthAction";
 import { useDispatch, useSelector } from "react-redux";
 import Textarea from 'react-native-textarea';
-import { uploadBytesResumable, ref, getDownloadURL } from "firebase/storage";
 import { DataTable } from 'react-native-paper';
 import {
     collection,
@@ -25,27 +22,18 @@ import { db, storage } from "../../firebase";
 import * as Yup from "yup";
 import { Formik } from "formik";
 
-import Input from "../Login/input";
 import { TouchableOpacity } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
 
 
-function ViewProfile({ navigation }) {
-    let spetialization = [
-        'Civil Engineer',
-        'Interior Designer',
-        'Electrical Engineer',
-        'Mechanical Engineer',
-        'Mechaelectrical Engineer',
-        'Telecom Engineer',
-        'Energy Engineer',
-        'Archetect',
-        'Painting Contractor',
-        'Electrical Contractor',
-        'Floor Contractor',
-        'Plumbing Contractor',
-        'Carpentry contractor',
-        'Blacksmith contractor',
+function ViewProfile({ navigation, route }) {
+    const param = route.params.item;
+    let rate = [
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
     ]
 
 
@@ -65,98 +53,115 @@ function ViewProfile({ navigation }) {
     const { currentUser } = useSelector((state) => state.user);
 
     const dispatch = useDispatch();
-    const reg = RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+).*$/);
-    const regPass = new RegExp(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/
-    );
     const [getProvidor, setGetProvidor] = useState({});
     const [getEngineer, setGetEngineer] = useState({});
     const [getCustomer, setGetCustomer] = useState({});
+    const [getDBViewer, setGetDBViewer] = useState("");
+    const [getViewProvidor, setGetViewProvidor] = useState({});
+    const [getViewEngineer, setGetViewEngineer] = useState({});
+    const [getViewUser, setGetViewUser] = useState({});
+    const [getViewer, setGetViewer] = useState({});
     const [getUser, setGetUser] = useState({});
     const [getAddress, setAddress] = useState([]);
     const [getFeedback, setFeedback] = useState([]);
     const [getPortofolio, setPortofolio] = useState([]);
     const [getDB, setGetDB] = useState("");
-    const [getWishList, setWhishList] = useState([]);
-    const [getcart, setCart] = useState([]);
     const [getMessage, setMessage] = useState([]);
-    // const history = useHistory();
-
     useEffect(() => {
-        if (currentUser) getData();
-        // else history.push("login");
+        // if(currentUser)
+        getData();
+        getViewerData();
+        //    getViewerData();
     }, [currentUser]);
 
     const getData = () => {
-        const q = query(
-            collection(db, "providers"),
-            where("email", "==", currentUser.email)
-        );
-
-        onSnapshot(q, (snapshot) => {
-            snapshot.docs.forEach((doc) => {
-                setGetProvidor({ ...doc.data(), id: doc.id });
-                if (getProvidor) {
-                    setGetUser({ ...doc.data(), id: doc.id });
-                    setAddress(doc.data().address);
-                    setFeedback(doc.data().feedback);
-                    setMessage(doc.data().messages);
-                    setPortofolio(doc.data().portofolio);
-                    setWhishList(doc.data().wishlist);
-                    setCart(doc.data().cart);
-                    setGetDB("providers");
-                }
-                console.log(doc.id, " => ", doc.data());
+        if (param.role === "Provider") {
+            const docRef = doc(db, "providers", param.id);
+            onSnapshot(docRef, (snapshot) => {
+                setGetProvidor({ ...snapshot.data(), id: snapshot.id });
+                setGetUser({ ...snapshot.data(), id: snapshot.id });
+                setAddress(snapshot.data().address);
+                setFeedback(snapshot.data().feedback);
+                setMessage(snapshot.data().messages);
+                setPortofolio(snapshot.data().portofolio);
+                setGetDB("providers");
             });
-        });
-
-        const q2 = query(
-            collection(db, "engineers"),
-            where("email", "==", currentUser.email)
-        );
-
-        onSnapshot(q2, (snapshot) => {
-            snapshot.docs.forEach((doc) => {
-                setGetEngineer({ ...doc.data(), id: doc.id });
-                if (getEngineer) {
-                    setGetUser({ ...doc.data(), id: doc.id });
-                    setAddress(doc.data().address);
-                    setFeedback(doc.data().feedback);
-                    setMessage(doc.data().messages);
-                    setPortofolio(doc.data().portofolio);
-                    setWhishList(doc.data().wishlist);
-                    setCart(doc.data().cart);
-                    setGetDB("engineers");
-                }
-
-                console.log(doc.id, " => ", doc.data());
+        } else if (param.role === "Engineer") {
+            const docRef = doc(db, "engineers", param.id);
+            onSnapshot(docRef, (snapshot) => {
+                setGetEngineer({ ...snapshot.data(), id: snapshot.id });
+                setGetUser({ ...snapshot.data(), id: snapshot.id });
+                setAddress(snapshot.data().address);
+                setFeedback(snapshot.data().feedback);
+                setMessage(snapshot.data().messages);
+                setPortofolio(snapshot.data().portofolio);
+                setGetDB("engineers");
             });
-        });
-
-        const q3 = query(
-            collection(db, "users"),
-            where("email", "==", currentUser.email)
-        );
-
-        onSnapshot(q3, (snapshot) => {
-            snapshot.docs.forEach((doc) => {
-                setGetCustomer({ ...doc.data(), id: doc.id });
-                if (getCustomer) {
-                    setGetUser({ ...doc.data(), id: doc.id });
-                    setAddress(doc.data().address);
-                    setFeedback(doc.data().feedback);
-                    setMessage(doc.data().messages);
-                    setPortofolio(doc.data().portofolio);
-                    setWhishList(doc.data().wishlist);
-                    setCart(doc.data().cart);
-                    setGetDB("users");
-                }
-                console.log(doc.id, " => ", doc.data());
+        } else {
+            const docRef = doc(db, "users", param.id);
+            onSnapshot(docRef, (snapshot) => {
+                setGetCustomer({ ...snapshot.data(), id: snapshot.id });
+                setGetUser({ ...snapshot.data(), id: snapshot.id });
+                setAddress(snapshot.data().address);
+                setMessage(snapshot.data().messages);
+                setGetDB("users");
             });
-        });
-
+        }
 
     };
+    const getViewerData = () => {
+        if (currentUser) {
+            const q = query(
+                collection(db, "providers"),
+                where("email", "==", currentUser.email)
+            );
+
+            onSnapshot(q, (snapshot) => {
+                snapshot.docs.forEach((doc) => {
+                    setGetViewProvidor({ ...doc.data(), id: doc.id });
+                    if (getViewProvidor) {
+                        setGetViewer({ ...doc.data(), id: doc.id });
+                        setGetDBViewer("providers");
+                    }
+                    console.log(doc.id, " => ", doc.data());
+                });
+            });
+
+            const q2 = query(
+                collection(db, "engineers"),
+                where("email", "==", currentUser.email)
+            );
+
+            onSnapshot(q2, (snapshot) => {
+                snapshot.docs.forEach((doc) => {
+                    setGetViewEngineer({ ...doc.data(), id: doc.id });
+                    if (getViewEngineer) {
+                        setGetViewer({ ...doc.data(), id: doc.id });
+                        setGetDBViewer("engineers");
+                    }
+
+                    console.log(doc.id, " => ", doc.data());
+                });
+            });
+
+            const q3 = query(
+                collection(db, "users"),
+                where("email", "==", currentUser.email)
+            );
+
+            onSnapshot(q3, (snapshot) => {
+                snapshot.docs.forEach((doc) => {
+                    setGetViewUser({ ...doc.data(), id: doc.id });
+                    if (getViewUser) {
+                        setGetViewer({ ...doc.data(), id: doc.id });
+                        setGetDBViewer("users");
+                    }
+                    console.log(doc.id, " => ", doc.data());
+                });
+            });
+        } else console.log("You Should Signin First");
+    };
+
 
 
 
@@ -185,133 +190,101 @@ function ViewProfile({ navigation }) {
         return star;
     };
 
-    const handleAuth = () => {
-        if (currentUser) {
-            dispatch(logoutInitiate());
-        }
-    };
-
-    const submitData = (e) => {
-        e.preventDefault();
-    };
 
 
-    // const handleButtonComment = () => {
-    //     getUser.feedback.push({
-    //         comment: userData.comment,
-    //         rating: userData.rating,
-    //     });
 
-    //     const docRef = doc(db, getDB, getUser.id);
-
-    //     updateDoc(docRef, {
-    //         feedback: getUser.feedback,
-    //         rate: getUser.rate,
-    //     })
-    //         .then(() => {
-    //             console.log("done feedback");
-    //         })
-    //         .catch((error) => {
-    //             console.log("ERROR" + error);
-    //         });
-
-    //     userData.comment = "";
-    //     userData.rating = "";
-    // };
-    const handleButtonAddress = (value) => {
-        getUser.address.push({ city: value.city, street: value.street });
+    const handleButtonComment = (value) => {
+        getUser.feedback.push({
+            comment: value.comment,
+            rating: value.rating,
+        });
 
         const docRef = doc(db, getDB, getUser.id);
 
         updateDoc(docRef, {
-            address: getUser.address,
+            feedback: getUser.feedback,
+            rate: getUser.rate,
         })
             .then(() => {
-                console.log("done address");
+                console.log("done feedback");
             })
             .catch((error) => {
                 console.log("ERROR" + error);
             });
     };
-    const handleButtonEdit = (value) => {
-        const docRef = doc(db, getDB, getUser.id);
-
-        updateDoc(docRef, {
-            name: value.name,
-            username: value.username,
-            experience: value.experience,
-            email: value.email,
-            spetialization: value.spetialization,
-        })
-            .then(() => {
-                console.log("done edit ");
-            })
-            .catch((error) => {
-                console.log("ERROR" + error);
-            });
-
-    };
-    const handleButtonChangePassword = (value) => {
-        const docRef = doc(db, getDB, getUser.id);
-
-        updateDoc(docRef, {
-            password: value.newPassword,
-        })
-            .then(() => {
-                console.log("done change Password ");
-            })
-            .catch((error) => {
-                console.log("ERROR" + error);
-            });
-    };
-    const removeFromCart = (index) => {
-        getUser.cart.splice(index, 1);
-
-        const docRef = doc(db, getDB, getUser.id);
-
-        updateDoc(docRef, {
-            cart: getUser.cart,
-        })
-            .then(() => {
-                console.log("remove cart");
-            })
-            .catch((error) => {
-                console.log("ERROR" + error);
-            });
-    }
-    const removeFromWhishList = (index) => {
-        getUser.wishlist.splice(index, 1);
-
-        const docRef = doc(db, getDB, getUser.id);
-
-        updateDoc(docRef, {
-            wishlist: getUser.wishlist,
-        })
-            .then(() => {
-                console.log("remove wishlist");
-            })
-            .catch((error) => {
-                console.log("ERROR" + error);
-            });
-    }
-    const removeFromMessage = (index) => {
-        getUser.messages.splice(index, 1);
-
-        const docRef = doc(db, getDB, getUser.id);
-
-        updateDoc(docRef, {
+    const sendMessage = (value) => {
+        const docRef2 = doc(db, getDB, getUser.id);
+        getUser.messages.push({
+            text: value.message,
+            name: getViewer.name,
+            uid: getViewer.id,
+            role: getViewer.role,
+        });
+        updateDoc(docRef2, {
             messages: getUser.messages,
         })
             .then(() => {
-                console.log("remove Message");
+                alert("Message Sent Succussfully");
+                console.log("message sent successfully");
+            })
+            .catch((error) => {
+                console.log("Error" + error);
+            });
+        value.message = ""
+    };
+
+    const exists = (wish) => {
+        if (getViewer?.wishlist?.filter((item) => item.id === wish.id).length > 0) {
+            return true;
+        }
+
+        return false;
+    };
+
+    const addToWhishList = (item) => {
+        const added = getViewer?.wishlist.find(({ id }) => id === item.id);
+        console.log(added);
+        if (!added) {
+            getViewer?.wishlist.push({
+                name: item.name,
+                id: item.id,
+                role: item.role,
+            });
+
+            const docRef = doc(db, getDBViewer, getViewer?.id);
+            updateDoc(docRef, {
+                wishlist: getViewer?.wishlist,
+            })
+                .then(() => {
+                    toast("added to wishlist");
+                })
+                .catch((error) => {
+                    console.log("ERROR" + error);
+                });
+        } else {
+            toast("Item is already added!");
+        }
+    };
+    const removeFromWhishList = (item) => {
+        const index = getViewer?.wishlist.findIndex(({ id }) => id === item.id);
+        getViewer?.wishlist.splice(index, 1);
+
+        const docRef = doc(db, getDBViewer, getViewer?.id);
+
+        updateDoc(docRef, {
+            wishlist: getViewer?.wishlist,
+        })
+            .then(() => {
+                toast("item removed from wishlist");
             })
             .catch((error) => {
                 console.log("ERROR" + error);
             });
-    }
-    // alert(JSON.stringify( getUser))
+    };
 
-    
+
+
+
 
 
     return (
@@ -325,10 +298,31 @@ function ViewProfile({ navigation }) {
                         : (<Image source={{ uri: (`${getUser.image}`) }} style={styles.ImageHeader}></Image>)
                     }
                     <View>
-                        <Text style={styles.TextHeader}>HI , {getUser.name}</Text>
-                        <View style={{ flexDirection: 'row', marginTop: 4 }}>
-                            {drawStar(calcRating())}
+                        <Text style={styles.TextHeader}>HI ,</Text>
+                        <Text style={styles.TextHeader}>{getUser.name}</Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <View style={{ flexDirection: 'row', marginTop: 4 }}>
+                                {drawStar(calcRating())}
+                            </View>
                         </View>
+                        {currentUser ? (
+                            exists(getUser) ? (
+                                <TouchableOpacity style={styles.buttonwish} onPress={() => removeFromWhishList(getUser)}>
+                                    <Text style={styles.text}>Added </Text>
+                                </TouchableOpacity>
+                            ) : (
+                                <TouchableOpacity style={styles.buttonwish} onPress={() => addToWhishList(getUser)}>
+                                    <Text style={styles.text}>Add to wishlist </Text>
+                                </TouchableOpacity>
+                            )
+                        ) : (
+                            <TouchableOpacity style={styles.buttonwish} onPress={() => navigation.navigate('login')}>
+                                <Text style={styles.text}>Add to wishlist </Text>
+                            </TouchableOpacity>
+
+                        )}
+
+
                     </View>
                 </View>
                 <View style={{ marginTop: 20, }}>
@@ -435,22 +429,53 @@ function ViewProfile({ navigation }) {
                         <Text style={styles.TextLink} > Messages </Text>
                     </CollapseHeader>
                     <CollapseBody>
+                        <Formik
+                            initialValues={{ message: "", }}
+                            validationSchema={Yup.object({
+                                message: Yup.string()
+                                    .required('Required')
+                                ,
+                            })}
+                            onSubmit={values => {
+                                sendMessage(values)
+                                values.message = ""
+                                onRefresh()
+                            }}
+                        // onsubmit 
+                        >
+                            {props => (
 
-                        <View style={styles.text_container}>
-                            <Textarea
-                                containerStyle={styles.textareaContainer}
-                                style={styles.textarea}
-                                // onChangeText={this.onChange}
-                                // defaultValue={this.state.text}
-                                // maxLength={120}
-                                placeholder={'Send Message'}
-                                placeholderTextColor={'#c7c7c7'}
-                                underlineColorAndroid={'transparent'}
-                            /><br />
-                            <Pressable style={styles.button} onPress={{}}>
-                                <Text style={styles.text}>Send</Text>
-                            </Pressable>
-                        </View>
+                                <View style={styles.text_container}>
+                                    <Textarea
+                                        containerStyle={styles.textareaContainer}
+                                        style={styles.textarea}
+                                        // onChangeText={this.onChange}
+                                        // defaultValue={this.state.text}
+                                        // maxLength={120}
+                                        placeholder={'Send message'}
+                                        placeholderTextColor={'#c7c7c7'}
+                                        onChangeText={props.handleChange('message')}
+                                    />
+                                    {props.touched.message && props.errors.message ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.message} </Text>) : null}
+
+
+                                    {currentUser ? (<Pressable style={styles.button} onPress={props.handleSubmit}>
+                                        <Text style={styles.text}>Send</Text>
+                                    </Pressable>
+                                    ) : (
+                                        <Pressable style={styles.button} onPress={() => { navigation.navigate('login') }}>
+                                            <Text style={styles.text}>Send</Text>
+                                        </Pressable>
+
+                                    )}
+                                </View>
+
+
+                            )}
+
+
+                        </Formik>
+
 
                         {/* <Text style={{ alignSelf: 'center' }}>__________________________________________________</Text> */}
 
@@ -462,24 +487,82 @@ function ViewProfile({ navigation }) {
                         <Text style={styles.TextLink} > Feedbacks </Text>
                     </CollapseHeader>
                     <CollapseBody>
+                        {getFeedback.length === 0 ? (<Text style={styles.noYet}>No Feedback to show!</Text>) :
+                            (getFeedback?.map((feedback, index) => (
+                                <View style={{ backgroundColor: 'lightsteelblue', margin: 6, borderRadius: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+                                    key={index}
+                                >
+                                    <Text style={{ padding: 15, fontSize: 17, fontWeight: 'bold' }}>
+                                        {feedback.comment}
+                                    </Text>
+                                    <View style={{ padding: 10, flexDirection: 'row', justifyContent: 'flex-end' }} className="m-4 d-flex justify-content-end w-25">
+                                        {drawStar(feedback.rating)}
+                                    </View>
+                                </View>
+                            )))}
 
 
-                        <View style={styles.text_container}>
-                            <Textarea
-                                containerStyle={styles.textareaContainer}
-                                style={styles.textarea}
-                                // onChangeText={this.onChange}
-                                // defaultValue={this.state.text}
-                                // maxLength={120}
-                                placeholder={'Leave Feedback'}
-                                placeholderTextColor={'#c7c7c7'}
-                                underlineColorAndroid={'transparent'}
-                            /><br />
+                        <Formik
+                            initialValues={{ comment: "", rating: "" }}
+                            validationSchema={Yup.object({
+                                comment: Yup.string()
+                                    .required('Required')
+                                ,
+                                rating: Yup.string().required('Required'),
+                            })}
+                            onSubmit={values => {
+                                handleButtonComment(values),
+                                values.comment = "",
+                                values.rating = "",
+                                onRefresh()
+                            }}
+                        // onsubmit 
+                        >
+                            {props => (
 
-                            <Pressable style={styles.button} onPress={{}}>
-                                <Text style={styles.text}>Comment</Text>
-                            </Pressable>
-                        </View>
+                                <View style={styles.text_container}>
+                                    <Textarea
+                                        containerStyle={styles.textareaContainer}
+                                        style={styles.textarea}
+                                        // onChangeText={this.onChange}
+                                        // defaultValue={this.state.text}
+                                        // maxLength={120}
+                                        placeholder={'Leave Feedback'}
+                                        placeholderTextColor={'#c7c7c7'}
+                                        onChangeText={props.handleChange('comment')}
+                                    />
+                                    {props.touched.comment && props.errors.comment ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.comment} </Text>) : null}
+
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: 340, marginTop: 15 }}>
+                                        <SelectDropdown buttonStyle={{ width: 100 }} defaultButtonText={`rating`}
+                                            onSelect={props.handleChange('rating')}
+                                            data={rate}
+                                        />
+                                        <View style={{ flexDirection: 'row', marginTop: 4 }}>
+                                            {drawStar(props.values.rating)}
+                                        </View>
+                                    </View>
+
+                                    {props.touched.rating && props.errors.rating ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.rating} </Text>) : null}
+
+                                    {currentUser ? (<TouchableOpacity style={styles.button} tybe={'reset'} onPress={props.handleSubmit}>
+                                        <Text style={styles.text}>Comment</Text>
+                                    </TouchableOpacity>
+                                    ) : (
+                                        <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate('login') }}>
+                                            <Text style={styles.text}>Comment</Text>
+                                        </TouchableOpacity>
+
+                                    )}
+                                </View>
+
+
+                            )}
+
+
+                        </Formik>
+                        <Text style={{ alignSelf: 'center' }}>__________________________________________________</Text>
+
                     </CollapseBody>
                 </Collapse>
 
@@ -512,7 +595,8 @@ const styles = StyleSheet.create({
     },
     TextHeader: {
         fontSize: 22,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+
     },
     TextLink: {
         fontSize: 22, fontWeight: '400',
@@ -617,13 +701,14 @@ const styles = StyleSheet.create({
         height: 100,
         padding: 5,
         backgroundColor: 'white',
-        border: '1px solid grey',
+        color: 'black',
+        borderWidth: 1,
+
     },
     textarea: {
         textAlignVertical: 'top',
         height: 100,
         fontSize: 18,
-        color: '#333',
     },
     button: {
         alignItems: 'center',
@@ -633,6 +718,16 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         elevation: 3,
         backgroundColor: '#009688',
+        marginTop: 15,
+    },
+    buttonwish: {
+        alignItems: 'center',
+        width: 140,
+        paddingVertical: 6,
+        paddingHorizontal: 10,
+        borderRadius: 4,
+        backgroundColor: 'black',
+        marginTop: 7,
     },
     text: {
         fontSize: 16,

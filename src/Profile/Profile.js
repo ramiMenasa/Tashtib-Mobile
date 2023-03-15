@@ -484,10 +484,14 @@ function Profile({ navigation }) {
                                             <DataTable.Cell><Text>{item.name}</Text> </DataTable.Cell>
                                             <DataTable.Cell><Text>{item.role}</Text> </DataTable.Cell>
                                             <DataTable.Cell style={{ justifyContent: 'space-between' }}>
-
-                                                <Pressable style={{ marginRight: 3 }}  >
+                                                {item.role === "Engineer" || item.role === "Provider" ? (
+                                                <Pressable style={{ marginRight: 3 }} onPress={() => { navigation.navigate("ViewProfile", { item: item }) }}>
                                                     <Foundation style={{ marginRight: 10 }} name={'eye'} size={25} color={'#009688'} />
                                                 </Pressable>
+                                                ) : (<Pressable style={{ marginRight: 3 }} onPress={() => { navigation.navigate("Product", { item: item }) }}>
+                                                    <Foundation style={{ marginRight: 10 }} name={'eye'} size={25} color={'#009688'} />
+                                                </Pressable>
+                                                )}
                                                 <Pressable style onPress={() => removeFromWhishList(index)}>
                                                     <Foundation style={{ margin: 3 }} name={'x'} size={25} color={'black'} />
                                                 </Pressable>

@@ -231,7 +231,7 @@ function Home({ navigation }) {
                     </View>
                     <Text style={{ fontSize: 20, fontWeight: 'bold', paddingStart: 20, marginBottom: 15 }}>Filter by category </Text>
 
-                    <KeyboardAvoidingView  
+                    <KeyboardAvoidingView
                         style={styles.writeTasksWrapper}>
 
                         <View style={{ alignItems: 'center' }}>
@@ -271,7 +271,7 @@ function Home({ navigation }) {
                                             {item.image === "" ? (<Image source={require(`../../assets/defualtImages/def.jpg`)} style={{ width: 150, height: 150 }}></Image>)
                                                 : (<Image source={{ uri: `${item.image}` }} style={{ width: 150, height: 150 }}></Image>)}
 
-                                            <Text style={{ textAlign: "center" }}>{item.name}</Text>
+                                            <Text style={{ textAlign: "center" }} onPress={() => { navigation.navigate(`ViewProfile`, { item: item }) }}>{item.name}</Text>
                                             {/* <Text >{item.role}</Text> */}
                                         </View>
 
@@ -285,7 +285,7 @@ function Home({ navigation }) {
                                         <View key={index} style={styles.ViewCard} >
                                             {item.image === "" ? (<Image source={require(`../../assets/defualtImages/def.jpg`)} style={{ width: 150, height: 150 }}></Image>)
                                                 : (<Image source={{ uri: `${item.image}` }} style={{ width: 150, height: 150 }}></Image>)}
-                                            <Text style={{ textAlign: "center" }} >{item.name}</Text>
+                                            <Text style={{ textAlign: "center" }} onPress={() => { navigation.navigate(`ViewProfile`, { item: item }) }}>{item.name}</Text>
                                             {/* <Text >{item.role}</Text> */}
                                         </View>
 
@@ -302,7 +302,7 @@ function Home({ navigation }) {
                                         {item.image === "" ? (<Image source={require(`../../assets/defualtImages/def.jpg`)} style={{ width: 150, height: 150 }}></Image>)
                                             : (<Image source={{ uri: `${item.image}` }} style={{ width: 150, height: 150 }}></Image>)}
 
-                                        <Text style={{ textAlign: "center" }} onPress={() => { navigation.navigate(`ViewProfile`,{item:item}) }}
+                                        <Text style={{ textAlign: "center" }} onPress={() => { navigation.navigate(`ViewProfile`, { item: item }) }}
                                         >{item.name}</Text>
                                         <Text style={{ textAlign: "center" }} >{item.role}</Text>
                                     </View>
@@ -318,7 +318,7 @@ function Home({ navigation }) {
                                     <View key={index} style={styles.ViewCard} >
                                         {item.image === "" ? (<Image source={require('../../assets/defualtImages/def.jpg')} style={{ width: 150, height: 150 }}></Image>)
                                             : (<Image source={{ uri: `${item.image}` }} style={{ width: 150, height: 150 }}></Image>)}
-                                        <Text style={{ textAlign: "center" }}  onPress={() => { navigation.navigate(`ViewProfile`,{item:item}) }}>{item.name}</Text>
+                                        <Text style={{ textAlign: "center" }} onPress={() => { navigation.navigate(`ViewProfile`, { item: item }) }}>{item.name}</Text>
                                         <Text style={{ textAlign: "center" }}>{item.role}</Text>
                                     </View>
 
@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
     },
     droidSafeArea: {
         flex: 1,
-        // paddingTop: Platform.OS === 'android' ? 100 : 0
+        paddingTop: Platform.OS === 'android' ? 100 : 0
     },
     input: {
         paddingVertical: 8,

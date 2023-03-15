@@ -93,12 +93,14 @@ export default function Categories({ navigation }) {
           </ScrollView>
         </View>
         <View>
-          <Text style={{ fontSize: 20, fontWeight: 'bold', paddingStart: 20, marginVertical: 15, textTransform:'uppercase' }}>{keyword}</Text>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', paddingStart: 20, marginVertical: 15, textTransform: 'uppercase' }}>{keyword}</Text>
           {products ? (<View style={styles.section} >
             {products.map((item, index) => {
               return (
                 <View key={index} style={styles.ViewCard} >
-                  <Image source={{ uri: `${item.image}` }} style={{ width: 150, height: 160 }}></Image>
+                  {item.image ? (<Image source={{ uri: `${item.image}` }} style={{width:150,height:160}}></Image>)
+                    : (<Image source={require(`../../assets/defualtImages/defprod.jpg`)}
+                    style={{width:150,height:160}}></Image>)}
 
                   <Text style={{ fontWeight: 'bold', padding: 3, fontSize: 17 }}
                     onPress={() => { navigation.navigate("Product", { item: item }) }}>{item.name}</Text>
@@ -150,5 +152,5 @@ const styles = StyleSheet.create({
   droidSafeArea: {
     flex: 1,
     paddingTop: Platform.OS === 'android' ? 100 : 0
-}
+  }
 })

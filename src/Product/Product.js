@@ -104,6 +104,11 @@ export default function Product({ navigation, route }) {
           name: item.name,
           id: item.id,
           role: item.spetialization,
+          spetialization:item.spetialization,
+          quantity:1,
+          description:item.description,
+          price:item.price,
+          image:item.image,
         });
       
       const docRef = doc(db, getDB, getUser?.id);
@@ -150,6 +155,7 @@ export default function Product({ navigation, route }) {
         getUser?.cart.push({
             name:item.name,
             quantity:1,
+            description:item.description,
             price:item.price,
             image:item.image,
             id:item.id 
