@@ -79,14 +79,21 @@ function TabBottom() {
           tabBarLabel: '',
         }}
       />
-      <Tab.Screen name="Cart" component={Cart}
+      {count>0?(<Tab.Screen name="Cart" component={Cart}
         options={{
           tabBarLabel: '',
           headerShown: false,
+          
           tabBarBadge:`${count}`,
 
         }}
-      />
+      />):(<Tab.Screen name="Cart" component={Cart}
+      options={{
+        tabBarLabel: '',
+        headerShown: false,
+      }}
+    />)}
+      
     </Tab.Navigator>
   )
 }

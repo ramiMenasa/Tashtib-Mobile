@@ -8,6 +8,7 @@ import {
     where,
     onSnapshot,
     doc,
+    addDoc,
     updateDoc,
 } from "firebase/firestore";
 import { db, storage } from "../../firebase";
@@ -22,6 +23,8 @@ function Cart() {
     const [getEngineer, setGetEngineer] = useState({});
     const [getUser, setGetUser] = useState({});
     const [getcart, setCart] = useState([]);
+    const [getOrder, setOrder] = useState({});
+
 
     const dispatch = useDispatch();
     dispatch(CounterCart(getcart.length))
@@ -159,6 +162,38 @@ function Cart() {
         return (total)
     }
 
+    const addToOrders = () => {
+        const oid = new Date().getTime() + getUser.email;
+    
+        setOrder({
+          id: oid,
+          name:getUser.name,
+          email:getUser.email,
+          image:getUser.image,
+          order:getcart
+        })
+            addDoc(collection(db, "orders"), {
+          getOrder
+        })
+          .then(() => {
+            console.log("added to Orders");
+          })
+          .catch((error) => {
+            console.log("ERROR on add orders" + error);
+          });
+    
+          const docRef = doc(db, getDB, getUser?.id);
+          updateDoc(docRef, {
+            cart: [],
+          })
+            .then(() => {
+              console.log("success bayment");
+            })
+            .catch((error) => {
+              console.log("ERROR" + error);
+            });
+      };
+
 
     return (
         <>
@@ -281,7 +316,7 @@ function Cart() {
             </ScrollView>
             <View style={styles.conatinerPriceButton}>
                 <Text style={styles.price} >Total : {calcTotal()}  LE</Text>
-                <TouchableOpacity  >
+                <TouchableOpacity onPress={()=>addToOrders()}  >
                     <View style={styles.button}>
                         <Text style={styles.addText} >Pay with Card</Text>
                     </View>

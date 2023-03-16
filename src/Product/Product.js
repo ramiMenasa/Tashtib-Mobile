@@ -233,15 +233,15 @@ export default function Product({ navigation, route }) {
                     {currentUser ? (
                     existsCart(item) ? (
                         <View style={styles.button}>
-                        <Text style={styles.addText} onPress={() => removeFromCart(item)}>remove from Cart</Text>
+                        <Text style={styles.addText} onPress={() => removeFromCart(item)}>Remove from Cart</Text>
                     </View>
                     ) : (
                         <View style={styles.button}>
-                        <Text style={styles.addText} onPress={() => addToCart(item)}>add from Cart</Text>
+                        <Text style={styles.addText} onPress={() => addToCart(item)}>Add to Cart</Text>
                     </View>
                     ) ) : (
                     <View style={styles.button}>
-                    <Text style={styles.addText} onPress={() => navigation.navigate('login')}>add from Cart</Text>
+                    <Text style={styles.addText} onPress={() => navigation.navigate('login')}>Add to Cart</Text>
                 </View>
                   )}
                     
