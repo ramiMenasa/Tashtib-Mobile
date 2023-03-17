@@ -192,6 +192,7 @@ function Cart() {
             .catch((error) => {
               console.log("ERROR" + error);
             });
+            alert("Done Payment")
       };
 
 

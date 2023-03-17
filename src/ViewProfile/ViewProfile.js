@@ -194,10 +194,18 @@ function ViewProfile({ navigation, route }) {
 
 
     const handleButtonComment = (value) => {
-        getUser.feedback.push({
+        if(value.rating==='')
+        {
+          getUser.feedback.push({
             comment: value.comment,
-            rating: value.rating,
-        });
+            rating: 0,
+          })
+        }else{
+        getUser.feedback.push({
+          comment: value.comment,
+          rating: value.rating,
+        });}
+    
 
         const docRef = doc(db, getDB, getUser.id);
 
@@ -230,6 +238,7 @@ function ViewProfile({ navigation, route }) {
             .catch((error) => {
                 console.log("Error" + error);
             });
+            
         value.message = ""
     };
 
@@ -508,7 +517,6 @@ function ViewProfile({ navigation, route }) {
                                 comment: Yup.string()
                                     .required('Required')
                                 ,
-                                rating: Yup.string().required('Required'),
                             })}
                             onSubmit={values => {
                                 handleButtonComment(values),

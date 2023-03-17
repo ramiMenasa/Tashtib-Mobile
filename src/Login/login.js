@@ -65,7 +65,7 @@ const { currentUser } = useSelector((state) => state.user)
                 <Button title="Login" onPress={() => handleSubmit()}/>
                 <View style={{ justifyContent: 'center' }}>
                     <Text style={{ fontSize: 18, textAlign: 'center', justifyContent: 'center' }}>Or create new account :
-                        <Text style={{ color: 'royalblue' }} onPress={() => navigation.navigate('Register')}> Sign up </Text>
+                        <Text style={{ color: 'royalblue' }} onPress={() => props.navigation.navigate('Register')}> Sign up </Text>
                     </Text>
                     {/* <br /> */}
                 </View>
