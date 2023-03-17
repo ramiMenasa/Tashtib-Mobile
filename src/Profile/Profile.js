@@ -83,8 +83,8 @@ function Profile(props) {
 
     useEffect(() => {
         if (currentUser) getData();
-        else 
-        props.navigation.push("login");
+        else
+            props.navigation.push("login");
     }, [currentUser, props]);
 
     const getData = () => {
@@ -322,13 +322,16 @@ function Profile(props) {
                         : (<Image source={{ uri: (`${getUser.image}`) }} style={styles.ImageHeader}></Image>)
                     }
                     <View>
-                        <Text style={styles.TextHeader}>HI , {getUser.name}</Text>
-                        <View style={{ flexDirection: 'row', marginTop: 4 }}>
-                            {drawStar(calcRating())}
-                        </View>
+                        <Text style={styles.TextHeader}>HI ,</Text>
+                        <Text style={styles.TextHeader}> {getUser.name}</Text>
+                        {(getUser.role === 'customer') ? (null) : (
+                            <View style={{ flexDirection: 'row', marginTop: 4 }}>
+                                {drawStar(calcRating())}
+                            </View>
+                        )}
                     </View>
                 </View>
-                <View style={{ marginTop: 20, }}>
+                {getUser.role === 'customer' ? (null) : (<View style={{ marginTop: 20, }}>
                     <Carousel
                         layout="tinder"
                         layoutCardOffset={9}
@@ -357,7 +360,8 @@ function Profile(props) {
                         tappableDots={true}
                     />
 
-                </View>
+                </View>)}
+
 
                 <Collapse  >
                     <CollapseHeader style={styles.HeaderCollapse}>
@@ -450,7 +454,7 @@ function Profile(props) {
                                             <DataTable.Cell><Text>{item.quantity}</Text></DataTable.Cell>
                                             <DataTable.Cell style={{ justifyContent: 'space-between' }}>
 
-                                                <Pressable style={{ marginRight: 3 }}  onPress={() => { props.navigation.push("Product", { item: item }) }}>
+                                                <Pressable style={{ marginRight: 3 }} onPress={() => { props.navigation.push("Product", { item: item }) }}>
                                                     <Foundation style={{ marginRight: 10 }} name={'eye'} size={25} color={'#009688'} />
                                                 </Pressable>
                                                 <Pressable style onPress={() => removeFromCart(index)}>
@@ -489,9 +493,9 @@ function Profile(props) {
                                             <DataTable.Cell><Text>{item.role}</Text> </DataTable.Cell>
                                             <DataTable.Cell style={{ justifyContent: 'space-between' }}>
                                                 {item.role === "Engineer" || item.role === "Provider" ? (
-                                                <Pressable style={{ marginRight: 3 }} onPress={() => { props.navigation.push("ViewProfile", { item: item }) }}>
-                                                    <Foundation style={{ marginRight: 10 }} name={'eye'} size={25} color={'#009688'} />
-                                                </Pressable>
+                                                    <Pressable style={{ marginRight: 3 }} onPress={() => { props.navigation.push("ViewProfile", { item: item }) }}>
+                                                        <Foundation style={{ marginRight: 10 }} name={'eye'} size={25} color={'#009688'} />
+                                                    </Pressable>
                                                 ) : (<Pressable style={{ marginRight: 3 }} onPress={() => { props.navigation.push("Product", { item: item }) }}>
                                                     <Foundation style={{ marginRight: 10 }} name={'eye'} size={25} color={'#009688'} />
                                                 </Pressable>
@@ -540,19 +544,22 @@ function Profile(props) {
                         <Text style={styles.TextLink} > Feedbacks </Text>
                     </CollapseHeader>
                     <CollapseBody>
-                        {getFeedback.length === 0 ? (<Text style={styles.noYet}>No Feedback to show!</Text>) :
-                            (getFeedback?.map((feedback, index) => (
-                                <View style={{ backgroundColor: 'lightsteelblue', margin: 6, borderRadius: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
-                                    key={index}
-                                >
-                                    <Text style={{ padding: 15, fontSize: 17, fontWeight: 'bold' }}>
-                                        {feedback.comment}
-                                    </Text>
-                                    <View style={{ padding: 10, flexDirection: 'row', justifyContent: 'flex-end' }} className="m-4 d-flex justify-content-end w-25">
-                                        {drawStar(feedback.rating)}
+                        {getUser.role === "customer" ? (null) : (
+                            getFeedback.length === 0 ? (<Text style={styles.noYet}>No Feedback to show!</Text>) :
+                                (getFeedback?.map((feedback, index) => (
+                                    <View style={{ backgroundColor: 'lightsteelblue', margin: 6, borderRadius: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+                                        key={index}
+                                    >
+                                        <Text style={{ padding: 15, fontSize: 17, fontWeight: 'bold' }}>
+                                            {feedback.comment}
+                                        </Text>
+                                        <View style={{ padding: 10, flexDirection: 'row', justifyContent: 'flex-end' }} className="m-4 d-flex justify-content-end w-25">
+                                            {drawStar(feedback.rating)}
+                                        </View>
                                     </View>
-                                </View>
-                            )))}
+                                )))
+
+                        )}
 
                         <Text style={{ alignSelf: 'center' }}>__________________________________________________</Text>
                     </CollapseBody>
@@ -581,10 +588,10 @@ function Profile(props) {
                             validationSchema={Yup.object({
                                 city: Yup.string()
                                     .required('Required')
-                                    .min(3,(' city must be 3 char or more '))
+                                    .min(3, (' city must be 3 char or more '))
                                 ,
                                 street: Yup.string().required('Required')
-                                .min(3,(' street must be 3 char or more '))
+                                    .min(3, (' street must be 3 char or more '))
                                 ,
                             })}
                             onSubmit={values => {
@@ -634,79 +641,140 @@ function Profile(props) {
                         <Text style={styles.TextLink} > Edit Details </Text>
                     </CollapseHeader>
                     <CollapseBody>
-                        <Formik
-                            initialValues={{ name: `${getUser.name}`, username: `${getUser.username}`, email: `${getUser.email}`, spetialization: `${getUser.spetialization}`, experience: `${getUser.experience}` }}
-                            validationSchema={Yup.object({
-                                name: Yup.string()
-                                    .required('Name is Required')
-                                    .min(3,(' name must be more 3 char '))
-                                ,
-                                username: Yup.string().required('Username is Required')
-                                .min(3,(' name must be more 3 char ')),
-                                email: Yup.string().required('Email is Required').email('Invalid Email'),
-                                spetialization: Yup.string().required('Required'),
-                                experience: Yup.string().required('Required'),
 
-                            })}
-                            onSubmit={values => {
 
-                                handleButtonEdit(values)
-                                onRefresh();
-                            }}
-                        >
-                            {props => (
+                        {getUser.role === "customer" ? (
+                            <Formik
+                                initialValues={{ name: `${getUser.name}`, username: `${getUser.username}`, email: `${getUser.email}` }}
+                                validationSchema={Yup.object({
+                                    name: Yup.string()
+                                        .required('Name is Required')
+                                        .min(3, (' name must be more 3 char '))
+                                    ,
+                                    username: Yup.string().required('Username is Required')
+                                        .min(3, (' name must be more 3 char ')),
+                                    email: Yup.string().required('Email is Required').email('Invalid Email'),
 
-                                <View style={styles.containerForm}>
-                                    <TextInput style={styles.input} value={props.values.name} onChangeText={props.handleChange("name")} placeholder="enter name" />
+                                })}
+                                onSubmit={values => {
 
-                                    {props.touched.name && props.errors.name ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.name} </Text>) : null}
+                                    handleButtonEdit(values)
+                                    onRefresh();
+                                }}
+                            >
+                                {props => (
 
-                                    <TextInput style={styles.input}
-                                        value={props.values.username}
-                                        onChangeText={props.handleChange("username")}
-                                        placeholder="enter userName" />
+                                    <View style={styles.containerForm}>
+                                        <TextInput style={styles.input} value={props.values.name} onChangeText={props.handleChange("name")} placeholder="enter name" />
 
-                                    {props.touched.username && props.errors.username ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.username} </Text>) : null}
+                                        {props.touched.name && props.errors.name ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.name} </Text>) : null}
 
-                                    <TextInput style={styles.input}
-                                        value={props.values.email}
-                                        onChangeText={props.handleChange("email")}
-                                        placeholder="enter email" />
+                                        <TextInput style={styles.input}
+                                            value={props.values.username}
+                                            onChangeText={props.handleChange("username")}
+                                            placeholder="enter userName" />
 
-                                    {props.touched.email && props.errors.email ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.email} </Text>) : null}
+                                        {props.touched.username && props.errors.username ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.username} </Text>) : null}
 
-                                    <TextInput style={styles.input}
-                                        value={props.values.experience}
-                                        onChangeText={props.handleChange("experience")}
-                                        placeholder="enter experience" />
+                                        <TextInput style={styles.input}
+                                            value={props.values.email}
+                                            onChangeText={props.handleChange("email")}
+                                            placeholder="enter email" />
 
-                                    {props.touched.experience && props.errors.experience ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.experience} </Text>) : null}
+                                        {props.touched.email && props.errors.email ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.email} </Text>) : null}
 
-                                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                        <SelectDropdown buttonStyle={styles.input} defaultButtonText={`${getUser.spetialization}`}
-                                            onSelect={props.handleChange('spetialization')}
-                                            value={props.values.spetialization}
-                                            data={spetialization}
-                                        />
+
+                                        <TouchableOpacity onPress={props.handleSubmit} >
+                                            <View style={styles.button}>
+                                                <Text style={styles.addText}>Edit</Text>
+                                            </View>
+
+                                        </TouchableOpacity>
+
+
                                     </View>
-                                    {props.touched.spetialization && props.errors.spetialization ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.spetialization} </Text>) : null}
 
 
-                                    <TouchableOpacity onPress={props.handleSubmit} >
-                                        <View style={styles.button}>
-                                            <Text style={styles.addText}>Edit</Text>
+                                )}
+
+
+                            </Formik>
+                        ) : (
+                            <Formik
+                                initialValues={{ name: `${getUser.name}`, username: `${getUser.username}`, email: `${getUser.email}`, spetialization: `${getUser.spetialization}`, experience: `${getUser.experience}` }}
+                                validationSchema={Yup.object({
+                                    name: Yup.string()
+                                        .required('Name is Required')
+                                        .min(3, (' name must be more 3 char '))
+                                    ,
+                                    username: Yup.string().required('Username is Required')
+                                        .min(3, (' name must be more 3 char ')),
+                                    email: Yup.string().required('Email is Required').email('Invalid Email'),
+                                    spetialization: Yup.string().required('Required'),
+                                    experience: Yup.string().required('Required'),
+
+                                })}
+                                onSubmit={values => {
+
+                                    handleButtonEdit(values)
+                                    onRefresh();
+                                }}
+                            >
+                                {props => (
+
+                                    <View style={styles.containerForm}>
+                                        <TextInput style={styles.input} value={props.values.name} onChangeText={props.handleChange("name")} placeholder="enter name" />
+
+                                        {props.touched.name && props.errors.name ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.name} </Text>) : null}
+
+                                        <TextInput style={styles.input}
+                                            value={props.values.username}
+                                            onChangeText={props.handleChange("username")}
+                                            placeholder="enter userName" />
+
+                                        {props.touched.username && props.errors.username ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.username} </Text>) : null}
+
+                                        <TextInput style={styles.input}
+                                            value={props.values.email}
+                                            onChangeText={props.handleChange("email")}
+                                            placeholder="enter email" />
+
+                                        {props.touched.email && props.errors.email ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.email} </Text>) : null}
+                                        <TextInput style={styles.input}
+                                            value={props.values.experience}
+                                            onChangeText={props.handleChange("experience")}
+                                            placeholder="enter experience" />
+
+                                        {props.touched.experience && props.errors.experience ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.experience} </Text>) : null}
+
+                                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                            <SelectDropdown buttonStyle={styles.input} defaultButtonText={`${getUser.spetialization}`}
+                                                onSelect={props.handleChange('spetialization')}
+                                                value={props.values.spetialization}
+                                                data={spetialization}
+                                            />
                                         </View>
-
-                                    </TouchableOpacity>
-
-
-                                </View>
+                                        {props.touched.spetialization && props.errors.spetialization ? (<Text style={{ color: "red", fontSize: 12 }}>{props.errors.spetialization} </Text>) : null}
 
 
-                            )}
+                                        <TouchableOpacity onPress={props.handleSubmit} >
+                                            <View style={styles.button}>
+                                                <Text style={styles.addText}>Edit</Text>
+                                            </View>
+
+                                        </TouchableOpacity>
 
 
-                        </Formik>
+                                    </View>
+
+
+                                )}
+
+
+                            </Formik>
+                        )}
+
+
 
                         <Text style={{ alignSelf: 'center' }}>__________________________________________________</Text>
 
